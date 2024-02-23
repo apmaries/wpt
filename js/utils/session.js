@@ -166,7 +166,7 @@ if (window.location.hash) {
   sessionStorage.setItem("token", token);
 
   // Get the user details and open the notifications channel
-  getOrgLevelStuff();
+  //getOrgLevelStuff();
 
   // Start the initial activity timer
   resetActivityTimer();

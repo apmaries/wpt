@@ -437,8 +437,17 @@
         const platformClient = require("platformClient");
         const client = platformClient.ApiClient.instance;
 
-        //const oapi = new platformClient.OrganizationApi();
-        //const uapi = new platformClient.UsersApi();
+        // check if account being used to log in with is internal genesys
+        function internalUserCheck(emailAddress) {
+          const domain = emailAddress.split("@")[1];
+          if (domain.toLowerCase() === "genesys.com") {
+            console.log("WPT: Authorised user");
+          } else {
+            console.log("WPT: Unauthorised user!");
+            alert("Sorry, you are not authorised to use this page :(");
+            window.location.replace(indexPage);
+          }
+        }
 
         async function authenticate() {
           const clientId = document.getElementById("clientIdInput").value;
@@ -468,7 +477,17 @@
             );
             if (response) {
               const jsonResponse = await response.json();
-              console.log(jsonResponse);
+              console.log("WPT: Login response = ", jsonResponse);
+
+              // After successful authentication, retrieve user details
+              console.log("WPT: Retrieving user details");
+              const userApi = new platformClient.UsersApi();
+              const user = await userApi.getUsersMe();
+              console.log("WPT: User = ", user);
+
+              internalUserCheck(user.email);
+              sessionStorage.setItem("userName", user.name);
+              sessionStorage.setItem("userId", user.id);
             }
           } catch (error) {
             console.log(error);

@@ -1,5 +1,5 @@
 // Declare global variables
-const indexPage = "https://apmaries.github.io/wpt/index.html";
+//const indexPage = "https://apmaries.github.io/wpt/index.html";
 
 // Functions start here
 function getParameterByName(name) {
@@ -12,7 +12,7 @@ function getParameterByName(name) {
 }
 
 // check if account being used to log in with is internal genesys
-function internalUserCheck(emailAddress) {
+/*function internalUserCheck(emailAddress) {
   const domain = emailAddress.split("@")[1];
   if (domain.toLowerCase() === "genesys.com") {
     console.log("WPT: Authorised user");
@@ -21,7 +21,7 @@ function internalUserCheck(emailAddress) {
     alert("Sorry, you are not authorised to use this page :(");
     window.location.replace(indexPage);
   }
-}
+}*/
 
 // get user details
 async function getUser() {

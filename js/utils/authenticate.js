@@ -6,7 +6,7 @@ function authenticate() {
 
   // Set Genesys Cloud objects
   const platformClient = require("platformClient");
-  const apiClient = platformClient.ApiClient.instance;
+  apiClient = platformClient.ApiClient.instance;
 
   const clientId = document.getElementById("clientIdInput").value;
   const environment = document.getElementById("clientRegionInput").value;

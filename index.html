@@ -437,8 +437,8 @@
         const platformClient = require("platformClient");
         const client = platformClient.ApiClient.instance;
 
-        // const oapi = new platformClient.OrganizationApi();
-        // const uapi = new platformClient.UsersApi();
+        const oapi = new platformClient.OrganizationApi();
+        const uapi = new platformClient.UsersApi();
 
         async function authenticate() {
           const clientId = document.getElementById("clientIdInput").value;
@@ -454,7 +454,7 @@
           sessionStorage.setItem("environment", environment);
 
           client.setEnvironment(environment);
-          client.setPersistSettings(true, "WPT_");
+          client.setPersistSettings(true, "_mm_");
 
           let state;
           try {

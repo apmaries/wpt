@@ -487,7 +487,26 @@
     </main>
 
     <script>
+      // Set Genesys Cloud objects
+      const platformClient = require("platformClient");
+      const client = platformClient.ApiClient.instance;
+      const token = sessionStorage.getItem("token");
+      client.setAccessToken(token);
+
+      // check if account being used to log in with is internal genesys
+      function internalUserCheck(emailAddress) {
+        const domain = emailAddress.split("@")[1];
+        if (domain.toLowerCase() === "genesys.com") {
+          console.log("WPT: Authorised user");
+        } else {
+          console.log("WPT: Unauthorised user!");
+          alert("Sorry, you are not authorised to use this page :(");
+          window.location.replace(indexPage);
+        }
+      }
+
       document.addEventListener("DOMContentLoaded", async function () {
+        console.log("WPT: WPT home: DOMContentLoaded");
         console.log("WPT: Retrieving user details");
         const userApi = new platformClient.UsersApi();
         const user = await userApi.getUsersMe();

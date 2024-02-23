@@ -17,7 +17,6 @@
       type="module"
       src="https://dhqbrvplips7x.cloudfront.net/common-ui-docs/genesys-webcomponents/3.8.1-178/genesys-webcomponents/genesys-webcomponents.esm.js"
     ></script>
-    <script src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>
 
     <!-- Project stuff -->
     <link href="./css/style.css" type="text/css" rel="stylesheet" />
@@ -486,8 +485,25 @@
       </div>
     </main>
 
+    <footer></footer>
+    <script src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>
     <script>
-      const indexPage = "https://apmaries.github.io/wpt/index.html";
+      console.log("WPT: WPT home: Script");
+      if (!apiClient) {
+        console.log("WPT: WPT home: No API client found, redirecting to index");
+        //window.location.replace(indexPage);
+      }
+
+      const platformClient = require("platformClient");
+
+      function getUser() {
+        console.log("WPT: WPT home: getUser");
+        const usersApi = new platformClient.UsersApi();
+        const user = usersApi.getUsersMe();
+        console.log("WPT: WPT home: User = ", user);
+        return user;
+      }
+      /*const indexPage = "https://apmaries.github.io/wpt/index.html";
       console.log("WPT: Window = ", window);
 
       // Set Genesys Cloud objects
@@ -522,8 +538,7 @@
         internalUserCheck(user.email);
         sessionStorage.setItem("userName", user.name);
         sessionStorage.setItem("userId", user.id);
-      });
+      });*/
     </script>
-    <footer></footer>
   </body>
 </html>

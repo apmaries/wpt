@@ -426,20 +426,19 @@
           </container>
         </gux-card-beta>
       </section>
-
-      <script src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>
-      <script src="/js/utils/authenticate.js"></script>
-      <script>
-        // Inline script for handling button click
-        document.addEventListener("DOMContentLoaded", function () {
-          document
-            .getElementById("authenticate-button")
-            .addEventListener("click", function () {
-              authenticate();
-            });
-        });
-      </script>
     </main>
     <footer></footer>
+    <script src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>
+    <script src="/js/utils/authenticate.js"></script>
+    <script>
+      // Inline script for handling button click
+      document.addEventListener("DOMContentLoaded", function () {
+        document
+          .getElementById("authenticate-button")
+          .addEventListener("click", function () {
+            authenticate();
+          });
+      });
+    </script>
   </body>
 </html>

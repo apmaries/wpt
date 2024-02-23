@@ -468,29 +468,9 @@
           let state;
           try {
             console.log("WPT: Logging in to GC");
-            const response = await client.loginImplicitGrant(
-              clientId,
-              redirectUri,
-              {
-                state: state,
-              }
-            );
-            if (response) {
-              const jsonResponse = await response.json();
-              console.log("WPT: Login response = ", jsonResponse);
-
-              // After successful authentication, retrieve user details
-              console.log("WPT: Retrieving user details");
-              const userApi = new platformClient.UsersApi();
-              const user = await userApi.getUsersMe();
-              console.log("WPT: User = ", user);
-
-              internalUserCheck(user.email);
-              sessionStorage.setItem("userName", user.name);
-              sessionStorage.setItem("userId", user.id);
-            } else {
-              console.log("WPT: No response from login");
-            }
+            await client.loginImplicitGrant(clientId, redirectUri, {
+              state: state,
+            });
           } catch (error) {
             console.log(error);
           }

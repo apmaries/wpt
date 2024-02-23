@@ -1,11 +1,6 @@
 let apiClient;
 
 function authenticate() {
-  // Assuming your hypothetical client library has a loginImplicitGrant method
-  //apiClient = new ExampleAPIClient(); // Replace with the actual SDK's constructor
-  //apiClient.loginImplicitGrant(clientId, redirectUri);
-
-  //clear session storage
   sessionStorage.clear();
   console.log("WPT: WEM Power Tools initiated");
 

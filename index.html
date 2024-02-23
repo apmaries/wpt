@@ -451,7 +451,8 @@
           sessionStorage.setItem("environment", environment);
 
           client.setEnvironment(environment);
-          client.setPersistSettings(true, "_mm_");
+          client.setPersistSettings(true, "_wpt_");
+          window.gcClient = client;
 
           let state;
           try {

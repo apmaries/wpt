@@ -489,8 +489,12 @@
     <script>
       // Set Genesys Cloud objects
       const platformClient = require("platformClient");
-      const client = platformClient.ApiClient.instance;
+      const client = window.gcClient;
+
       const token = sessionStorage.getItem("token");
+      const environment = sessionStorage.getItem("environment");
+
+      client.setEnvironment(environment);
       client.setAccessToken(token);
 
       // check if account being used to log in with is internal genesys

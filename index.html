@@ -488,6 +488,8 @@
               internalUserCheck(user.email);
               sessionStorage.setItem("userName", user.name);
               sessionStorage.setItem("userId", user.id);
+            } else {
+              console.log("WPT: No response from login");
             }
           } catch (error) {
             console.log(error);

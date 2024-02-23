@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>WEM Power Tools - Replicate Gamification Profile</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+    <!-- Genesys CSS https://spark.genesys.com/ -->
+    <link
+      href="https://dhqbrvplips7x.cloudfront.net/common-ui-docs/genesys-webcomponents/3.8.1-178/genesys-webcomponents/genesys-webcomponents.css"
+      rel="stylesheet"
+    />
+    <script
+      type="module"
+      src="https://dhqbrvplips7x.cloudfront.net/common-ui-docs/genesys-webcomponents/3.8.1-178/genesys-webcomponents/genesys-webcomponents.esm.js"
+    ></script>
+    <link href="../css/style_tools.css" type="text/css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- whats this?? <script src="https://unpkg.com/eventemitter3@latest/dist/eventemitter3.umd.min.js"></script> -->
+    <script src="../js/subheader.js"></script>
+    <script src="../js/disconnect.js"></script>
+    <script type="text/javascript" src="../js/htmlHelper.js"></script>
+  </head>
+  <body style="background-color: var(--gux-black-30); color: black">
+    <header
+      style="background-color: var(--gux-grey-100)"
+      class="item spacing-2xl; header"
+    >
+      <nav>
+        <ul>
+          <h1 id="title" style="margin-bottom: 0px">
+            WEM Power Tools
+            <svg id="banner" width="4000" height="50" viewBox="0 0 5000 250">
+              <g transform="translate(100 0) rotate(180, -2475, 0)">
+                <path
+                  id="API-expanded"
+                  d="M151.93,167.356v18.928a69.538,69.538,0,0,1-63.091,69.145v41.244a6.345,6.345,0,1,1-12.691,0v-47.3a6.345,6.345,0,0,1,6.345-6.345,56.809,56.809,0,0,0,56.746-56.74V173.7H25.748v12.583a56.987,56.987,0,0,0,23.23,45.794,6.345,6.345,0,1,1-7.494,10.241A69.722,69.722,0,0,1,13.057,186.29V167.356a6.345,6.345,0,0,1,6.345-6.345H57.22V116.365a6.345,6.345,0,0,1,12.691,0v44.645H95.076V116.365a6.345,6.345,0,1,1,12.691,0v44.645h37.818A6.345,6.345,0,0,1,151.93,167.356ZM88.839,47.766V6.477a6.345,6.345,0,0,0-12.691,0V47.766a69.513,69.513,0,0,0-63.091,69.113v18.934a6.345,6.345,0,0,0,6.345,6.345H38.33a6.345,6.345,0,1,0,0-12.691H25.748V116.879a56.746,56.746,0,1,1,113.492,0v12.589H126.657a6.345,6.345,0,1,0,0,12.691h18.928a6.345,6.345,0,0,0,6.345-6.345V116.879A69.513,69.513,0,0,0,88.839,47.766Z"
+                  transform="translate(0 0) rotate(-90)"
+                  fill="#ff4f1f"
+                />
+                <!-- Extending straight lines -->
+                <line
+                  x1="300"
+                  y1="-82.5"
+                  x2="5000"
+                  y2="-82.5"
+                  stroke="#ff4f1f"
+                  stroke-width="13"
+                />
+                <line
+                  x1="-3000"
+                  y1="-82.5"
+                  x2="10"
+                  y2="-82.5"
+                  stroke="#ff4f1f"
+                  stroke-width="13"
+                />
+              </g>
+            </svg>
+          </h1>
+          <li class="header-li">
+            <a class="active" style="color: #ff4c1c" href="../gf.html"
+              >Gamification</a
+            >
+          </li>
+          <li class="header-li">
+            <a href="../pd.html">People & Directory</a>
+          </li>
+          <li class="header-li">
+            <a href="../qm.html">Quality Management</a>
+          </li>
+          <li class="header-li">
+            <a href="../st.html">Speech & Text Analytics</a>
+          </li>
+          <li class="header-li">
+            <a href="../wm.html">Workforce Management</a>
+          </li>
+        </ul>
+      </nav>
+      <div id="breadcumbs-container" style="padding-left: 40px">
+        <gux-breadcrumbs id="breadcrumbs" accent="primary">
+          <gux-breadcrumb-item href="../wpt.html"
+            >WEM Power Tools</gux-breadcrumb-item
+          >
+          <gux-breadcrumb-item href="../gf.html"
+            >Gamification</gux-breadcrumb-item
+          >
+          <gux-breadcrumb-item>Replicate Profile</gux-breadcrumb-item>
+        </gux-breadcrumbs>
+      </div>
+    </header>
+    <div class="subHeader" style="background-color: var(--gux-grey-100)">
+      <p id="authenticatedSubHeader" style="padding-left: 40px">
+        Authenticated in:
+      </p>
+      <p>
+        <gux-button
+          id="disconnectButton"
+          style="width: 100px; position: absolute; right: 5%"
+          accent="primary"
+          onclick="disconnect()"
+        >
+          Disconnect
+        </gux-button>
+      </p>
+    </div>
+    <main>
+      <section
+        id="toy-info-section"
+        style="color: var(--gux-grey-100); padding-left: 24px"
+      >
+        <h1 style="padding-left: 16px">Replicate Gamification Profile</h1>
+        <h2 style="padding-left: 16px">
+          Make a copy of an existing gamification profile
+        </h2>
+
+        <gux-card-beta
+          style="
+            background-color: var(--gux-black-30);
+            color: var(--gux-grey-100);
+            border: 0px;
+          "
+        >
+          <gux-accordion
+            style="background-color: var(--gux-grey-100); width: 500px"
+          >
+            <gux-accordion-section arrow-position="before-text">
+              <h3 slot="header">Information</h3>
+              <div class="list-container" slot="content">
+                <ul>
+                  <li>
+                    Supports all sentiments (i.e. Postive, Negative & Neutral)
+                  </li>
+                  <li>A 'default' list is available from example file</li>
+                </ul>
+              </div>
+            </gux-accordion-section>
+            <gux-accordion-section arrow-position="before-text">
+              <h3 slot="header">Required scopes for OAuth client</h3>
+              <div class="list-container" slot="content">
+                <ul></ul>
+              </div>
+            </gux-accordion-section>
+            <gux-accordion-section arrow-position="before-text">
+              <h3 slot="header">Supported dialects</h3>
+              <div class="list-container" slot="content">
+                <ul id="dialect-list"></ul>
+              </div>
+            </gux-accordion-section>
+          </gux-accordion>
+        </gux-card-beta>
+      </section>
+
+      <!-- action section-->
+      <section
+        id="action-section"
+        class="Row"
+        style="
+          box-sizing: border-box;
+          border: 4px solid var(--gux-electric-purple-sec);
+          background-color: var(--gux-grey-100);
+        "
+      >
+        <!-- input group -->
+        <div id="input-grp" class="Row">
+          <!--file-->
+          <div
+            id="file"
+            class="Column"
+            style="
+              background-color: var(--gux-grey-100);
+              padding-left: 40px;
+              border-bottom-width: 10px solid var(--gux-grey-100);
+              border-top-left-radius: 10px;
+            "
+          >
+            <div class="align-content-left">
+              <h2>File to Upload</h2>
+              <button id="importExample" type="button" class="import-example">
+                (example)
+              </button>
+              <script src="../js/exportMaker.js"></script>
+            </div>
+            <!-- file name / browse button -->
+            <div id="file">
+              <input
+                id="file-name"
+                type="text"
+                class="file-input"
+                placeholder="File to import"
+                style="height: 28px"
+              />
+              <gux-button
+                disabled
+                id="importFile"
+                for="fileInput"
+                accent="primary"
+                style="display: inline-block; width: 100px"
+                >Browse</gux-button
+              >
+              <input
+                id="fileInput"
+                class="file-input"
+                type="file"
+                accept=".csv"
+                style="display: none"
+              />
+            </div>
+          </div>
+
+          <div
+            id="variables"
+            class="Column"
+            style="
+              background-color: var(--gux-grey-100);
+              border-bottom-width: 10px solid var(--gux-grey-100);
+              position: relative;
+              bottom: 0%;
+            "
+          >
+            <fieldset
+              id="import-method"
+              class="align-content"
+              style="padding-top: 30px"
+            >
+              <legend>Log level</legend>
+              <gux-form-field-radio>
+                <input
+                  slot="input"
+                  type="radio"
+                  name="log-level"
+                  value="DEBUG"
+                />
+                <label slot="label">DEBUG</label>
+              </gux-form-field-radio>
+
+              <gux-form-field-radio>
+                <input
+                  slot="input"
+                  type="radio"
+                  name="log-level"
+                  value="INFO"
+                  checked="checked"
+                />
+                <label slot="label">INFO</label>
+              </gux-form-field-radio>
+
+              <gux-form-field-radio>
+                <input
+                  slot="input"
+                  type="radio"
+                  name="log-level"
+                  value="WARNING"
+                />
+                <label slot="label">WARNING</label>
+              </gux-form-field-radio>
+            </fieldset>
+          </div>
+
+          <!--buttons-->
+          <div
+            id="buttons"
+            class="Column"
+            style="
+              position: relative;
+              background-color: var(--gux-grey-100);
+              border-bottom-width: 10px solid var(--gux-grey-100);
+              border-top-right-radius: 10px;
+            "
+          >
+            <div
+              id="button-container"
+              class="align-content"
+              style="
+                position: absolute;
+                align-items: center;
+                bottom: 1%;
+                right: 15%;
+              "
+            >
+              <gux-button
+                disabled
+                id="clear-button"
+                onclick="reset()"
+                style="display: inline-block; width: 100px; position: relative"
+              >
+                <gux-icon
+                  icon-name="trashcan"
+                  screenreader-text="Clear terminal"
+                ></gux-icon>
+                <span>Clear</span>
+              </gux-button>
+
+              <gux-action-button
+                disabled
+                id="export-button"
+                text="Export"
+                accent="tertiary"
+                style="display: inline-block; position: relative"
+              >
+                <gux-list-item onclick="exportLogs()"
+                  >Export logs</gux-list-item
+                >
+                <gux-list-item onclick="exportIgnoredRecords()"
+                  >Export invalid records</gux-list-item
+                >
+              </gux-action-button>
+
+              <gux-button
+                disabled
+                id="import-button"
+                accent="primary"
+                onclick="processData()"
+                style="display: inline-block; width: 100px; position: relative"
+                >Import</gux-button
+              >
+            </div>
+          </div>
+        </div>
+
+        <!--terminal-->
+        <div
+          id="terminal-grp"
+          class="Row process-grp"
+          style="margin-bottom: 0px"
+        >
+          <div id="terminal" class="terminal"></div>
+        </div>
+      </section>
+    </main>
+
+    <!--Clear terminal & reset-->
+    <script>
+      function reset() {
+        document.getElementById("file-name").value = "";
+        clearTerminal("importSentimentPhrases", "importSentimentFailed");
+        terminal(`Import Sentiment Phrases`, "INFO");
+        terminal("Previous terminal data cleared", "DEBUG");
+        terminal(`Ready for file`, "INFO");
+      }
+    </script>
+
+    <!--Import button event listener-->
+    <script type="module">
+      import { processData } from "../js/st_importSentiment.js";
+      // add event listener to import button
+      const importBtn = document.getElementById("import-button");
+      importBtn.addEventListener("click", processData);
+    </script>
+
+    <script>
+      // example file download
+      const example = async function () {
+        // example data
+        const data = [
+          {
+            "Phrase": "A little frustrating",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "A little ridiculous",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Absolutely ridiculous",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Been very frustrating",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Completely ridiculous",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Disappointing",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Disgusting",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Driving me crazy",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Extremely frustrating",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Frustrated",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Frustrated right now",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Frustrating",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Getting angry about",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Getting annoyed",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Getting frustrated",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Getting irritated",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Getting really frustrated",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Getting really irritated",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I am frustrated",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I am not done talking",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I am not happy",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I am really upset",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I am sick and tired",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I am so annoyed",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I am so frustrated",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I am very disappointed",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I am very frustrated",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I am very unhappy",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I am very upset",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I can't believe this",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I'm aggravated",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I'm angry",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I'm disappointed",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I'm not satisfied",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I'm really angry",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I'm really not happy",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I'm sick and tired",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I'm so angry",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I'm so frustrated",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I'm very disappointed",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I'm very frustrated",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I'm very upset",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "It doesn't make any sense",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "It's just frustrating",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "It's just ridiculous",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "It's ridiculous",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "It's very frustrating",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Just really frustrating",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Just so frustrated with",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Kind of frustrated",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Kind of upset",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Not happy",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Not happy right now",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Not really impressed",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Not very happy",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Not very impressed",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Really frustrated",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Really frustrating",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Really not happy",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Really unhappy with",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Ridiculous",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Simply unacceptable",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "So ridiculous",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "So upset",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "That is not acceptable",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "That is ridiculous",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "That's absolutely ridiculous",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "That's ridiculous",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is a nightmare",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is absolutely ridiculous",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is absurd",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is bad",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is just frustrating",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is just ridiculous",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is not acceptable",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is really frustrating",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is ridiculous",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is so ridiculous",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is terrible",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is unacceptable",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is unbelievable",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is very frustrating",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Unhappy",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Very dissatisfied",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Very frustrated",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Very frustrating",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Very unhappy",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Very upset",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Very upset about this",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Very upset that",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Waste of time",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Wasting my time",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Whole thing is ridiculous",
+            "Sentiment": "Negative",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is okay",
+            "Sentiment": "Neutral",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Always a great experience",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Appreciate all your help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Appreciate everything you've done",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Appreciate what you're doing",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Appreciate your help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Appreciate your kindness",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Awesome thank you very much",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Been a big help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Can't thank you enough",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Excellent",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Fantastic",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Great doing business with you",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Great experience",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I appreciate all your help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I appreciate it",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I appreciate that",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I appreciate that very much",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I appreciate this very much",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I appreciate your help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I appreciate your helpfulness thank you",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I do appreciate it",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I really appreciate all you did for me",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I really appreciate it",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I really appreciate the help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I really appreciate you",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I really do appreciate it thank you so much",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "I wish they were all like you",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "It's very nice of you",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Made my day",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Many thanks",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Much obliged",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Oh fantastic",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Okay thank you so much",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Really appreciate your help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Simply amazing",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Thank you for being so nice",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Thank you for help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Thank you for helping me",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Thank you for your help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Thank you so much",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Thank you so much for your help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Thank you so much you've been extremely helpful",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Thank you so much you've been very helpful",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Thank you thanks for your help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Thank you very much",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Thanks a lot for that",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Thanks a lot thanks for sorting that out for me",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Thanks for all your help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Thanks for helping me",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Thanks for your help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Thanks very much for your help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "That was really helpful",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "That will be great",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "That would be great",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "That' all the help I need",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "That's been very helpful thank you",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "That's fantastic",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "That's great",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "That's helped me a lot",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "That's wonderful",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "That's wonderful thank you",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This has been very helpful",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is fantastic",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is good",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "This is great",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Very happy",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Very helpful",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Very helpful thank you",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Very helpful thank you so much",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Very helpful thank you very much",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Very much appreciated",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Very much for your help indeed",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "Very satisfied",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "You are the best",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "You did a great job",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "You've been a big help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "You've been a god send",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "You've been a great help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "You've been great",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "You've been most helpful",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "You've been of great help",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "You've been so helpful",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "You've been very helpful",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "You've been very helpful thank you",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "You've been very kind",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "You've been very very helpful",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "You've been wonderful",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+          {
+            "Phrase": "You've done a wonderful job",
+            "Sentiment": "Positive",
+            "Dialect": "en-AU",
+          },
+        ];
+
+        const csvdata = csvMaker(data);
+        download(csvdata, "sentimentImport_example.csv", "text/csv");
+      };
+      // add event listener to example button
+      const exampleBtn = document.getElementById("importExample");
+      exampleBtn.addEventListener("click", example);
+
+      // export all logs
+      const exportLogs = function () {
+        terminal(`Export logs`, "INFO");
+        logs = document.getElementsByClassName("log-entry");
+        logEntries = [];
+        for (let l = 0; l < logs.length; l++) {
+          logEntry = logs[l].innerHTML;
+          logEntries.push(logEntry);
+        }
+        const logData = logMaker(logEntries);
+        download(logData, "snetimentImport.log", "text/plain");
+      };
+
+      // export ignored data
+      // this needs work too
+      function exportIgnoredRecords() {
+        terminal(`Exporting ignored records`, "INFO");
+        let exportData = sessionStorage.getItem("importSentimentFailed");
+        if (exportData) {
+          const csvdata = csvMaker(JSON.parse(exportData));
+          download(csvdata, "sentiment_ignored_data.csv", "text/csv");
+        } else {
+          terminal(`No ignored records to export`, "WARNING");
+        }
+      }
+    </script>
+    <footer></footer>
+  </body>
+</html>

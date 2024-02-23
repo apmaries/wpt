@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>WEM Power Tools</title>
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+
+    <!-- Genesys stuff https://spark.genesys.com/ -->
+    <link
+      href="https://dhqbrvplips7x.cloudfront.net/common-ui-docs/genesys-webcomponents/3.8.1-178/genesys-webcomponents/genesys-webcomponents.css"
+      rel="stylesheet"
+    />
+    <script
+      type="module"
+      src="https://dhqbrvplips7x.cloudfront.net/common-ui-docs/genesys-webcomponents/3.8.1-178/genesys-webcomponents/genesys-webcomponents.esm.js"
+    ></script>
+
+    <!-- Project stuff -->
+    <link href="./css/style.css" type="text/css" rel="stylesheet" />
+    <script src="./js/utils/makeApiCall.js"></script>
+    <script src="./js/utils/session.js"></script>
+    <script src="./js/utils/disconnect.js"></script>
+
+    <!-- External stuff -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body style="background-color: var(--gux-black-30)">
+    <header
+      style="background-color: var(--gux-grey-100)"
+      class="item spacing-2xl; header"
+    >
+      <nav>
+        <ul>
+          <h1 id="title" style="margin-bottom: 0px">
+            WEM Power Tools
+            <svg id="banner" width="4000" height="50" viewBox="0 0 5000 250">
+              <g transform="translate(100 0) rotate(180, -2475, 0)">
+                <path
+                  id="API-expanded"
+                  d="M151.93,167.356v18.928a69.538,69.538,0,0,1-63.091,69.145v41.244a6.345,6.345,0,1,1-12.691,0v-47.3a6.345,6.345,0,0,1,6.345-6.345,56.809,56.809,0,0,0,56.746-56.74V173.7H25.748v12.583a56.987,56.987,0,0,0,23.23,45.794,6.345,6.345,0,1,1-7.494,10.241A69.722,69.722,0,0,1,13.057,186.29V167.356a6.345,6.345,0,0,1,6.345-6.345H57.22V116.365a6.345,6.345,0,0,1,12.691,0v44.645H95.076V116.365a6.345,6.345,0,1,1,12.691,0v44.645h37.818A6.345,6.345,0,0,1,151.93,167.356ZM88.839,47.766V6.477a6.345,6.345,0,0,0-12.691,0V47.766a69.513,69.513,0,0,0-63.091,69.113v18.934a6.345,6.345,0,0,0,6.345,6.345H38.33a6.345,6.345,0,1,0,0-12.691H25.748V116.879a56.746,56.746,0,1,1,113.492,0v12.589H126.657a6.345,6.345,0,1,0,0,12.691h18.928a6.345,6.345,0,0,0,6.345-6.345V116.879A69.513,69.513,0,0,0,88.839,47.766Z"
+                  transform="translate(0 0) rotate(-90)"
+                  fill="#ff4f1f"
+                />
+                <!-- Extending straight lines -->
+                <line
+                  x1="300"
+                  y1="-82.5"
+                  x2="5000"
+                  y2="-82.5"
+                  stroke="#ff4f1f"
+                  stroke-width="13"
+                />
+                <line
+                  x1="-3000"
+                  y1="-82.5"
+                  x2="10"
+                  y2="-82.5"
+                  stroke="#ff4f1f"
+                  stroke-width="13"
+                />
+              </g>
+            </svg>
+          </h1>
+        </ul>
+      </nav>
+      <div id="breadcumbs-container" style="padding-left: 40px">
+        <gux-breadcrumbs id="breadcrumbs" accent="primary"> </gux-breadcrumbs>
+      </div>
+    </header>
+    <main>
+      <section
+        style="height: 50px; background-color: var(--gux-black-30)"
+        class="Row"
+      ></section>
+      <section id="main" class="Row">
+        <gux-card-beta
+          style="color: var(--gux-grey-100); border: 0px"
+          class="Column"
+        >
+          <h1 class="roboto fw-900" style="color: var(--gux-black-30)">
+            Getting started
+          </h1>
+          <p style="color: var(--gux-black-30)">
+            New player? No problems (^◡^ )
+          </p>
+          <gux-accordion
+            style="background-color: var(--gux-grey-100); width: 500px"
+          >
+            <gux-accordion-section arrow-position="before-text">
+              <h2 slot="header">Minimum requirements for use</h2>
+              <div class="list-container" slot="content">
+                <ul>
+                  <li>
+                    Genesys internal use <span class="important">only</span>
+                  </li>
+                  <li>
+                    Access to environment (via AuthOrgs or direct account)
+                  </li>
+                  <li>OAuth client created</li>
+                </ul>
+                <p>
+                  <span class="important">Note:</span> If connecting to a
+                  customer org through AuthOrgs, your account does not need to
+                  be a cloned user
+                </p>
+              </div>
+            </gux-accordion-section>
+            <gux-accordion-section arrow-position="before-text">
+              <h2 slot="header">Creating the OAuth client</h2>
+              <div slot="content">
+                <p>
+                  The OAuth client is needed to connect to the customer org and
+                  make API calls
+                </p>
+                <p style="margin-bottom: 0px">From Admin page:</p>
+                <ol style="margin-top: 0px">
+                  <li>Navigate to Integrations > OAuth</li>
+                  <li>Click 'Add Client'</li>
+                  <li>Give client a name (e.g. Genesys_PS)</li>
+                  <li>
+                    Set grant type to
+                    <span class="important"
+                      >'Token Implicit Grant (Browser)'</span
+                    >
+                  </li>
+                  <li>
+                    Insert following URL to 'Authorized redirect URIs (one per
+                    line)'<br />
+                    <gux-copy-to-clipboard-beta
+                      ><div slot="content">
+                        <span class="italic"
+                          >https://apmaries.github.io/wpt/wpt.html</span
+                        >
+                      </div>
+                    </gux-copy-to-clipboard-beta>
+                  </li>
+                  <li>
+                    Set below items in Scope field:
+                    <ul>
+                      <li>user-basic-info - To retrieve logged in user info</li>
+                      <li>oauth:readonly - To read OAuth client detail</li>
+                      <li>organization:readonly - To retrieve org name</li>
+                      <p>
+                        You can then add additional WEM scopes as needed.
+                        <br /><span class="important">Note: </span>
+                        Specific scopes required are listed per tool
+                      </p>
+                      <li>coaching</li>
+                      <li>employee-performance</li>
+                      <li>gamification</li>
+                      <li>groups</li>
+                      <li>learning</li>
+                      <li>quality</li>
+                      <li>speech-and-text-analytics</li>
+                      <li>users</li>
+                      <li>workforce-management</li>
+                      <p>Some additional scopes may be needed such as:</p>
+                      <li>analytics:readonly</li>
+                      <li>audits:readonly</li>
+                      <li>authorization:readonly</li>
+                      <li>presence:readonly</li>
+                      <li>search:readonly</li>
+                      <li>upload</li>
+                    </ul>
+                  </li>
+                  <li>Save OAuth client and note the Client ID</li>
+                </ol>
+                <div style="height: var(--spacing-medium)"></div>
+                <figcaption class="important">Example client</figcaption>
+                <img
+                  id="img-oauth-client"
+                  src="images/oauth_client.jpg"
+                  alt="oauth client"
+                  la
+                />
+                <div style="height: var(--spacing-medium)"></div>
+                <figcaption class="important">
+                  Example client details
+                </figcaption>
+                <img
+                  id="img-oauth-client-details"
+                  src="images/oauth_client_details.jpg"
+                  alt="oauth client details"
+                  la
+                />
+              </div>
+            </gux-accordion-section>
+            <gux-accordion-section arrow-position="before-text">
+              <h2 slot="header">Logging in via AuthOrgs</h2>
+              <div slot="content">
+                <p>
+                  Those AuthOrgs are great but they sure do complicate things
+                  here :(
+                </p>
+                <p>To connect to customer org through AuthOrgs:</p>
+                <ol>
+                  <li>Log in to customer environment as normal</li>
+                  <li>
+                    Open this page in a new tab in same browser as customer org
+                  </li>
+                  <li>Enter Client ID from OAuth client</li>
+                  <li>Set region as appropriate</li>
+                  <li>Click Connect button</li>
+                  <p>You should be redirected here to AuthOrg log in page</p>
+                  <li>
+                    On 'Choose you Organization' page, select customer org
+                    name<br /><span class="important">Note: </span> Do not
+                    select AuthOrg name at top as this will just connect to the
+                    AuthOrg, not the customers org!
+                  </li>
+                  <li>
+                    You should now be redirected back to the WEM Power Tools
+                    page :)
+                  </li>
+                </ol>
+              </div>
+            </gux-accordion-section>
+            <gux-accordion-section arrow-position="before-text">
+              <h2 slot="header">
+                Logging in via direct account (e.g. Genesys2 demo)
+              </h2>
+              <div slot="content">
+                <p>
+                  Got an account directly in the Org? No problems here either!
+                </p>
+                <ol>
+                  <li>Have this page open</li>
+                  <li>Enter Client ID & Region as appropriate</li>
+                  <li>Enter Client ID from OAuth client</li>
+                  <li>Set region as appropriate</li>
+                  <li>Click Connect button</li>
+                  <p>
+                    You should be redirected here to Genesys Cloud log in page
+                  </p>
+                  <li>Enter account credentials and log in</li>
+                  <li>
+                    You should now be redirected back to the WEM Power Tools
+                    page :)
+                  </li>
+                </ol>
+              </div>
+            </gux-accordion-section>
+            <gux-accordion-section arrow-position="before-text">
+              <h2 slot="header">Why am I logging in to the wrong Org??</h2>
+              <div slot="content">
+                <p>
+                  This will most likely be from browser session cookies
+                  remembering you're currently logged in to another environment.
+                  To 'fix' this:
+                </p>
+                <ol>
+                  <li>Close all instances of browser</li>
+                  <p class="important">OR</p>
+                  <li>Open private browsing instance</li>
+                  <li>Try again :)</li>
+                </ol>
+              </div>
+            </gux-accordion-section>
+          </gux-accordion>
+          <h1
+            class="roboto fw-900"
+            style="color: var(--gux-black-30); padding-top: 10px"
+          >
+            What can I do in here?
+          </h1>
+          <p style="color: var(--gux-black-30)">
+            Below is a list of tools that are currently available for use. Stay
+            tuned for more!
+          </p>
+          <gux-accordian
+            style="background-color: var(--gux-grey-100); width: 500px"
+          >
+            <gux-accordion-section arrow-position="before-text">
+              <h2 slot="header">People & Directory</h2>
+              <div slot="content">
+                <gux-accordion-section arrow-position="before-text">
+                  <h4 slot="header">Import Work Teams</h4>
+                  <p slot="content">
+                    Import a csv file of Work Team members. New teams are
+                    created, existing teams are updated.
+                  </p>
+                  <div class="list-container" slot="content">
+                    Required scopes:
+                    <ul>
+                      <li>groups</li>
+                      <li>users</li>
+                    </ul>
+                  </div>
+                </gux-accordion-section>
+              </div>
+            </gux-accordion-section>
+            <gux-accordion-section arrow-position="before-text">
+              <h2 slot="header">Speech & Text Analytics</h2>
+              <div slot="content">
+                <gux-accordion-section arrow-position="before-text">
+                  <h4 slot="header">Import Sentiment Phrases</h4>
+                  <p slot="content">
+                    Import a list of postive, negative or neutral phrases from
+                    csv.
+                  </p>
+                  <div class="list-container" slot="content">
+                    Required scopes:
+                    <ul>
+                      <li>speech-and-text-analytics</li>
+                    </ul>
+                  </div>
+                </gux-accordion-section>
+              </div>
+            </gux-accordion-section>
+            <gux-accordion-section arrow-position="before-text">
+              <h2 slot="header">Workforce Management</h2>
+              <div slot="content">
+                <gux-accordion-section arrow-position="before-text">
+                  <h4 slot="header">Export Historical Data</h4>
+                  <p slot="content">
+                    Exports WFM historical data for a given Business Unit.
+                  </p>
+                  <div class="list-container" slot="content">
+                    Required scopes:
+                    <ul>
+                      <li>
+                        workforce-management / workforce-management:readonly
+                      </li>
+                      <li>analytics / analytics:readonly</li>
+                      <li>routing / routing:readonly</li>
+                    </ul>
+                  </div>
+                </gux-accordion-section>
+                <gux-accordion-section arrow-position="before-text">
+                  <h4 slot="header">Import Time Off</h4>
+                  <p slot="content">
+                    Import a list of time off events from csv.
+                  </p>
+                  <div class="list-container" slot="content">
+                    Required scopes:
+                    <ul>
+                      <li>workforce-management</li>
+                      <li>users / users:readonly</li>
+                    </ul>
+                  </div>
+                </gux-accordion-section>
+              </div>
+            </gux-accordion-section>
+          </gux-accordian>
+
+          <p style="color: var(--gux-black-30); margin-top: 50px">
+            More questions? Requests? Let me know by
+            <a href="mailto:andy.maries@genesys.com" style="color: #ff4c1c"
+              >email</a
+            >
+          </p>
+        </gux-card-beta>
+        <gux-card-beta
+          style="
+            background-color: var(--gux-black-30);
+            color: var(--gux-grey-100);
+            border: 0px;
+            margin-left: 50px;
+          "
+        >
+          <h1 class="roboto fw-900" id="header">Ready to connect?</h1>
+          <gux-form-field-text-like label-position="above">
+            <input
+              slot="input"
+              type="text"
+              name="client_id"
+              id="clientIdInput"
+              size="36"
+              value="011e8c6e-4f1c-443b-8b5b-65668f6222a6"
+              placeholder="Please enter client id"
+              style="width: 250px"
+              required
+            />
+            <label
+              slot="label"
+              id="clientIdLabel"
+              style="color: var(--gux-grey-100); font-size: larger"
+              >Client ID</label
+            >
+          </gux-form-field-text-like>
+
+          <gux-tooltip for="clientIdLabel"
+            >Enter client id from OAuth client</gux-tooltip
+          >
+          <container style="box-sizing: border-box; display: inline-flex">
+            <gux-form-field-select label-position="above">
+              <select
+                slot="input"
+                name="region"
+                id="clientRegionInput"
+                style="width: 180px"
+                required
+              >
+                <option value="mypurecloud.jp">ap_northeast_1</option>
+                <option value="apne2.pure.cloud">ap_northeast_2</option>
+                <option value="mypurecloud.com.au">ap_southeast_2</option>
+                <option value="aps1.pure.cloud">ap_south_1</option>
+                <option value="cac1.pure.cloud">ca_central_1</option>
+                <option value="mypurecloud.de">eu_central_1</option>
+                <option value="mypurecloud.ie">eu_west_1</option>
+                <option value="euw2.pure.cloud">eu_west_2</option>
+                <option value="mypurecloud.com">us_east_1</option>
+                <option value="use2.us-gov-pure.cloud">us_east_2</option>
+                <option value="usw2.pure.cloud">us_west_2</option>
+                <option value="sae1.pure.cloud">sa_east_1</option>
+              </select>
+              <label
+                slot="label"
+                id="clientRegionLabel"
+                style="color: var(--gux-grey-100); font-size: larger"
+                >Region</label
+              >
+            </gux-form-field-select>
+            <gux-tooltip for="clientRegionLabel"
+              >Select customer region from list</gux-tooltip
+            >
+            <gux-button-slot-beta accent="primary">
+              <button
+                onclick="authenticate()"
+                style="margin-top: 44px; width: 95px"
+                type="button"
+              >
+                Connect
+              </button>
+            </gux-button-slot-beta>
+          </container>
+        </gux-card-beta>
+      </section>
+
+      <script>
+        //clear session storage
+        sessionStorage.clear();
+        console.log("WPT: WEM Power Tools initiated");
+
+        // Set Genesys Cloud objects
+        const platformClient = require("platformClient");
+        const client = platformClient.ApiClient.instance;
+
+        // const oapi = new platformClient.OrganizationApi();
+        // const uapi = new platformClient.UsersApi();
+
+        async function authenticate() {
+          const clientId = document.getElementById("clientIdInput").value;
+          const environment =
+            document.getElementById("clientRegionInput").value;
+          const redirectUri = "https://apmaries.github.io/wpt/wpt.html";
+
+          console.log(
+            "WPT: Setting client id and environment session storage items"
+          );
+
+          sessionStorage.setItem("clientId", clientId);
+          sessionStorage.setItem("environment", environment);
+
+          client.setEnvironment(environment);
+          client.setPersistSettings(true, "WPT_");
+
+          let state;
+          try {
+            console.log("WPT: Logging in to GC");
+            const response = await client.loginImplicitGrant(
+              clientId,
+              redirectUri,
+              {
+                state: state,
+              }
+            );
+            if (response) {
+              const jsonResponse = await response.json();
+              console.log(jsonResponse);
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      </script>
+    </main>
+    <footer></footer>
+  </body>
+</html>

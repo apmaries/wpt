@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>WEM Power Tools</title>
+    <!-- Genesys CSS https://spark.genesys.com/ -->
+    <link
+      href="https://dhqbrvplips7x.cloudfront.net/common-ui-docs/genesys-webcomponents/3.8.1-178/genesys-webcomponents/genesys-webcomponents.css"
+      rel="stylesheet"
+    />
+    <script
+      type="module"
+      src="https://dhqbrvplips7x.cloudfront.net/common-ui-docs/genesys-webcomponents/3.8.1-178/genesys-webcomponents/genesys-webcomponents.esm.js"
+    ></script>
+    <link href="../css/style_tools.css" type="text/css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- whats this?? <script src="https://unpkg.com/eventemitter3@latest/dist/eventemitter3.umd.min.js"></script> -->
+    <script src="../js/subheader.js"></script>
+    <script src="../js/disconnect.js"></script>
+  </head>
+  <body style="background-color: var(--gux-black-30); color: black">
+    <header
+      style="background-color: var(--gux-grey-100)"
+      class="item spacing-2xl; header"
+    >
+      <nav>
+        <ul>
+          <h1 id="title">
+            <img
+              src="../img/service-bell-expanded.svg"
+              alt="service bell logo"
+              height="50px;"
+            /><a style="color: #ff4c1c" href="../wpt.html">WEM Power Tools</a>
+          </h1>
+          <li class="header-li">
+            <a href="../pd.html">People & Directory</a>
+          </li>
+          <li class="header-li">
+            <a href="../qm.html">Quality Management</a>
+          </li>
+          <li class="header-li">
+            <a href="../st.html">Speech & Text Analytics</a>
+          </li>
+          <li class="header-li">
+            <a class="active" style="color: #ff4c1c" href="../wm.html"
+              >Workforce Management</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <div
+      class="subHeader"
+      style="background-color: var(--gux-grey-100); padding-left: 62px"
+    >
+      <p id="authenticatedSubHeader" style="align-self: center">
+        Authenticated in:
+      </p>
+      <p>
+        <gux-button
+          id="disconnectButton"
+          style="width: 100px; position: absolute; right: 5%"
+          accent="primary"
+          onclick="disconnect()"
+        >
+          Disconnect
+        </gux-button>
+      </p>
+    </div>
+    <main>
+      <section id="toy-info-section" style="color: white; min-height: 100px">
+        <h1
+          class="page-header"
+          style="color: var(--gux-grey-100); padding-left: 24px"
+        >
+          Import Time Off
+        </h1>
+        <h2 class="toy-info">Import a list of time off events.</h2>
+        <ul class="toy-info-items">
+          <li class="toy-info-items">
+            Supports multiple BU's and full / part day requests
+          </li>
+          <li class="toy-info-items">
+            All dates and times should be relative to BU specified
+          </li>
+        </ul>
+      </section>
+
+      <!-- action section-->
+      <section
+        id="action-section"
+        class="Row"
+        style="
+          border: 4px solid var(--gux-electric-purple-sec);
+          background-color: var(--gux-grey-100);
+        "
+      >
+        <!-- input group -->
+        <div id="input-grp" class="Row">
+          <!--file-->
+          <div
+            id="file"
+            class="Column"
+            style="
+              background-color: var(--gux-grey-100);
+              padding-left: 24px;
+              border-bottom-width: 10px solid var(--gux-grey-100);
+              border-top-left-radius: 10px;
+            "
+          >
+            <div class="align-content-left">
+              <h2>File to Upload</h2>
+              <button
+                id="importTimeOffExample"
+                type="button"
+                class="import-example"
+              >
+                (example)
+              </button>
+              <script src="../js/exportMaker.js"></script>
+            </div>
+            <!-- file name / browse button -->
+            <div id="file">
+              <input
+                id="file-name"
+                type="text"
+                class="file-input"
+                placeholder="File to import"
+                style="height: 28px"
+              />
+              <gux-button
+                id="importTimeOffFile"
+                for="fileInput"
+                accent="primary"
+                style="display: inline-block; width: 100px"
+                >Browse</gux-button
+              >
+              <input
+                id="fileInput"
+                class="file-input"
+                type="file"
+                accept=".csv"
+                style="display: none"
+              />
+            </div>
+          </div>
+
+          <!--variables-->
+          <div
+            id="variables"
+            class="Column"
+            style="
+              background-color: var(--gux-grey-100);
+              border-bottom-width: 10px solid var(--gux-grey-100);
+            "
+          >
+            <fieldset id="import-method">
+              <legend>Import as</legend>
+              <gux-form-field-radio>
+                <input
+                  slot="input"
+                  type="radio"
+                  name="method"
+                  value="approved"
+                />
+                <label slot="label">Approved</label>
+              </gux-form-field-radio>
+
+              <gux-form-field-radio>
+                <input
+                  slot="input"
+                  type="radio"
+                  name="method"
+                  value="pending"
+                />
+                <label slot="label">Pending</label>
+              </gux-form-field-radio>
+            </fieldset>
+
+            <!--formatting methods-->
+            <!--date format-->
+            <fieldset id="formatting-method">
+              <legend>Set formats</legend>
+              <gux-dropdown
+                filter-type="starts-with"
+                placeholder="Select a date format"
+              >
+                <gux-listbox aria-label="Date format">
+                  <gux-option value="yyyy-mm-dd">yyyy-mm-dd</gux-option>
+                </gux-listbox>
+              </gux-dropdown>
+
+              <!--time format-->
+              <gux-dropdown
+                filter-type="starts-with"
+                placeholder="Select a time format"
+              >
+                <gux-listbox aria-label="Time format">
+                  <gux-option value="HH:MM">HH:MM</gux-option>
+                </gux-listbox>
+              </gux-dropdown>
+            </fieldset>
+          </div>
+
+          <!--buttons-->
+          <div
+            id="buttons"
+            class="Column"
+            style="
+              background-color: var(--gux-grey-100);
+              border-bottom-width: 10px solid var(--gux-grey-100);
+              border-top-right-radius: 10px;
+            "
+          >
+            <div
+              id="button-container"
+              class="align-content"
+              style="position: absolute; right: 5%; bottom: 10%"
+            >
+              <gux-button onclick="clearTerminal()">
+                <gux-icon
+                  icon-name="trashcan"
+                  screenreader-text="Clear terminal"
+                ></gux-icon>
+                <span>Clear</span>
+              </gux-button>
+
+              <gux-action-button
+                text="Export"
+                accent="tertiary"
+                style="
+                  display: inline-block;
+
+                  position: relative;
+                "
+              >
+                <gux-list-item onclick="exportLogs()">All logs</gux-list-item>
+                <gux-list-item onclick="exportIgnoredRecords()"
+                  >Ignored Records</gux-list-item
+                >
+              </gux-action-button>
+
+              <gux-button
+                accent="primary"
+                style="width: 100px"
+                onclick="processData()"
+                >Import</gux-button
+              >
+            </div>
+          </div>
+        </div>
+
+        <!--terminal-->
+        <div
+          id="terminal-grp"
+          class="Row process-grp"
+          style="margin-bottom: 0px"
+        >
+          <div id="terminal" class="terminal"></div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

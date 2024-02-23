@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>WEM Power Tools - Export Historical Data</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+    <!-- Genesys CSS https://spark.genesys.com/ -->
+    <link
+      href="https://dhqbrvplips7x.cloudfront.net/common-ui-docs/genesys-webcomponents/3.8.1-178/genesys-webcomponents/genesys-webcomponents.css"
+      rel="stylesheet"
+    />
+    <script
+      type="module"
+      src="https://dhqbrvplips7x.cloudfront.net/common-ui-docs/genesys-webcomponents/3.8.1-178/genesys-webcomponents/genesys-webcomponents.esm.js"
+    ></script>
+    <link href="../css/style_tools.css" type="text/css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- whats this?? <script src="https://unpkg.com/eventemitter3@latest/dist/eventemitter3.umd.min.js"></script> -->
+
+    <!-- Project src files -->
+    <script src="../js/session.js"></script>
+    <script src="../js/subheader.js"></script>
+    <script src="../js/disconnect.js"></script>
+    <script src="../js/exportMaker.js"></script>
+    <script type="text/javascript" src="../js/htmlHelper.js"></script>
+    <script type="module" src="../js/wm_exportHistData.js"></script>
+  </head>
+  <body style="background-color: var(--gux-black-30); color: black">
+    <header
+      style="background-color: var(--gux-grey-100)"
+      class="item spacing-2xl; header"
+    >
+      <nav>
+        <ul>
+          <h1 id="title" style="margin-bottom: 0px">
+            WEM Power Tools
+            <svg id="banner" width="4000" height="50" viewBox="0 0 5000 250">
+              <g transform="translate(100 0) rotate(180, -2475, 0)">
+                <path
+                  id="API-expanded"
+                  d="M151.93,167.356v18.928a69.538,69.538,0,0,1-63.091,69.145v41.244a6.345,6.345,0,1,1-12.691,0v-47.3a6.345,6.345,0,0,1,6.345-6.345,56.809,56.809,0,0,0,56.746-56.74V173.7H25.748v12.583a56.987,56.987,0,0,0,23.23,45.794,6.345,6.345,0,1,1-7.494,10.241A69.722,69.722,0,0,1,13.057,186.29V167.356a6.345,6.345,0,0,1,6.345-6.345H57.22V116.365a6.345,6.345,0,0,1,12.691,0v44.645H95.076V116.365a6.345,6.345,0,1,1,12.691,0v44.645h37.818A6.345,6.345,0,0,1,151.93,167.356ZM88.839,47.766V6.477a6.345,6.345,0,0,0-12.691,0V47.766a69.513,69.513,0,0,0-63.091,69.113v18.934a6.345,6.345,0,0,0,6.345,6.345H38.33a6.345,6.345,0,1,0,0-12.691H25.748V116.879a56.746,56.746,0,1,1,113.492,0v12.589H126.657a6.345,6.345,0,1,0,0,12.691h18.928a6.345,6.345,0,0,0,6.345-6.345V116.879A69.513,69.513,0,0,0,88.839,47.766Z"
+                  transform="translate(0 0) rotate(-90)"
+                  fill="#ff4f1f"
+                />
+                <!-- Extending straight lines -->
+                <line
+                  x1="300"
+                  y1="-82.5"
+                  x2="5000"
+                  y2="-82.5"
+                  stroke="#ff4f1f"
+                  stroke-width="13"
+                />
+                <line
+                  x1="-3000"
+                  y1="-82.5"
+                  x2="10"
+                  y2="-82.5"
+                  stroke="#ff4f1f"
+                  stroke-width="13"
+                />
+              </g>
+            </svg>
+          </h1>
+          <li class="header-li">
+            <a href="../gf.html">Gamification</a>
+          </li>
+          <li class="header-li">
+            <a href="../pd.html">People & Directory</a>
+          </li>
+          <li class="header-li">
+            <a href="../qm.html">Quality Management</a>
+          </li>
+          <li class="header-li">
+            <a href="../st.html">Speech & Text Analytics</a>
+          </li>
+          <li class="header-li">
+            <a class="active" style="color: #ff4c1c" href="../wm.html"
+              >Workforce Management</a
+            >
+          </li>
+        </ul>
+      </nav>
+      <div id="breadcumbs-container" style="padding-left: 40px">
+        <gux-breadcrumbs id="breadcrumbs" accent="primary">
+          <gux-breadcrumb-item href="../wpt.html"
+            >WEM Power Tools</gux-breadcrumb-item
+          >
+          <gux-breadcrumb-item href="../wm.html"
+            >Workforce Management</gux-breadcrumb-item
+          >
+          <gux-breadcrumb-item>Export Historical Data</gux-breadcrumb-item>
+        </gux-breadcrumbs>
+      </div>
+    </header>
+    <div class="subHeader" style="background-color: var(--gux-grey-100)">
+      <p id="authenticatedSubHeader" style="padding-left: 40px">
+        Authenticated in:
+      </p>
+      <p>
+        <gux-button
+          id="disconnectButton"
+          style="width: 100px; position: absolute; right: 5%"
+          accent="primary"
+          onclick="disconnect()"
+        >
+          Disconnect
+        </gux-button>
+      </p>
+    </div>
+    <main>
+      <section
+        id="toy-info-section"
+        style="color: var(--gux-grey-100); padding-left: 24px"
+      >
+        <h1 style="padding-left: 16px">Export Historical Data</h1>
+        <h2 style="padding-left: 16px">
+          Exports 15-minute interval data for route paths in a specified WFM
+          Business Unit.
+        </h2>
+
+        <gux-card-beta
+          style="
+            background-color: var(--gux-black-30);
+            color: var(--gux-grey-100);
+            border: 0px;
+          "
+        >
+          <gux-accordion
+            style="background-color: var(--gux-grey-100); width: 500px"
+          >
+            <gux-accordion-section arrow-position="before-text">
+              <h3 slot="header">Information</h3>
+              <div class="list-container" slot="content">
+                <ul>
+                  <li>Supports multiple BU's and full / part day requests</li>
+                  <li>
+                    All dates and times should be relative to BU specified
+                  </li>
+                  <li>
+                    Use yyyy-mm-dd and HH:MM formats until I build in option to
+                    choose formats
+                  </li>
+                </ul>
+              </div>
+            </gux-accordion-section>
+            <gux-accordion-section arrow-position="before-text">
+              <h3 slot="header">Required scopes for OAuth client</h3>
+              <div class="list-container" slot="content">
+                <ul>
+                  <li>workforce-management:readonly</li>
+                  <li>analytics:readonly</li>
+                </ul>
+              </div>
+            </gux-accordion-section>
+          </gux-accordion>
+        </gux-card-beta>
+      </section>
+
+      <!-- action section-->
+      <section
+        id="action-section"
+        class="Row"
+        style="
+          box-sizing: border-box;
+          border: 4px solid var(--gux-electric-purple-sec);
+          background-color: var(--gux-grey-100);
+        "
+      >
+        <!-- input group -->
+        <div id="input-grp" class="Row">
+          <!--file-->
+          <div
+            id="file"
+            class="Column"
+            style="
+              background-color: var(--gux-grey-100);
+              padding-left: 40px;
+              border-bottom-width: 10px solid var(--gux-grey-100);
+              border-top-left-radius: 10px;
+            "
+          >
+            <div class="align-content-left">
+              <h2>Select Business Unit</h2>
+            </div>
+            <!-- BU selector -->
+
+            <div id="file-div" style="padding-right: 25px; width: 300px" hidden>
+              <gux-dropdown
+                id="bu-dropdown"
+                filter-type="starts-with"
+                placeholder="Select a Business Unit"
+              >
+                <gux-listbox
+                  id="bu-listbox"
+                  aria-label="BusinessUnits"
+                ></gux-listbox>
+              </gux-dropdown>
+              <gux-datepicker
+                id="export-start"
+                label="Export start date"
+                format="dd/mm/yyyy"
+              ></gux-datepicker>
+              <!-- <input
+                id="file-name"
+                type="text"
+                class="file-input"
+                placeholder="File to import"
+                style="height: 28px; width: 250px"
+              />
+              <gux-button
+                disabled
+                id="importFile"
+                for="fileInput"
+                accent="primary"
+                style="display: inline-block; width: 100px"
+                >Browse</gux-button
+              >
+              <input
+                id="fileInput"
+                class="file-input"
+                type="file"
+                accept=".csv"
+                style="display: none"
+              /> -->
+            </div>
+            <gux-loading-message-beta
+              id="loading-message"
+              style="display: block"
+            >
+              <div slot="primary-message">Loading BU data...</div>
+              <gux-radial-progress
+                id="radial-progress"
+                slot="progress"
+                value="0"
+                max="1000"
+                screenreader-text="loading"
+              ></gux-radial-progress>
+            </gux-loading-message-beta>
+          </div>
+
+          <div
+            id="variables"
+            class="Column"
+            style="
+              background-color: var(--gux-grey-100);
+              border-bottom-width: 10px solid var(--gux-grey-100);
+              position: relative;
+              bottom: 0%;
+            "
+          >
+            <fieldset
+              id="import-method"
+              class="align-content"
+              style="padding-top: 30px"
+            >
+              <legend>Log level</legend>
+              <gux-form-field-radio>
+                <input
+                  slot="input"
+                  type="radio"
+                  name="log-level"
+                  value="DEBUG"
+                />
+                <label slot="label">DEBUG</label>
+              </gux-form-field-radio>
+
+              <gux-form-field-radio>
+                <input
+                  slot="input"
+                  type="radio"
+                  name="log-level"
+                  value="INFO"
+                  checked="checked"
+                />
+                <label slot="label">INFO</label>
+              </gux-form-field-radio>
+
+              <gux-form-field-radio>
+                <input
+                  slot="input"
+                  type="radio"
+                  name="log-level"
+                  value="WARNING"
+                />
+                <label slot="label">WARNING</label>
+              </gux-form-field-radio>
+            </fieldset>
+
+            <!--formatting methods-->
+          </div>
+
+          <!--buttons-->
+          <div
+            id="buttons"
+            class="Column"
+            style="
+              position: relative;
+              background-color: var(--gux-grey-100);
+              border-bottom-width: 10px solid var(--gux-grey-100);
+              border-top-right-radius: 10px;
+            "
+          >
+            <div
+              id="button-container"
+              class="align-content"
+              style="
+                position: absolute;
+                align-items: center;
+                bottom: 1%;
+                right: 15%;
+              "
+            >
+              <gux-button
+                disabled
+                id="clear-button"
+                onclick="reset()"
+                style="display: inline-block; width: 100px; position: relative"
+              >
+                <gux-icon
+                  icon-name="trashcan"
+                  screenreader-text="Clear terminal"
+                ></gux-icon>
+                <span>Clear</span>
+              </gux-button>
+
+              <gux-button
+                disabled
+                id="export-log-button"
+                text="Export"
+                accent="tertiary"
+                onclick="exportLogs()"
+                style="display: inline-block; position: relative"
+                >Export log
+              </gux-button>
+
+              <gux-button
+                disabled
+                id="export-data-button"
+                accent="primary"
+                style="display: inline-block; width: 100px; position: relative"
+                >Export data</gux-button
+              >
+            </div>
+          </div>
+        </div>
+
+        <!--terminal-->
+        <div
+          id="terminal-grp"
+          class="Row process-grp"
+          style="margin-bottom: 0px"
+        >
+          <div id="terminal" class="terminal"></div>
+        </div>
+      </section>
+    </main>
+
+    <!--Date picker options-->
+    <script></script>
+
+    <!-- Button event listeners -->
+    <script>
+      // add event listener to export data button
+      const importBtn = document.getElementById("export-data-button");
+      importBtn.addEventListener("click", exportData);
+    </script>
+
+    <!--Clear terminal & reset-->
+    <script>
+      function reset() {
+        clearTerminal();
+        terminal(`Export Historical Data`, "INFO");
+        terminal("Previous terminal data cleared", "DEBUG");
+        let buCount = JSON.parse(sessionStorage.getItem("wfmBuList"));
+        terminal(`${buCount.length} Business Units already in memory`, "INFO");
+        terminal(`Ready!`, "INFO");
+        document
+          .getElementById("export-log-button")
+          .removeAttribute("disabled");
+        document
+          .getElementById("export-data-button")
+          .removeAttribute("disabled");
+      }
+    </script>
+
+    <script>
+      // export all logs
+      /*const exportLogs = function () {
+        terminal(`Export logs`, "INFO");
+        logs = document.getElementsByClassName("log-entry");
+        logEntries = [];
+        for (let l = 0; l < logs.length; l++) {
+          logEntry = logs[l].innerHTML;
+          logEntries.push(logEntry);
+        }
+        const logData = logMaker(logEntries);
+        download(logData, "exportHistData.log", "text/plain");
+      };*/
+
+      // export ignored data
+      /*function exportIgnoredRecords() {
+        terminal(`Exporting ignored records`, "INFO");
+        let exportData = sessionStorage.getItem("wmImpTorIgnored");
+        if (exportData) {
+          const csvdata = csvMaker(JSON.parse(exportData));
+          download(csvdata, "importTimeOff_ignored.csv", "text/csv");
+        } else {
+          terminal(`No ignored records to export`, "WARNING");
+        }
+      }*/
+    </script>
+    <footer></footer>
+  </body>
+</html>

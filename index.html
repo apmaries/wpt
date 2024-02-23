@@ -17,7 +17,6 @@
       type="module"
       src="https://dhqbrvplips7x.cloudfront.net/common-ui-docs/genesys-webcomponents/3.8.1-178/genesys-webcomponents/genesys-webcomponents.esm.js"
     ></script>
-    <script src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>
 
     <!-- Project stuff -->
     <link href="./css/style.css" type="text/css" rel="stylesheet" />
@@ -428,43 +427,8 @@
         </gux-card-beta>
       </section>
 
-      <script>
-        //clear session storage
-        sessionStorage.clear();
-        console.log("WPT: WEM Power Tools initiated");
-
-        // Set Genesys Cloud objects
-        const platformClient = require("platformClient");
-        const client = platformClient.ApiClient.instance;
-
-        async function authenticate() {
-          const clientId = document.getElementById("clientIdInput").value;
-          const environment =
-            document.getElementById("clientRegionInput").value;
-          const redirectUri = "https://apmaries.github.io/wpt/wpt.html";
-
-          console.log(
-            "WPT: Setting client id and environment session storage items"
-          );
-
-          sessionStorage.setItem("clientId", clientId);
-          sessionStorage.setItem("environment", environment);
-
-          client.setEnvironment(environment);
-          client.setPersistSettings(true, "_wpt_");
-          window.gcClient = client;
-
-          let state;
-          try {
-            console.log("WPT: Logging in to GC");
-            await client.loginImplicitGrant(clientId, redirectUri, {
-              state: state,
-            });
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      </script>
+      <script src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>
+      <script src="/js/utils/authenticate.js"></script>
     </main>
     <footer></footer>
   </body>

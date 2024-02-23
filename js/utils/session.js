@@ -52,6 +52,20 @@ async function getOrgLevelStuff() {
 
   // Wrap each fetch operation in an async function
 
+  // Fetch the org details
+  let orgPromise = (async () => {
+    let org = await makeApiCallWithRetry(`/api/v2/organizations/me`, "GET");
+    if (org) {
+      console.log("WPT: Org details returned");
+      const orgName = org.name;
+      const orgId = org.id;
+      sessionStorage.setItem("orgName", orgName);
+      sessionStorage.setItem("orgId", orgId);
+    } else {
+      console.error(`WPT: Error getting org details`);
+    }
+  })();
+
   // Fetch the OAuth client details
   let clientPromise = (async () => {
     const clientId = sessionStorage.getItem("clientId");
@@ -104,7 +118,12 @@ async function getOrgLevelStuff() {
   })();
 
   // Run all fetch operations concurrently
-  await Promise.all([clientPromise, divisionsPromise, channelPromise]);
+  await Promise.all([
+    orgPromise,
+    clientPromise,
+    divisionsPromise,
+    channelPromise,
+  ]);
 }
 
 // Define the timeout function

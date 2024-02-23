@@ -1,12 +1,12 @@
 let apiClient;
+import { ApiClient } from "platformClient";
 
 function authenticate() {
   sessionStorage.clear();
   console.log("WPT: WEM Power Tools initiated");
 
   // Set Genesys Cloud objects
-  const platformClient = require("platformClient");
-  apiClient = platformClient.ApiClient.instance;
+  apiClient = ApiClient.instance;
 
   const clientId = document.getElementById("clientIdInput").value;
   const environment = document.getElementById("clientRegionInput").value;

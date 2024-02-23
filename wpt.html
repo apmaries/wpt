@@ -486,6 +486,18 @@
       </div>
     </main>
 
+    <script>
+      document.addEventListener("DOMContentLoaded", async function () {
+        console.log("WPT: Retrieving user details");
+        const userApi = new platformClient.UsersApi();
+        const user = await userApi.getUsersMe();
+        console.log("WPT: User = ", user);
+
+        internalUserCheck(user.email);
+        sessionStorage.setItem("userName", user.name);
+        sessionStorage.setItem("userId", user.id);
+      });
+    </script>
     <footer></footer>
   </body>
 </html>

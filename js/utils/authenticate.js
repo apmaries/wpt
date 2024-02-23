@@ -1,4 +1,4 @@
-let apiClient;
+let client;
 import { ApiClient } from "platformClient";
 
 function authenticate() {
@@ -6,7 +6,7 @@ function authenticate() {
   console.log("WPT: WEM Power Tools initiated");
 
   // Set Genesys Cloud objects
-  apiClient = ApiClient.instance;
+  client = ApiClient.instance;
 
   const clientId = document.getElementById("clientIdInput").value;
   const environment = document.getElementById("clientRegionInput").value;
@@ -17,13 +17,13 @@ function authenticate() {
   sessionStorage.setItem("clientId", clientId);
   sessionStorage.setItem("environment", environment);
 
-  apiClient.setEnvironment(environment);
-  apiClient.setPersistSettings(true, "_wpt_");
+  client.setEnvironment(environment);
+  client.setPersistSettings(true, "_wpt_");
 
   let state;
   try {
     console.log("WPT: Logging in to GC");
-    apiClient.loginImplicitGrant(clientId, redirectUri, {
+    client.loginImplicitGrant(clientId, redirectUri, {
       state: state,
     });
   } catch (error) {

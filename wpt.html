@@ -487,8 +487,10 @@
 
     <footer></footer>
     <script src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>
+    <script src="./js/utils/authenticate.js"></script>
     <script>
-      console.log("WPT: WPT home: Script");
+      console.log("WPT: Client = ", client);
+      /*console.log("WPT: WPT home: Script");
       if (!client) {
         console.log("WPT: WPT home: No API client found, redirecting to index");
         //window.location.replace(indexPage);
@@ -500,7 +502,7 @@
         const user = usersApi.getUsersMe();
         console.log("WPT: WPT home: User = ", user);
         return user;
-      }
+      }*/
       /*const indexPage = "https://apmaries.github.io/wpt/index.html";
       console.log("WPT: Window = ", window);
 

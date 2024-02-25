@@ -30,3 +30,5 @@ function authenticate() {
     console.log(error);
   }
 }
+
+export { authenticate, client };

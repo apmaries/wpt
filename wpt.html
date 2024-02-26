@@ -488,8 +488,26 @@
     <footer></footer>
     <script src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>
 
+    <!-- Load the session.js file with the defer attribute -->
+    <script id="sessionScript" defer src="session.js"></script>
     <script>
-      const client = sessionStorage.getItem("client");
+      document
+        .getElementById("sessionScript")
+        .addEventListener("load", function () {
+          const token = sessionStorage.getItem("token");
+          if (!token) {
+            sessionStorage.clear();
+            alert(`Not authenticated. Redirecting to login page.`);
+            //window.location.href = "https://apmaries.github.io/wpt/index.html";
+          }
+          const authText = document.getElementById("authenticatedSubHeader");
+          const oName = sessionStorage.getItem("orgName");
+          authText.innerHTML = `Authenticated in: ${oName}`;
+        });
+    </script>
+
+    <script>
+      /*const client = sessionStorage.getItem("client");
       console.log("WPT: Client = ", JSON.stringify(client));
       console.log("WPT: WPT home page load");
       if (!client) {
@@ -503,7 +521,7 @@
         const user = usersApi.getUsersMe();
         console.log("WPT: WPT home: User = ", user);
         return user;
-      }
+      }*/
 
       /*const indexPage = "https://apmaries.github.io/wpt/index.html";
       console.log("WPT: Window = ", window);

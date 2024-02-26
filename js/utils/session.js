@@ -40,6 +40,7 @@ function internalUserCheck(emailAddress) {
   } else {
     console.log("WPT: Unauthorised user!");
     alert("Sorry, you are not authorised to use this page :(");
+    sessionStorage.clear();
     window.location.replace(indexPage);
   }
 }
@@ -51,6 +52,9 @@ usersApi
     // Store the user's name in sessionStorage
     sessionStorage.setItem("user_name", user.name);
     sessionStorage.setItem("user_id", user.id);
+
+    // Check if internal user
+    internalUserCheck(user.email);
   })
   .catch(function (error) {
     console.error("WPT: Error getting user: ", error);

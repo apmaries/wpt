@@ -1,19 +1,18 @@
-async function disconnect() {
-  // Retrieve the access token from sessionStorage
-  var accessToken = sessionStorage.getItem("token");
-  console.log("WPT: Disconnecting user with token: ", accessToken);
+// Description: This file contains the code to disconnect user
 
-  // Set up the client
-  var platformClient = window.require("platformClient");
-  var client = platformClient.ApiClient.instance;
-  client.setAccessToken(accessToken);
+// Get access token
+var accessToken = sessionStorage.getItem("token");
+// Set up the client
+var platformClient = window.require("platformClient");
+var client = platformClient.ApiClient.instance;
+client.setAccessToken(accessToken);
 
-  // temp logging
-  console.log("WPT: Client (disconnect.js) = ", client);
+// Create an instance of TokensApi
+var tokensApi = new platformClient.TokensApi();
 
-  // Create an instance of TokensApi
-  var tokensApi = new platformClient.TokensApi();
-
+// Functions start here
+// Function to delete token
+function deleteToken() {
   // Delete the current token
   tokensApi
     .deleteTokensMe()
@@ -25,41 +24,41 @@ async function disconnect() {
     .catch(function (error) {
       console.error("WPT: Error deleting token", error);
     });
-
-  /*
-  // Declare variables
-  //const notificationsId = sessionStorage.getItem("notificationsId");
-  console.log("WPT: User disconnecting");
-
-  let x;
-
-  // Confirm disconnection
-  if (confirm("Are you sure?") == true) {
-    try {
-      // delete notifications channel subscriptions
-      x = makeApiCallWithRetry(
-        `/notifications/channels/${notificationsId}/subscriptions`,
-        "DELETE"
-      );
-
-      if (!x) {
-        console.warn(
-          `WPT: Error deleting notifications channel subscriptions`,
-          x
-        );
-      }
-
-      // delete the token
-      x = makeApiCallWithRetry(`/tokens/me`, "DELETE");
-      if (!x) {
-        console.warn(`WPT: Error deleting token`, x);
-      }
-    } catch (error) {
-      console.error(`WPT: Error disconnecting: ${error}`);
-    }
-
-    // Clear the session storage and redirect to the login page
-    sessionStorage.clear;
-    window.location.replace("https://apmaries.github.io/wpt/index.html");
-  }*/
 }
+
+// User disconnect
+async function disconnect() {
+  // Log the disconnection
+  console.log("WPT: Disconnecting user");
+
+  // temp logging
+  console.log("WPT: Client (disconnect.js) = ", client);
+
+  // Delete the current token
+  deleteToken();
+}
+
+// Session timeout
+function timeout() {
+  // Log the timeout
+  console.log("WPT: Timeout due to inactivity.");
+
+  // Disconnect the user
+  disconnect();
+}
+
+// Function to reset the activity timer
+function resetActivityTimer() {
+  clearTimeout(activityTimeout);
+  activityTimeout = setTimeout(timeout, 15 * 60 * 1000); // 15 minutes in milliseconds
+}
+// Functions end here
+
+// main code starts here
+let activityTimeout;
+
+resetActivityTimer();
+
+// Add event listeners to detect user activity
+document.addEventListener("mousemove", resetActivityTimer);
+document.addEventListener("keydown", resetActivityTimer);

@@ -75,7 +75,7 @@ if (accessToken) {
       return Promise.all([
         organizationsApi.getOrganizationsMe(),
         oAuthApi.getOauthClient(clientId),
-        utilitiesApi.getTimeZones(),
+        utilitiesApi.getTimezones(),
       ]);
     })
     .then(function (results) {

@@ -17,7 +17,7 @@ async function disconnect() {
       console.log("Token deleted successfully");
     })
     .catch(function (error) {
-      console.error(error);
+      console.error("WPT: Error deleting token", error);
     });
 
   /*

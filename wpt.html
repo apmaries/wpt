@@ -497,9 +497,9 @@
       window.addEventListener("tokenSet", function () {
         const token = sessionStorage.getItem("token");
         if (!token) {
-          alert(`Not authenticated. Redirecting to login page.`);
-          //sessionStorage.clear();
-          //window.location.href = "https://apmaries.github.io/wpt/index.html";
+          alert(`No token found! Redirecting to login page.`);
+          sessionStorage.clear();
+          window.location.href = "https://apmaries.github.io/wpt/index.html";
         }
       });
     </script>

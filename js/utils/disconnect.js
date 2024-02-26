@@ -72,6 +72,7 @@ tokensApi
       console.error("WPT: Token is invalid");
       disconnect();
     } else {
+      console.log("WPT: Token is valid");
       resetActivityTimer();
 
       // Add event listeners to detect user activity

@@ -20,7 +20,7 @@ console.log("WPT: Token type: ", tokenType);
 
 // Store the parameters in sessionStorage
 sessionStorage.setItem("access_token", accessToken);
-sessionStorage.setItem("expires_in", expiresIn);
+sessionStorage.setItem("token_expires_in", expiresIn);
 sessionStorage.setItem("token_type", tokenType);
 
 // Only make API calls if accessToken has a value

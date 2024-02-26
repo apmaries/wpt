@@ -449,9 +449,7 @@
               clientId.value,
               "https://apmaries.github.io/wpt/wpt.html"
             );
-            sessionStorage.setItem("wpt_client", client);
-            // temp logging
-            console.log("WPT: Client: ", client);
+            sessionStorage.setItem("wpt_client_id", clientId);
           } catch (e) {
             console.log(e);
           }

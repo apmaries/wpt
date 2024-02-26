@@ -495,7 +495,7 @@
     <script id="sessionScript" defer src="./js/utils/session.js"></script>
     <script>
       window.addEventListener("tokenSet", function () {
-        const token = sessionStorage.getItem("token");
+        const token = sessionStorage.getItem("access_token");
         if (!token) {
           //sessionStorage.clear();
           alert(`Not authenticated. Redirecting to login page.`);

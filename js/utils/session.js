@@ -23,6 +23,10 @@ sessionStorage.setItem("access_token", accessToken);
 sessionStorage.setItem("token_expires_in", expiresIn);
 sessionStorage.setItem("token_type", tokenType);
 
+// Dispatch a custom event to signal that the token has been set
+var tokenEvent = new CustomEvent("tokenSet");
+window.dispatchEvent(tokenEvent);
+
 // Only make API calls if accessToken has a value
 if (accessToken) {
   // Set up the client

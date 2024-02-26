@@ -494,7 +494,7 @@
     <!-- Load the session.js file with the defer attribute -->
     <script id="sessionScript" defer src="./js/utils/session.js"></script>
     <script>
-      window.onload = function () {
+      window.addEventListener("tokenSet", function () {
         const token = sessionStorage.getItem("token");
         if (!token) {
           //sessionStorage.clear();
@@ -504,7 +504,7 @@
         const authText = document.getElementById("authenticatedSubHeader");
         const oName = sessionStorage.getItem("org_name");
         authText.innerHTML = `Authenticated in: ${oName}`;
-      };
+      });
     </script>
   </body>
 </html>

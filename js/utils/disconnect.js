@@ -1,6 +1,7 @@
 async function disconnect() {
   // Retrieve the access token from sessionStorage
   var accessToken = sessionStorage.getItem("access_token");
+  console.log("WPT: Disconnecting user with token: ", accessToken);
 
   // Set up the client
   var platformClient = window.require("platformClient");

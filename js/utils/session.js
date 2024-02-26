@@ -1,5 +1,7 @@
 import { globalOpts, getAllPages } from "./apiHelper.js";
 
+console.log("WPT: Session.js loaded");
+
 // Extract the fragment identifier
 var hash = window.location.hash;
 

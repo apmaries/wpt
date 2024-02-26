@@ -8,6 +8,9 @@ async function disconnect() {
   var client = platformClient.ApiClient.instance;
   client.setAccessToken(accessToken);
 
+  // temp logging
+  console.log("WPT: Client (disconnect.js) = ", client);
+
   // Create an instance of TokensApi
   var tokensApi = new platformClient.TokensApi();
 

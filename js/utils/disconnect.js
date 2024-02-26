@@ -24,12 +24,14 @@ function deleteToken() {
     })
     .catch(function (error) {
       console.error("WPT: Error deleting token", error);
+      sessionStorage.clear();
+      window.location.replace("https://apmaries.github.io/wpt/index.html");
     });
 }
 
 // TODO: Add remove subscriptions to notifications channel
 
-// User disconnect
+// Disconnect
 async function disconnect() {
   // Log the disconnection
   console.log("WPT: Disconnecting user");
@@ -50,7 +52,7 @@ function timeout() {
   console.debug("WPT: Client (timeout()) = ", client);
 
   // Disconnect the user
-  disconnect();
+  deleteToken();
 }
 
 // Function to reset the activity timer
@@ -61,6 +63,23 @@ function resetActivityTimer() {
 // Functions end here
 
 // main code starts here
+
+// check the token
+apiInstance
+  .headTokensMe()
+  .then(() => {
+    console.log("headTokensMe returned successfully.");
+    // if response is not 200, then the token is invalid
+    if (response.status !== 200) {
+      console.error("WPT: Token is invalid");
+      disconnect();
+    }
+  })
+  .catch((err) => {
+    console.error("WPT: There was a failure calling headTokensMe", err);
+    disconnect();
+  });
+
 let activityTimeout;
 
 resetActivityTimer();

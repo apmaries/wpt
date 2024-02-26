@@ -1,5 +1,6 @@
 // Description: This file handles disconnection of the user
 
+// TODO: Why does the client need to be set up again? Can't we use the one from index.html?
 // Get access token
 var accessToken = sessionStorage.getItem("token");
 // Set up the client
@@ -25,6 +26,8 @@ function deleteToken() {
       console.error("WPT: Error deleting token", error);
     });
 }
+
+// TODO: Add remove subscriptions to notifications channel
 
 // User disconnect
 async function disconnect() {

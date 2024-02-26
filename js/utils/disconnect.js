@@ -64,7 +64,7 @@ function resetActivityTimer() {
 let activityTimeout;
 
 // check the token
-apiInstance
+tokensApi
   .headTokensMe()
   .then(() => {
     // if response is not 200, then the token is invalid

@@ -429,15 +429,31 @@
     </main>
     <footer></footer>
     <script src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>
-    <script type="module" src="./js/utils/authenticate.js"></script>
+
     <script>
-      // Inline script for handling button click
+      // wait for dom to load
       document.addEventListener("DOMContentLoaded", function () {
-        document
-          .getElementById("authenticate-button")
-          .addEventListener("click", function () {
-            authenticate();
-          });
+        var platformClient = window.require("platformClient");
+
+        var clientRegion = document.getElementById("clientRegionInput");
+        var clientId = document.getElementById("clientIdInput");
+        var authenticateButton = document.getElementById("authenticate-button");
+
+        authenticateButton.addEventListener("click", function () {
+          var client = platformClient.ApiClient.instance;
+          client.setEnvironment(clientRegion.value);
+          client.setPersistSettings(true, "wpt");
+
+          try {
+            client.loginImplicitGrant(
+              clientId.value,
+              "https://apmaries.github.io/wpt/wpt.html"
+            );
+            sessionStorage.setItem("wpt_client", client);
+          } catch (e) {
+            console.log(e);
+          }
+        });
       });
     </script>
   </body>

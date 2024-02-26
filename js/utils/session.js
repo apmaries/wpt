@@ -31,6 +31,9 @@ if (accessToken) {
   var client = platformClient.ApiClient.instance;
   client.setAccessToken(accessToken);
 
+  // Log the client object
+  console.debug("WPT: Client (session.js) = ", client);
+
   // TODO: Why does the client need to be set up again? Can't we use the one from index.html?
   client.setEnvironment(environment);
   client.setPersistSettings(true, "wpt");

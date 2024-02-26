@@ -14,6 +14,10 @@ var accessToken = urlParams.get("access_token");
 var expiresIn = urlParams.get("expires_in");
 var tokenType = urlParams.get("token_type");
 
+console.log("WPT: Access token: ", accessToken);
+console.log("WPT: Expires in: ", expiresIn);
+console.log("WPT: Token type: ", tokenType);
+
 // Store the parameters in sessionStorage
 sessionStorage.setItem("access_token", accessToken);
 sessionStorage.setItem("expires_in", expiresIn);

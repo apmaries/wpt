@@ -1,8 +1,28 @@
 async function disconnect() {
-  // Declare variables
-  const notificationsId = sessionStorage.getItem("notificationsId");
-  const indexPage = "https://apmaries.github.io/wpt/index.html";
+  // Retrieve the access token from sessionStorage
+  var accessToken = sessionStorage.getItem("access_token");
 
+  // Set up the client
+  var platformClient = window.require("platformClient");
+  var client = platformClient.ApiClient.instance;
+  client.setAccessToken(accessToken);
+
+  // Create an instance of TokensApi
+  var tokensApi = new platformClient.TokensApi();
+
+  // Delete the current token
+  tokensApi
+    .deleteTokensMe()
+    .then(function () {
+      console.log("Token deleted successfully");
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+
+  /*
+  // Declare variables
+  //const notificationsId = sessionStorage.getItem("notificationsId");
   console.log("WPT: User disconnecting");
 
   let x;
@@ -34,6 +54,6 @@ async function disconnect() {
 
     // Clear the session storage and redirect to the login page
     sessionStorage.clear;
-    window.location.replace(indexPage);
-  }
+    window.location.replace("https://apmaries.github.io/wpt/index.html");
+  }*/
 }

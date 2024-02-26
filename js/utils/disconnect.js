@@ -1,4 +1,4 @@
-// Description: This file contains the code to disconnect user
+// Description: This file handles disconnection of the user
 
 // Get access token
 var accessToken = sessionStorage.getItem("token");

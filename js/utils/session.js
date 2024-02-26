@@ -19,7 +19,7 @@ console.log("WPT: Expires in: ", expiresIn);
 console.log("WPT: Token type: ", tokenType);
 
 // Store the parameters in sessionStorage
-sessionStorage.setItem("access_token", accessToken);
+sessionStorage.setItem("token", accessToken);
 sessionStorage.setItem("token_expires_in", expiresIn);
 sessionStorage.setItem("token_type", tokenType);
 

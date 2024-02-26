@@ -88,6 +88,10 @@ if (accessToken) {
       // Store the client name and scope in sessionStorage
       sessionStorage.setItem("client_name", client.name);
       sessionStorage.setItem("client_scope", client.scope);
+
+      // Update the subheader
+      const authText = document.getElementById("authenticatedSubHeader");
+      authText.innerHTML = `Authenticated in: ${org.name}`;
     })
     .catch(function (error) {
       console.error("WPT: Error: ", error);

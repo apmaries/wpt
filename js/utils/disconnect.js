@@ -35,7 +35,7 @@ async function disconnect() {
   console.log("WPT: Disconnecting user");
 
   // temp logging
-  console.log("WPT: Client (disconnect.js) = ", client);
+  console.debug("WPT: Client (disconnect()) = ", client);
 
   // Delete the current token
   deleteToken();
@@ -45,6 +45,9 @@ async function disconnect() {
 function timeout() {
   // Log the timeout
   console.log("WPT: Timeout due to inactivity.");
+
+  // temp logging
+  console.debug("WPT: Client (timeout()) = ", client);
 
   // Disconnect the user
   disconnect();

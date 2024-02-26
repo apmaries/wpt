@@ -19,14 +19,12 @@ function deleteToken() {
     .deleteTokensMe()
     .then(function () {
       console.log("WPT: Token deleted successfully");
-      sessionStorage.clear();
-      window.location.replace("https://apmaries.github.io/wpt/index.html");
     })
     .catch(function (error) {
       console.error("WPT: Error deleting token", error);
-      sessionStorage.clear();
-      window.location.replace("https://apmaries.github.io/wpt/index.html");
     });
+  sessionStorage.clear();
+  window.location.replace("https://apmaries.github.io/wpt/index.html");
 }
 
 // TODO: Add remove subscriptions to notifications channel
@@ -63,27 +61,25 @@ function resetActivityTimer() {
 // Functions end here
 
 // main code starts here
+let activityTimeout;
 
 // check the token
 apiInstance
   .headTokensMe()
   .then(() => {
-    console.log("headTokensMe returned successfully.");
     // if response is not 200, then the token is invalid
     if (response.status !== 200) {
       console.error("WPT: Token is invalid");
       disconnect();
+    } else {
+      resetActivityTimer();
+
+      // Add event listeners to detect user activity
+      document.addEventListener("mousemove", resetActivityTimer);
+      document.addEventListener("keydown", resetActivityTimer);
     }
   })
   .catch((err) => {
     console.error("WPT: There was a failure calling headTokensMe", err);
     disconnect();
   });
-
-let activityTimeout;
-
-resetActivityTimer();
-
-// Add event listeners to detect user activity
-document.addEventListener("mousemove", resetActivityTimer);
-document.addEventListener("keydown", resetActivityTimer);

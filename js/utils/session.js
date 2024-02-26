@@ -30,9 +30,14 @@ window.dispatchEvent(tokenEvent);
 // Only make API calls if accessToken has a value
 if (accessToken) {
   // Set up the client
+  var environment = sessionStorage.getItem("wpt_client_env");
   var platformClient = window.require("platformClient");
   var client = platformClient.ApiClient.instance;
   client.setAccessToken(accessToken);
+
+  // TODO: Why does the client need to be set up again? Can't we use the one from index.html?
+  client.setEnvironment(environment);
+  client.setPersistSettings(true, "wpt");
 
   // temp logging
   console.log("WPT: Setting client access token to " + accessToken);

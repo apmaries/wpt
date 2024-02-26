@@ -1,3 +1,5 @@
+import { globalOpts, getAllPages } from "./apiHelper.js";
+
 // Extract the fragment identifier
 var hash = window.location.hash;
 
@@ -75,7 +77,7 @@ if (accessToken) {
       return Promise.all([
         organizationsApi.getOrganizationsMe(),
         oAuthApi.getOauthClient(clientId),
-        utilitiesApi.getTimezones(),
+        getAllPages(utilitiesApi.getTimezones, globalOpts),
       ]);
     })
     .then(function (results) {

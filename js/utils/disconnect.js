@@ -14,7 +14,9 @@ async function disconnect() {
   tokensApi
     .deleteTokensMe()
     .then(function () {
-      console.log("Token deleted successfully");
+      console.log("WPT: Token deleted successfully");
+      sessionStorage.clear();
+      window.location.replace("https://apmaries.github.io/wpt/index.html");
     })
     .catch(function (error) {
       console.error("WPT: Error deleting token", error);

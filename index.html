@@ -387,7 +387,7 @@
               <select
                 slot="input"
                 name="region"
-                id="clientRegionInput"
+                id="clientEnvironmentInput"
                 style="width: 180px"
                 required
               >
@@ -406,12 +406,12 @@
               </select>
               <label
                 slot="label"
-                id="clientRegionLabel"
+                id="clientEnvironmentLabel"
                 style="color: var(--gux-grey-100); font-size: larger"
                 >Region</label
               >
             </gux-form-field-select>
-            <gux-tooltip for="clientRegionLabel"
+            <gux-tooltip for="clientEnvironmentLabel"
               >Select customer region from list</gux-tooltip
             >
             <gux-button-slot-beta accent="primary">
@@ -435,13 +435,15 @@
       document.addEventListener("DOMContentLoaded", function () {
         var platformClient = window.require("platformClient");
 
-        var clientRegion = document.getElementById("clientRegionInput");
+        var clientEnvironment = document.getElementById(
+          "clientEnvironmentInput"
+        );
         var clientId = document.getElementById("clientIdInput");
         var authenticateButton = document.getElementById("authenticate-button");
 
         authenticateButton.addEventListener("click", function () {
           var client = platformClient.ApiClient.instance;
-          client.setEnvironment(clientRegion.value);
+          client.setEnvironment(clientEnvironment.value);
           client.setPersistSettings(true, "wpt");
 
           try {

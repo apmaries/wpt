@@ -42,6 +42,7 @@ if (accessToken) {
   var usersApi = new platformClient.UsersApi();
   var organizationsApi = new platformClient.OrganizationApi();
   var oAuthApi = new platformClient.OAuthApi();
+  var utilitiesApi = new platformClient.UtilitiesApi();
 
   // Function to check if internal user
   function internalUserCheck(emailAddress) {
@@ -74,12 +75,14 @@ if (accessToken) {
       return Promise.all([
         organizationsApi.getOrganizationsMe(),
         oAuthApi.getOauthClient(clientId),
+        utilitiesApi.getTimeZones(),
       ]);
     })
     .then(function (results) {
       // The results array contains the results of the two API calls
       var org = results[0];
       var client = results[1];
+      var timeZones = results[2];
 
       // Store the org name & id in sessionStorage
       sessionStorage.setItem("org_name", org.name);
@@ -92,6 +95,8 @@ if (accessToken) {
       // Update the subheader
       const authText = document.getElementById("authenticatedSubHeader");
       authText.innerHTML = `Authenticated in: ${org.name}`;
+
+      console.log(`WPT: ${timeZones.legnth} time zones: `, timeZones);
     })
     .catch(function (error) {
       console.error("WPT: Error: ", error);

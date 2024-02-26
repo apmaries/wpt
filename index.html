@@ -457,7 +457,7 @@
             sessionStorage.setItem("client_id", clientId.value);
             sessionStorage.setItem("client_env", clientEnvironment.value);
           } catch (e) {
-            console.log(e);
+            console.error("WPT: Error logging in", e);
           }
         });
       });

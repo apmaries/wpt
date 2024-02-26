@@ -1,5 +1,6 @@
-let client;
 import { ApiClient } from "platformClient";
+
+let client;
 
 function authenticate() {
   sessionStorage.clear();

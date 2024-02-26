@@ -32,9 +32,11 @@ if (accessToken) {
   // Set up the client
   var platformClient = window.require("platformClient");
   var client = platformClient.ApiClient.instance;
-  console.log("WPT: Client: ", client);
-  console.log("WPT: Setting client access token to " + accessToken);
   client.setAccessToken(accessToken);
+
+  // temp logging
+  console.log("WPT: Setting client access token to " + accessToken);
+  console.debug("WPT: Client (sesion): ", client);
 
   // Create API instances
   var usersApi = new platformClient.UsersApi();

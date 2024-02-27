@@ -19,11 +19,7 @@
     ></script>
 
     <!-- Project stuff -->
-    <link href="../css/style.css" type="text/css" rel="stylesheet" />
-    <script src="../js/utils/makeApiCall.js"></script>
-    <script src="../js/utils/session.js"></script>
-    <script src="../js/utils/disconnect.js"></script>
-    <script src="../js/components/subheader.js"></script>
+    <link href="./css/style.css" type="text/css" rel="stylesheet" />
 
     <!-- External stuff -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -66,19 +62,21 @@
             </svg>
           </h1>
           <li class="header-li">
-            <a href="./gf.html">Gamification</a>
+            <a href="../pages/gf.html">Gamification</a>
           </li>
           <li class="header-li">
-            <a class="headerLink" href="./pd.html">People & Directory</a>
+            <a class="headerLink" href="../pages/pd.html">People & Directory</a>
           </li>
           <li class="header-li">
-            <a class="headerLink" href="./qm.html">Quality Management</a>
+            <a class="headerLink" href="../pages/qm.html">Quality Management</a>
           </li>
           <li class="header-li">
-            <a class="headerLink" href="./st.html">Speech & Text Analytics</a>
+            <a class="headerLink" href="../pages/st.html"
+              >Speech & Text Analytics</a
+            >
           </li>
           <li class="header-li">
-            <a class="active" style="color: #ff4c1c" href="./wm.html"
+            <a class="active" style="color: #ff4c1c" href="../pages/wm.html"
               >Workforce Management</a
             >
           </li>
@@ -86,10 +84,10 @@
       </nav>
       <div id="breadcumbs-container" style="padding-left: 40px">
         <gux-breadcrumbs id="breadcrumbs" accent="primary">
-          <gux-breadcrumb-item href="./wpt.html"
+          <gux-breadcrumb-item href="../wpt.html"
             >WEM Power Tools</gux-breadcrumb-item
           >
-          <gux-breadcrumb-item href="../wm.html"
+          <gux-breadcrumb-item href="../pages/wm.html"
             >Workforce Management</gux-breadcrumb-item
           >
         </gux-breadcrumbs>
@@ -104,7 +102,6 @@
           id="disconnectButton"
           style="width: 100px; position: absolute; right: 5%"
           accent="primary"
-          onclick="disconnect()"
         >
           Disconnect
         </gux-button>
@@ -247,5 +244,10 @@
       </div>
     </main>
     <footer></footer>
+    <!-- Load the subheader.js module -->
+    <script src="../js/components/subheader.js" defer></script>
+
+    <!-- Load the disconnect.js module -->
+    <script type="module" src="./js/utils/disconnect.js" defer></script>
   </body>
 </html>

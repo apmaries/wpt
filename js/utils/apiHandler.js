@@ -11,6 +11,8 @@ client.config.logger.log_response_body = true;
 client.config.logger.log_to_console = true;
 client.config.logger.setLogger(); // To apply above changes
 
+client.setReturnExtendedResponses(true);
+
 // Get the environment & access token from session storage
 var accessToken = sessionStorage.getItem("token");
 var environment = sessionStorage.getItem("client_env");

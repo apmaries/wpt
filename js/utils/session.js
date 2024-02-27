@@ -35,7 +35,11 @@ if (!sessionStorage.getItem("sesion_active")) {
   const [org, client, timeZones] = await Promise.all([
     makeApiCall("OrganizationApi.getOrganizationsMe"),
     makeApiCall("OAuthApi.getOauthClient", sessionStorage.getItem("client_id")),
-    makeApiCall("UtilitiesApi.getTimezones", globalPageOpts),
+
+    // TODO: Possible enhancement for later if all timezones need to be read
+    //makeApiCall("UtilitiesApi.getTimezones", globalPageOpts),
+
+    // TODO: Create notifications channel
   ]);
 
   // Store the org name & id in sessionStorage
@@ -44,6 +48,7 @@ if (!sessionStorage.getItem("sesion_active")) {
 
   // Store the client name and scope in sessionStorage
   sessionStorage.setItem("client_name", client.name);
+  // TODO: Future enhancement to validate client scope against list of scopes needed for tools and only show tools that have been authorised
   sessionStorage.setItem("client_scope", client.scope);
 
   // Check makeApiCall function pagination by logging number of timezones

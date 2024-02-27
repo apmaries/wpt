@@ -32,10 +32,25 @@ export async function makeApiCall(
   // Split the apiFunctionStr string and get the API instance and function
   const [apiInstanceName, functionName] = apiFunctionStr.split(".");
 
+  // Log the apiInstanceName and the value of platformClient[apiInstanceName]
+  console.debug("WPT: apiInstanceName:", apiInstanceName);
+  console.debug(
+    "WPT: platformClient[apiInstanceName]:",
+    platformClient[apiInstanceName]
+  );
+
   const apiInstance =
     apiInstances[apiInstanceName] || new platformClient[apiInstanceName]();
   apiInstances[apiInstanceName] = apiInstance;
+
+  // Log the apiInstances object
+  console.debug(`WPT: apiInstances should now contain ${apiInstanceName}`);
+  console.debug("WPT: apiInstances = ", apiInstances);
+
   const apiFunction = apiInstance[functionName].bind(apiInstance);
+
+  // Log the apiFunction
+  console.debug("WPT: apiFunction = ", apiFunction);
 
   // Set retry count and max retries
   let retryCount = 0;

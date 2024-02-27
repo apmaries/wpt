@@ -1,32 +1,65 @@
-import { globalOpts, getAllPages } from "./apiHelper.js";
+import { globalPageOpts, makeApiCall } from "./apiHelper.js";
 
-console.log("WPT: Session.js loaded");
+// globalPageOpts is defined as {"pageSize": 100, "pageNumber": 1};
+// makeApiCall is an async function that takes two arguments: apiFunctionStr and requestData
+// apiFunctionStr is a string e.g. 'usersApi.getUsersMe'
+// requestData is an object and is not required e.g. { 'pageSize': 100, 'pageNumber': 1 }
 
-// Extract the fragment identifier
-var hash = window.location.hash;
+if (!sessionStorage.getItem("sesion_active")) {
+  console.debug("WPT: Session starting...");
+  // Function to check if internal user
+  function internalUserCheck(emailAddress) {
+    const domain = emailAddress.split("@")[1];
+    if (domain.toLowerCase() === "genesys.com") {
+      console.log("WPT: Authorised user");
+    } else {
+      console.log("WPT: Unauthorised user!");
+      alert("Sorry, you are not authorised to use this page :(");
+      sessionStorage.clear();
+      window.location.replace("https://apmaries.github.io/wpt/index.html");
+    }
+  }
 
-// Remove the '#' symbol
-var tokenString = hash.substring(1);
+  // Get the logged in user
+  const user = await makeApiCall("usersApi.getUsersMe");
+  // check if internal user
+  internalUserCheck(user.email);
 
-// Create a URLSearchParams object
-var urlParams = new URLSearchParams(tokenString);
+  // Set user details in session storage
+  sessionStorage.setItem("user_name", user.name);
+  sessionStorage.setItem("user_id", user.id);
 
-// Extract the access token
-var accessToken = urlParams.get("access_token");
+  // Synchronously return organization, client, and timezone data
+  const [org, client, timeZones] = await Promise.all([
+    makeApiCall("organizationsApi.getOrganizationsMe"),
+    makeApiCall("oAuthApi.getOauthClient", {
+      clientId: sessionStorage.getItem("client_id"),
+    }),
+    makeApiCall("utilitiesApi.getTimezones", globalPageOpts),
+  ]);
 
-// Extract other parameters
-var expiresIn = urlParams.get("expires_in");
-var tokenType = urlParams.get("token_type");
+  // Store the org name & id in sessionStorage
+  sessionStorage.setItem("org_name", org.name);
+  sessionStorage.setItem("org_id", org.id);
 
-// Store the parameters in sessionStorage
-sessionStorage.setItem("token", accessToken);
-sessionStorage.setItem("token_expires_in", expiresIn);
-sessionStorage.setItem("token_type", tokenType);
+  // Store the client name and scope in sessionStorage
+  sessionStorage.setItem("client_name", client.name);
+  sessionStorage.setItem("client_scope", client.scope);
 
-// Dispatch a custom event to signal that the token has been set
-var tokenEvent = new CustomEvent("tokenSet");
-window.dispatchEvent(tokenEvent);
+  // Check makeApiCall function pagination by logging number of timezones
+  console.log(`WPT: ${timeZones.length} time zones: `, timeZones);
 
+  // Update the subheader
+  const authText = document.getElementById("authenticatedSubHeader");
+  authText.innerHTML = `Authenticated in: ${org.name}`;
+
+  // Set the flag in sessionStorage indicating that session is active
+  sessionStorage.setItem("sesion_active", "true");
+} else {
+  console.debug("WPT: Session already active.");
+}
+
+/*
 // Only make API calls if accessToken has a value
 if (accessToken) {
   // Set up the client
@@ -105,4 +138,4 @@ if (accessToken) {
     .catch(function (error) {
       console.error("WPT: Error: ", error);
     });
-}
+}*/

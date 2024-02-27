@@ -8,5 +8,5 @@ window.onload = function () {
   const authText = document.getElementById("authenticatedSubHeader");
   const orgName = sessionStorage.getItem("org_name");
   const userName = sessionStorage.getItem("user_name");
-  authText.innerHTML = `Authenticated ${userName} in: ${orgName}`;
+  authText.innerHTML = `${userName} authenticated in: ${orgName}`;
 };

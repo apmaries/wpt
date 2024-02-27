@@ -51,7 +51,7 @@ if (!sessionStorage.getItem("sesion_active")) {
 
   // Update the subheader
   const authText = document.getElementById("authenticatedSubHeader");
-  authText.innerHTML = `Authenticated ${user.name} in: ${org.name}`;
+  authText.innerHTML = `${user.name} authenticated in: ${org.name}`;
 
   // Set the flag in sessionStorage indicating that session is active
   sessionStorage.setItem("sesion_active", "true");

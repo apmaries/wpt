@@ -10,7 +10,7 @@ import { globalPageOpts, makeApiCall } from "./apiHandler.js";
 // TODO: Add remove subscriptions to notifications channel
 
 // User disconnect
-async function disconnect() {
+export async function disconnect() {
   // Log the disconnection
   console.log("WPT: Disconnecting user");
 

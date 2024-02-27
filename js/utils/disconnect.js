@@ -50,3 +50,11 @@ resetActivityTimer();
 // Add event listeners to detect user activity
 document.addEventListener("mousemove", resetActivityTimer);
 document.addEventListener("keydown", resetActivityTimer);
+
+// Run disconnect() when id="disconnectButton" is clicked
+document
+  .getElementById("disconnectButton")
+  .addEventListener("click", disconnect);
+
+// Run disconnect() when user closes the window
+window.onbeforeunload = disconnect;

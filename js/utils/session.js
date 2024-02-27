@@ -25,11 +25,11 @@ if (!sessionStorage.getItem("sesion_active")) {
   // Get the logged in user
   const user = await makeApiCall("UsersApi.getUsersMe");
   // check if internal user
-  internalUserCheck(user.email);
+  internalUserCheck(user.body.email);
 
   // Set user details in session storage
-  sessionStorage.setItem("user_name", user.name);
-  sessionStorage.setItem("user_id", user.id);
+  sessionStorage.setItem("user_name", user.body.name);
+  sessionStorage.setItem("user_id", user.body.id);
 
   let org;
   let client;

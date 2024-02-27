@@ -6,6 +6,7 @@ window.onload = function () {
     window.location.href = "https://apmaries.github.io/wpt/index.html";
   }
   const authText = document.getElementById("authenticatedSubHeader");
-  const oName = sessionStorage.getItem("org_name");
-  authText.innerHTML = `Authenticated in: ${oName}`;
+  const orgName = sessionStorage.getItem("org_name");
+  const userName = sessionStorage.getItem("user_name");
+  authText.innerHTML = `Authenticated ${userName} in: ${orgName}`;
 };

@@ -71,6 +71,8 @@ export async function makeApiCall(
     console.debug(error);
 
     throw error; // re-throw the error so it can be handled by the caller
+  } finally {
+    console.debug(response);
   }
 
   // Handle error response status

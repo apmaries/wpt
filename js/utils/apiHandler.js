@@ -68,10 +68,9 @@ export async function makeApiCall(
     throw error; // re-throw the error so it can be handled by the caller
   }
 
-  console.debug(`WPT: Response status code = ${response.status}`);
-
   // Handle error response status
   let responseStatus = response.status;
+  console.debug(`WPT: Response status code = ${responseStatus}`);
   // If response status is not 2xx
   if (responseStatus < 200 || responseStatus >= 300) {
     // Handle 429 status

@@ -44,7 +44,10 @@ if (!sessionStorage.getItem("sesion_active")) {
         "OAuthApi.getOauthClient",
         sessionStorage.getItem("client_id")
       ),
-      makeApiCall("GamificationApi.postGamificationProfilesUsersMeQuery"),
+      makeApiCall(
+        "GamificationApi.postGamificationProfilesUsersMeQuery",
+        globalPageOpts
+      ),
 
       // TODO: Possible enhancement for later if all timezones need to be read
       //makeApiCall("UtilitiesApi.getTimezones", globalPageOpts),

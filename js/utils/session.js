@@ -72,7 +72,9 @@ if (!sessionStorage.getItem("sesion_active")) {
     // Set the flag in sessionStorage indicating that session is active
     sessionStorage.setItem("sesion_active", "true");
   } catch (error) {
-    console.error("WPT: Error occurred while fetching session data:", error);
+    console.error(
+      "WPT: Error occurred while fetching session data! Probably should log out the user and redirect to index.html"
+    );
 
     // Handle the error here
     //alert("An error occurred while fetching session data. Please try again.");

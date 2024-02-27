@@ -1,4 +1,4 @@
-import { globalPageOpts, makeApiCall } from "./apiHelper.js";
+import { globalPageOpts, makeApiCall } from "./apiHandler.js";
 
 // globalPageOpts is defined as {"pageSize": 100, "pageNumber": 1};
 // makeApiCall is an async function that takes two arguments: apiFunctionStr and requestData

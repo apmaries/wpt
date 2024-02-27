@@ -75,6 +75,7 @@ export async function makeApiCall(
     response = await apiFunction(requestData);
     console.debug(`WPT: ${apiFunctionStr} response = `, response);
   } catch (error) {
+    console.warn(`WPT: Error making API call to ${apiFunctionStr}:`, error);
     if (error instanceof platformClient.ApiException) {
       console.error(`WPT: Error making API call to ${apiFunctionStr}:`, error);
       throw error; // re-throw the error so it can be handled by the caller
@@ -189,7 +190,6 @@ export async function makeApiCall(
   }
   // Return the object
   else {
-    console.warn(`WPT: ${apiFunctionStr} response = `, response);
     return response;
   }
 }

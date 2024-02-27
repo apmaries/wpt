@@ -31,9 +31,13 @@ if (!sessionStorage.getItem("sesion_active")) {
   sessionStorage.setItem("user_name", user.name);
   sessionStorage.setItem("user_id", user.id);
 
+  let org;
+  let client;
+  let response;
+
   try {
     // Synchronously return session related data
-    const [org, client, response] = await Promise.all([
+    [org, client, response] = await Promise.all([
       makeApiCall("OrganizationApi.getOrganizationsMe"),
       makeApiCall(
         "OAuthApi.getOauthClient",

@@ -33,11 +33,12 @@ export async function makeApiCall(
   const [apiInstanceName, functionName] = apiFunctionStr.split(".");
 
   // Log the apiInstanceName and the value of platformClient[apiInstanceName]
-  console.debug("WPT: apiInstanceName:", apiInstanceName);
+  console.debug("WPT: apiInstanceName: ", apiInstanceName);
   console.debug(
-    "WPT: platformClient[apiInstanceName]:",
+    "WPT: platformClient[apiInstanceName]: ",
     platformClient[apiInstanceName]
   );
+  console.debug("WPT: functionName: ", functionName);
 
   const apiInstance =
     apiInstances[apiInstanceName] || new platformClient[apiInstanceName]();

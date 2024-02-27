@@ -65,6 +65,7 @@ export async function makeApiCall(
     response = await apiFunction(requestData);
   } catch (error) {
     console.error(`Error making API call to ${apiFunctionStr}:`, error);
+    console.error(`It's this!`);
     throw error; // re-throw the error so it can be handled by the caller
   }
 

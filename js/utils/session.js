@@ -31,17 +31,25 @@ if (!sessionStorage.getItem("sesion_active")) {
   sessionStorage.setItem("user_name", user.name);
   sessionStorage.setItem("user_id", user.id);
 
-  // Synchronously return organization, client, and timezone data
-  const [org, client, timeZones] = await Promise.all([
-    makeApiCall("OrganizationApi.getOrganizationsMe"),
-    makeApiCall("OAuthApi.getOauthClient", sessionStorage.getItem("client_id")),
-    makeApiCall("GamificationApi.postGamificationProfilesUsersMeQuery"),
+  try {
+    // Synchronously return session related data
+    const [org, client, response] = await Promise.all([
+      makeApiCall("OrganizationApi.getOrganizationsMe"),
+      makeApiCall(
+        "OAuthApi.getOauthClient",
+        sessionStorage.getItem("client_id")
+      ),
+      makeApiCall("GamificationApi.postGamificationProfilesUsersMeQuery"),
 
-    // TODO: Possible enhancement for later if all timezones need to be read
-    //makeApiCall("UtilitiesApi.getTimezones", globalPageOpts),
+      // TODO: Possible enhancement for later if all timezones need to be read
+      //makeApiCall("UtilitiesApi.getTimezones", globalPageOpts),
 
-    // TODO: Create notifications channel
-  ]);
+      // TODO: Create notifications channel
+    ]);
+  } catch (error) {
+    console.error("WPT: Error occurred while fetching session data:", error);
+    // Handle the error here
+  }
 
   // Update the subheader
   const authText = document.getElementById("authenticatedSubHeader");

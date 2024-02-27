@@ -34,7 +34,8 @@ export async function makeApiCall(
 
   // Debug log the API instance and function
   console.debug(
-    `WPT: API instance = ${apiInstanceName}, Function = ${functionName}`
+    `WPT: Making API call to ${apiInstanceName}.${functionName} with data: `,
+    requestData
   );
 
   // If platformClient[apiInstanceName] is not defined, throw an error

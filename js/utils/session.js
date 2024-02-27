@@ -35,6 +35,7 @@ if (!sessionStorage.getItem("sesion_active")) {
   const [org, client, timeZones] = await Promise.all([
     makeApiCall("OrganizationApi.getOrganizationsMe"),
     makeApiCall("OAuthApi.getOauthClient", sessionStorage.getItem("client_id")),
+    makeApiCall("GamificationApi.postGamificationProfilesUsersMeQuery"),
 
     // TODO: Possible enhancement for later if all timezones need to be read
     //makeApiCall("UtilitiesApi.getTimezones", globalPageOpts),

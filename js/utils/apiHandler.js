@@ -76,13 +76,12 @@ export async function makeApiCall(
     response = await apiFunction(requestData);
   } catch (error) {
     console.error(`Error making API call to ${apiFunctionStr}:`, error);
-    console.error(`It's this!`);
-
-    // Handle error response status
-    console.debug(error);
-    console.debug(JSON.stringify(error, null, 2));
-
     throw error; // re-throw the error so it can be handled by the caller
+  } finally {
+    console.debug(
+      `WPT: API call to ${apiFunctionStr} completed with response: `,
+      response
+    );
   }
 
   // Handle error response status

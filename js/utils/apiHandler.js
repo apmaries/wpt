@@ -69,19 +69,23 @@ export async function makeApiCall(
   let retryCount = 0;
   let maxRetries = 3;
 
-  // test the API call
-  let response = await apiFunction(requestData);
-  console.debug(`WPT: ${apiFunctionStr} response = `, response);
-
   // Make the API call
-  /*let response;
+  let response;
   try {
     response = await apiFunction(requestData);
     console.debug(`WPT: ${apiFunctionStr} response = `, response);
   } catch (error) {
-    console.error(`WPT: Error making API call to ${apiFunctionStr}:`, error);
-    throw error; // re-throw the error so it can be handled by the caller
-  }*/
+    if (error instanceof platformClient.ApiException) {
+      console.error(`WPT: Error making API call to ${apiFunctionStr}:`, error);
+      throw error; // re-throw the error so it can be handled by the caller
+    } else {
+      console.error(
+        `WPT: Unexpected error making API call to ${apiFunctionStr}:`,
+        error
+      );
+      throw new Error(`Unexpected error occurred`);
+    }
+  }
 
   /*
   // Handle error response status

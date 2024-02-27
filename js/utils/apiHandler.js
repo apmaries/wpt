@@ -70,7 +70,7 @@ export async function makeApiCall(
   let maxRetries = 3;
 
   // test the API call
-  response = await apiFunction(requestData);
+  let response = await apiFunction(requestData);
   console.debug(`WPT: ${apiFunctionStr} response = `, response);
 
   // Make the API call

@@ -57,7 +57,7 @@ if (!sessionStorage.getItem("sesion_active")) {
 
   // Update the subheader
   const authText = document.getElementById("authenticatedSubHeader");
-  authText.innerHTML = `${user.name} authenticated in: ${org.body.name}`;
+  authText.innerHTML = `${user.body.name} authenticated in: ${org.body.name}`;
 
   // Store the org name & id in sessionStorage
   sessionStorage.setItem("org_name", org.body.name);

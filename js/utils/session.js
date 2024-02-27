@@ -1,4 +1,5 @@
 import { globalPageOpts, makeApiCall } from "./apiHandler.js";
+import { disconnect } from "./disconnect.js";
 
 // globalPageOpts is defined as {"pageSize": 100, "pageNumber": 1};
 // makeApiCall is an async function that takes two arguments: apiFunctionStr and requestData
@@ -73,13 +74,12 @@ if (!sessionStorage.getItem("sesion_active")) {
     sessionStorage.setItem("sesion_active", "true");
   } catch (error) {
     console.error(
-      "WPT: Error occurred while fetching session data! Probably should log out the user and redirect to index.html"
+      "WPT: Error occurred while fetching session data! User will be disconnected."
     );
 
     // Handle the error here
     //alert("An error occurred while fetching session data. Please try again.");
-    //sessionStorage.clear();
-    //window.location.replace("https://apmaries.github.io/wpt/index.html");
+    //disconnect();
   }
 } else {
   console.debug("WPT: Session already active.");

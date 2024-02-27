@@ -23,7 +23,7 @@ if (!sessionStorage.getItem("sesion_active")) {
   }
 
   // Get the logged in user
-  const user = await makeApiCall("usersApi.getUsersMe");
+  const user = await makeApiCall("UsersApi.getUsersMe");
   // check if internal user
   internalUserCheck(user.email);
 
@@ -33,8 +33,8 @@ if (!sessionStorage.getItem("sesion_active")) {
 
   // Synchronously return organization, client, and timezone data
   const [org, client, timeZones] = await Promise.all([
-    makeApiCall("organizationsApi.getOrganizationsMe"),
-    makeApiCall("oAuthApi.getOauthClient", {
+    makeApiCall("OrganizationApi.getOrganizationsMe"),
+    makeApiCall("OAuthApi.getOauthClient", {
       clientId: sessionStorage.getItem("client_id"),
     }),
     makeApiCall("utilitiesApi.getTimezones", globalPageOpts),

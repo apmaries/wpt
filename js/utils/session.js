@@ -27,6 +27,10 @@ if (!sessionStorage.getItem("sesion_active")) {
   // check if internal user
   internalUserCheck(user.email);
 
+  // Update the subheader
+  const authText = document.getElementById("authenticatedSubHeader");
+  authText.innerHTML = `${user.name} authenticated in: ${org.name}`;
+
   // Set user details in session storage
   sessionStorage.setItem("user_name", user.name);
   sessionStorage.setItem("user_id", user.id);
@@ -54,10 +58,6 @@ if (!sessionStorage.getItem("sesion_active")) {
   // Check makeApiCall function pagination by logging number of timezones
   //console.log(`WPT: ${timeZones.length} time zones: `, timeZones);
   // Confirmation that paginate entities are working
-
-  // Update the subheader
-  const authText = document.getElementById("authenticatedSubHeader");
-  authText.innerHTML = `${user.name} authenticated in: ${org.name}`;
 
   // Set the flag in sessionStorage indicating that session is active
   sessionStorage.setItem("sesion_active", "true");

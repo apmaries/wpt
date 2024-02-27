@@ -77,6 +77,9 @@ export async function makeApiCall(
   );
   console.debug(`WPT: ${apiFunctionStr} response = `, response);
 
+  // TODO: Understand why status codes aren't included in response...
+  // Think when using SDK I need to parse the response object to get the status code
+
   // If response status is not 2xx
   if (responseStatus < 200 || responseStatus >= 300) {
     // Handle 429 status

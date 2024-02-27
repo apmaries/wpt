@@ -52,7 +52,8 @@ if (!sessionStorage.getItem("sesion_active")) {
   sessionStorage.setItem("client_scope", client.scope);
 
   // Check makeApiCall function pagination by logging number of timezones
-  console.log(`WPT: ${timeZones.length} time zones: `, timeZones);
+  //console.log(`WPT: ${timeZones.length} time zones: `, timeZones);
+  // Confirmation that paginate entities are working
 
   // Update the subheader
   const authText = document.getElementById("authenticatedSubHeader");

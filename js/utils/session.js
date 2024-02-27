@@ -34,9 +34,7 @@ if (!sessionStorage.getItem("sesion_active")) {
   // Synchronously return organization, client, and timezone data
   const [org, client, timeZones] = await Promise.all([
     makeApiCall("OrganizationApi.getOrganizationsMe"),
-    makeApiCall("OAuthApi.getOauthClient", {
-      clientId: sessionStorage.getItem("client_id"),
-    }),
+    makeApiCall("OAuthApi.getOauthClient", sessionStorage.getItem("client_id")),
     makeApiCall("UtilitiesApi.getTimezones", globalPageOpts),
   ]);
 

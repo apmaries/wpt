@@ -27,10 +27,6 @@ if (!sessionStorage.getItem("sesion_active")) {
   // check if internal user
   internalUserCheck(user.email);
 
-  // Update the subheader
-  const authText = document.getElementById("authenticatedSubHeader");
-  authText.innerHTML = `${user.name} authenticated in: ${org.name}`;
-
   // Set user details in session storage
   sessionStorage.setItem("user_name", user.name);
   sessionStorage.setItem("user_id", user.id);
@@ -45,6 +41,10 @@ if (!sessionStorage.getItem("sesion_active")) {
 
     // TODO: Create notifications channel
   ]);
+
+  // Update the subheader
+  const authText = document.getElementById("authenticatedSubHeader");
+  authText.innerHTML = `${user.name} authenticated in: ${org.name}`;
 
   // Store the org name & id in sessionStorage
   sessionStorage.setItem("org_name", org.name);

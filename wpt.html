@@ -529,5 +529,15 @@
 
     <!-- Load the disconnect.js module -->
     <script type="module" src="./js/utils/disconnect.js" defer></script>
+
+    <script>
+      // Run disconnect() from disconnect.js when id="disconnectButton" is clicked
+      document
+        .getElementById("disconnectButton")
+        .addEventListener("click", disconnect);
+
+      // Run disconnect() from disconnect.js when user closes the window
+      window.onbeforeunload = disconnect;
+    </script>
   </body>
 </html>

@@ -5,6 +5,8 @@ import { globalPageOpts, makeApiCall } from "./apiHandler.js";
 // apiFunctionStr is a string e.g. 'usersApi.getUsersMe'
 // requestData is an object and is not required e.g. { 'pageSize': 100, 'pageNumber': 1 }
 
+// Description: This file initiates the session and checks if the user is authorised
+
 if (!sessionStorage.getItem("sesion_active")) {
   console.debug("WPT: Session starting...");
   // Function to check if internal user

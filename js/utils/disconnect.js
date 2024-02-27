@@ -1,33 +1,11 @@
+import { globalPageOpts, makeApiCall } from "./apiHandler.js";
+
+// globalPageOpts is defined as {"pageSize": 100, "pageNumber": 1};
+// makeApiCall is an async function that takes two arguments: apiFunctionStr and requestData
+// apiFunctionStr is a string e.g. 'usersApi.getUsersMe'
+// requestData is an object and is not required e.g. { 'pageSize': 100, 'pageNumber': 1 }
+
 // Description: This file handles disconnection of the user
-
-// TODO: Why does the client need to be set up again? Can't we use the one from index.html?
-// Get access token
-var accessToken = sessionStorage.getItem("token");
-// Set up the client
-var platformClient = window.require("platformClient");
-var client = platformClient.ApiClient.instance;
-client.setAccessToken(accessToken);
-
-// Create an instance of TokensApi
-var tokensApi = new platformClient.TokensApi();
-
-// Functions start here
-// Function to delete token
-function deleteToken() {
-  // Delete the current token
-  tokensApi
-    .deleteTokensMe()
-    .then(function () {
-      console.log("WPT: Token deleted successfully");
-    })
-    .catch(function (error) {
-      console.error("WPT: Error deleting token", error);
-    });
-
-  // Clear the session storage & redirect to login page
-  sessionStorage.clear();
-  window.location.replace("https://apmaries.github.io/wpt/index.html");
-}
 
 // TODO: Add remove subscriptions to notifications channel
 
@@ -40,7 +18,7 @@ async function disconnect() {
   console.debug("WPT: Client (disconnect()) = ", client);
 
   // Disconnect the user
-  deleteToken();
+  makeApiCall("tokensApi.deleteTokensMe");
 }
 
 // Session timeout
@@ -52,7 +30,7 @@ function timeout() {
   console.debug("WPT: Client (timeout()) = ", client);
 
   // Disconnect the user
-  deleteToken();
+  makeApiCall("tokensApi.deleteTokensMe");
 }
 
 // Function to reset the activity timer

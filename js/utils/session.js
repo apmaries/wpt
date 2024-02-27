@@ -37,7 +37,7 @@ if (!sessionStorage.getItem("sesion_active")) {
     makeApiCall("OAuthApi.getOauthClient", {
       clientId: sessionStorage.getItem("client_id"),
     }),
-    makeApiCall("utilitiesApi.getTimezones", globalPageOpts),
+    makeApiCall("UtilitiesApi.getTimezones", globalPageOpts),
   ]);
 
   // Store the org name & id in sessionStorage

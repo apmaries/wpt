@@ -489,6 +489,39 @@
     </main>
 
     <footer></footer>
+
+    <script>
+      // Get access token from url hash and store it in session storage if hash is present
+      const hash = window.location.hash;
+      if (hash) {
+        // Remove the '#' symbol
+        var tokenString = hash.substring(1);
+
+        // Create a URLSearchParams object
+        var urlParams = new URLSearchParams(tokenString);
+
+        // Extract the access token
+        var accessToken = urlParams.get("access_token");
+
+        // Extract other parameters
+        var expiresIn = urlParams.get("expires_in");
+        var tokenType = urlParams.get("token_type");
+
+        // Check if any of the values are falsy
+        if (!accessToken || !expiresIn || !tokenType) {
+          console.error("WPT: Invalid token parameters");
+          alert("Invalid token parameters. Redirecting to login page.");
+          sessionStorage.clear();
+          window.location.href = "https://apmaries.github.io/wpt/index.html";
+        } else {
+          // Store the parameters in sessionStorage
+          sessionStorage.setItem("token", accessToken);
+          sessionStorage.setItem("token_expires_in", expiresIn);
+          sessionStorage.setItem("token_type", tokenType);
+        }
+      }
+    </script>
+
     <script src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>
 
     <!-- Load the session.js module with the defer attribute -->
@@ -501,15 +534,5 @@
 
     <!-- Load the disconnect.js module with the defer attribute  -->
     <script src="./js/utils/disconnect.js" defer></script>
-    <script>
-      window.addEventListener("tokenSet", function () {
-        const token = sessionStorage.getItem("token");
-        if (!token) {
-          alert(`No token found! Redirecting to login page.`);
-          sessionStorage.clear();
-          window.location.href = "https://apmaries.github.io/wpt/index.html";
-        }
-      });
-    </script>
   </body>
 </html>

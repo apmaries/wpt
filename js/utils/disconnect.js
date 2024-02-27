@@ -22,6 +22,13 @@ export async function disconnect() {
   window.location.replace("https://apmaries.github.io/wpt/index.html");
 }
 
+export async function disconnectWithConfirmation() {
+  const confirmed = confirm("Are you sure you want to disconnect?");
+  if (confirmed) {
+    disconnect();
+  }
+}
+
 // Session timeout
 function timeout() {
   // Log the timeout

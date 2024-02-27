@@ -32,26 +32,27 @@ export async function makeApiCall(
   // Split the apiFunctionStr string and get the API instance and function
   const [apiInstanceName, functionName] = apiFunctionStr.split(".");
 
-  // Log the apiInstanceName and the value of platformClient[apiInstanceName]
-  console.debug("WPT: apiInstanceName: ", apiInstanceName);
+  // Debug log the API instance and function
   console.debug(
-    "WPT: platformClient[apiInstanceName]: ",
-    platformClient[apiInstanceName]
+    `WPT: API instance = ${apiInstanceName}, Function = ${functionName}`
   );
-  console.debug("WPT: functionName: ", functionName);
+
+  // If platformClient[apiInstanceName] is not defined, throw an error
+  if (!platformClient[apiInstanceName]) {
+    // Check if the apiInstanceName is in PascalCase
+    if (apiInstanceName[0] !== apiInstanceName[0].toUpperCase()) {
+      throw new Error(
+        `API instance ${apiInstanceName} not found. API instance name should be in PascalCase`
+      );
+    }
+    throw new Error(`API instance ${apiInstanceName} not found`);
+  }
 
   const apiInstance =
     apiInstances[apiInstanceName] || new platformClient[apiInstanceName]();
   apiInstances[apiInstanceName] = apiInstance;
 
-  // Log the apiInstances object
-  console.debug(`WPT: apiInstances should now contain ${apiInstanceName}`);
-  console.debug("WPT: apiInstances = ", apiInstances);
-
   const apiFunction = apiInstance[functionName].bind(apiInstance);
-
-  // Log the apiFunction
-  console.debug("WPT: apiFunction = ", apiFunction);
 
   // Set retry count and max retries
   let retryCount = 0;

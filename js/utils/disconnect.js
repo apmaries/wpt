@@ -14,11 +14,12 @@ export async function disconnect() {
   // Log the disconnection
   console.log("WPT: Disconnecting user");
 
-  // temp logging
-  console.debug("WPT: Client (disconnect()) = ", client);
-
   // Disconnect the user
   makeApiCall("tokensApi.deleteTokensMe");
+
+  // Clear the session storage & redirect to index.html
+  sessionStorage.clear();
+  window.location.replace("https://apmaries.github.io/wpt/index.html");
 }
 
 // Session timeout
@@ -26,11 +27,12 @@ function timeout() {
   // Log the timeout
   console.log("WPT: Timeout due to inactivity.");
 
-  // temp logging
-  console.debug("WPT: Client (timeout()) = ", client);
-
   // Disconnect the user
   makeApiCall("tokensApi.deleteTokensMe");
+
+  // Clear the session storage & redirect to index.html
+  sessionStorage.clear();
+  window.location.replace("https://apmaries.github.io/wpt/index.html");
 }
 
 // Function to reset the activity timer

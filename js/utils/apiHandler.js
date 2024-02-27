@@ -68,20 +68,13 @@ export async function makeApiCall(
     console.error(`It's this!`);
 
     // Handle error response status
-    let responseStatus = response.status;
-    console.debug("WPT: Response = ", response);
+    console.debug(error);
 
     throw error; // re-throw the error so it can be handled by the caller
   }
 
   // Handle error response status
   let responseStatus = response.status;
-
-  // temp logging
-  console.debug(
-    `WPT: ${apiFunctionStr} response status code = ${responseStatus}`
-  );
-  console.debug(`WPT: ${apiFunctionStr} response = `, response);
 
   // TODO: Understand why status codes aren't included in response...
   // Think when using SDK I need to parse the response object to get the status code

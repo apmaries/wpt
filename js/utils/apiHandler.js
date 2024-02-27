@@ -1,6 +1,9 @@
+import { response } from "express";
+
 // Set up the client
 var platformClient = window.require("platformClient");
 var client = platformClient.ApiClient.instance;
+client.setReturnExtendedResponses(true);
 
 // Set client logging
 client.config.logger.log_level = client.config.logger.logLevelEnum.level.LError;
@@ -10,8 +13,6 @@ client.config.logger.log_request_body = true;
 client.config.logger.log_response_body = true;
 client.config.logger.log_to_console = true;
 client.config.logger.setLogger(); // To apply above changes
-
-client.setReturnExtendedResponses(true);
 
 // Get the environment & access token from session storage
 var accessToken = sessionStorage.getItem("token");
@@ -70,21 +71,21 @@ export async function makeApiCall(
   let retryCount = 0;
   let maxRetries = 3;
 
+  // test the API call
+  response = await apiFunction(requestData);
+  console.debug(`WPT: ${apiFunctionStr} response = `, response);
+
   // Make the API call
-  let response;
+  /*let response;
   try {
     response = await apiFunction(requestData);
     console.debug(`WPT: ${apiFunctionStr} response = `, response);
   } catch (error) {
     console.error(`WPT: Error making API call to ${apiFunctionStr}:`, error);
     throw error; // re-throw the error so it can be handled by the caller
-  } finally {
-    console.debug(
-      `WPT: API call to ${apiFunctionStr} completed with response: `,
-      response
-    );
-  }
+  }*/
 
+  /*
   // Handle error response status
   let responseStatus = response.status;
 
@@ -154,7 +155,7 @@ export async function makeApiCall(
       );
       throw new Error(`Error making API call to ${apiFunctionStr}`);
     }
-  }
+  }*/
 
   // Handle pagination for entities and results
   if (response.entities || response.results) {
@@ -186,6 +187,7 @@ export async function makeApiCall(
   }
   // Return the object
   else {
+    console.warn(`WPT: ${apiFunctionStr} response = `, response);
     return response;
   }
 }

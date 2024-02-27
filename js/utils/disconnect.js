@@ -56,5 +56,6 @@ document
   .getElementById("disconnectButton")
   .addEventListener("click", disconnect);
 
+// TODO: Fix this so that navigation doesn't disconnect the user
 // Run disconnect() when user closes the window
-window.onbeforeunload = disconnect;
+// window.onbeforeunload = disconnect;

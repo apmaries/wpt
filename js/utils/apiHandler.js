@@ -4,7 +4,7 @@ var client = platformClient.ApiClient.instance;
 client.setReturnExtendedResponses(true);
 
 // Set client logging
-client.config.logger.log_level = client.config.logger.logLevelEnum.level.LError;
+client.config.logger.log_level = client.config.logger.logLevelEnum.level.LDebug;
 client.config.logger.log_format =
   client.config.logger.logFormatEnum.formats.JSON;
 client.config.logger.log_request_body = true;

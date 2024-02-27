@@ -50,30 +50,35 @@ if (!sessionStorage.getItem("sesion_active")) {
 
       // TODO: Create notifications channel
     ]);
+
+    // Continue executing dependent code
+    // Update the subheader
+    const authText = document.getElementById("authenticatedSubHeader");
+    authText.innerHTML = `${user.body.name} authenticated in: ${org.body.name}`;
+
+    // Store the org name & id in sessionStorage
+    sessionStorage.setItem("org_name", org.body.name);
+    sessionStorage.setItem("org_id", org.body.id);
+
+    // Store the client name and scope in sessionStorage
+    sessionStorage.setItem("client_name", client.body.name);
+    // TODO: Future enhancement to validate client scope against list of scopes needed for tools and only show tools that have been authorised
+    sessionStorage.setItem("client_scope", client.body.scope);
+
+    // Check makeApiCall function pagination by logging number of timezones
+    //console.log(`WPT: ${timeZones.length} time zones: `, timeZones);
+    // Confirmation that paginate entities are working
+
+    // Set the flag in sessionStorage indicating that session is active
+    sessionStorage.setItem("sesion_active", "true");
   } catch (error) {
     console.error("WPT: Error occurred while fetching session data:", error);
+
     // Handle the error here
+    //alert("An error occurred while fetching session data. Please try again.");
+    //sessionStorage.clear();
+    //window.location.replace("https://apmaries.github.io/wpt/index.html");
   }
-
-  // Update the subheader
-  const authText = document.getElementById("authenticatedSubHeader");
-  authText.innerHTML = `${user.body.name} authenticated in: ${org.body.name}`;
-
-  // Store the org name & id in sessionStorage
-  sessionStorage.setItem("org_name", org.body.name);
-  sessionStorage.setItem("org_id", org.body.id);
-
-  // Store the client name and scope in sessionStorage
-  sessionStorage.setItem("client_name", client.body.name);
-  // TODO: Future enhancement to validate client scope against list of scopes needed for tools and only show tools that have been authorised
-  sessionStorage.setItem("client_scope", client.body.scope);
-
-  // Check makeApiCall function pagination by logging number of timezones
-  //console.log(`WPT: ${timeZones.length} time zones: `, timeZones);
-  // Confirmation that paginate entities are working
-
-  // Set the flag in sessionStorage indicating that session is active
-  sessionStorage.setItem("sesion_active", "true");
 } else {
   console.debug("WPT: Session already active.");
 }

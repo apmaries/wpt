@@ -13,9 +13,9 @@ if (!sessionStorage.getItem("sesion_active")) {
   function internalUserCheck(emailAddress) {
     const domain = emailAddress.split("@")[1];
     if (domain.toLowerCase() === "genesys.com") {
-      console.log("WPT: Authorised user");
+      console.log(`WPT: User ${emailAddress} is authorised for use`);
     } else {
-      console.log("WPT: Unauthorised user!");
+      console.error(`WPT: User ${emailAddress} is not authorised for use!`);
       alert("Sorry, you are not authorised to use this page :(");
       sessionStorage.clear();
       window.location.replace("https://apmaries.github.io/wpt/index.html");

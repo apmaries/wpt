@@ -1,5 +1,3 @@
-import e from "express";
-
 // Set up the client
 var platformClient = window.require("platformClient");
 var client = platformClient.ApiClient.instance;

@@ -9,7 +9,7 @@ import { disconnect } from "./disconnect.js";
 // Description: This file initiates the session and checks if the user is authorised
 
 if (!sessionStorage.getItem("sesion_active")) {
-  console.debug("WPT: Session starting...");
+  console.log("WPT: Session starting...");
   // Function to check if internal user
   function internalUserCheck(emailAddress) {
     const domain = emailAddress.split("@")[1];

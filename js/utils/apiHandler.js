@@ -41,7 +41,7 @@ async function handleApiErrors(error, apiFunctionStr) {
   // Handle error response status
   let errorStatus = error.body.status;
   let errorMessage = error.body.message;
-  let errorCode = error.body.errorCode;
+  let errorCode = error.body.code;
   let errorHeaders = error.headers;
   let errorBody = {
     status: errorStatus,

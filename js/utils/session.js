@@ -1,8 +1,8 @@
-import { globalPageOpts, makeApiCall } from "./apiHandler.js";
+import { globalPageOpts, handleApiCalls } from "./apiHandler.js";
 import { disconnect } from "./disconnect.js";
 
 // globalPageOpts is defined as {"pageSize": 100, "pageNumber": 1};
-// makeApiCall is an async function that takes two arguments: apiFunctionStr and requestData
+// handleApiCalls is an async function that takes two arguments: apiFunctionStr and requestData
 // apiFunctionStr is a string e.g. 'usersApi.getUsersMe'
 // requestData is an object and is not required e.g. { 'pageSize': 100, 'pageNumber': 1 }
 
@@ -24,7 +24,7 @@ if (!sessionStorage.getItem("sesion_active")) {
   }
 
   // Get the logged in user
-  const user = await makeApiCall("UsersApi.getUsersMe");
+  const user = await handleApiCalls("UsersApi.getUsersMe");
   // check if internal user
   internalUserCheck(user.email);
 
@@ -35,22 +35,23 @@ if (!sessionStorage.getItem("sesion_active")) {
   let org;
   let client;
   let response;
+  let timeZones;
 
   try {
     // Synchronously return session related data
-    [org, client, response] = await Promise.all([
-      makeApiCall("OrganizationApi.getOrganizationsMe"),
-      makeApiCall(
+    [org, client, response, timeZones] = await Promise.all([
+      handleApiCalls("OrganizationApi.getOrganizationsMe"),
+      handleApiCalls(
         "OAuthApi.getOauthClient",
         sessionStorage.getItem("client_id")
       ),
-      makeApiCall(
+      handleApiCalls(
         "GamificationApi.postGamificationProfilesUsersMeQuery",
         globalPageOpts
       ),
 
       // TODO: Possible enhancement for later if all timezones need to be read
-      //makeApiCall("UtilitiesApi.getTimezones", globalPageOpts),
+      handleApiCalls("UtilitiesApi.getTimezones", globalPageOpts),
 
       // TODO: Create notifications channel
     ]);
@@ -69,8 +70,8 @@ if (!sessionStorage.getItem("sesion_active")) {
     // TODO: Future enhancement to validate client scope against list of scopes needed for tools and only show tools that have been authorised
     sessionStorage.setItem("client_scope", client.scope);
 
-    // Check makeApiCall function pagination by logging number of timezones
-    //console.log(`WPT: ${timeZones.length} time zones: `, timeZones);
+    // Check handleApiCalls function pagination by logging number of timezones
+    console.log(`WPT: ${timeZones.length} time zones: `, timeZones);
     // Confirmation that paginate entities are working
 
     // Set the flag in sessionStorage indicating that session is active

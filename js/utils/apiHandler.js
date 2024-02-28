@@ -137,7 +137,7 @@ export async function makeApiCall(
       // Handle any other errors
       else {
         console.error(
-          `WPT: Error making API call to ${apiFunctionStr}. Status = ${responseStatus}`,
+          `WPT: Error making API call to ${apiFunctionStr}. Status = ${errorStatus}`,
           errorBody
         );
         throw new Error(`Error making API call to ${apiFunctionStr}`);

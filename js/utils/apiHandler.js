@@ -187,6 +187,7 @@ export async function handleApiCalls(
       }
     } catch (error) {
       console.error(`WPT: Error making API call to ${apiFunctionStr}!`);
+      console.warn(error);
       const { isRetryable, retryAfter } = handleApiErrors(
         error,
         apiFunctionStr

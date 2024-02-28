@@ -1,7 +1,12 @@
 // Debug promise rejections
-process.on("unhandledRejection", (reason, promise) => {
-  console.log("Unhandled Rejection at:", promise, "reason:", reason);
-});
+window.onunhandledrejection = function (event) {
+  console.log(
+    "Unhandled Rejection at:",
+    event.promise,
+    "reason:",
+    event.reason
+  );
+};
 
 // Set up the client
 var platformClient = window.require("platformClient");

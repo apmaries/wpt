@@ -116,6 +116,10 @@ export async function makeApiCall(
         console.debug(
           `WPT: Retryable error occurred. Retrying request to ${apiFunctionStr}.`
         );
+        // Exponential backoff at 3, 9 and 27 seconds
+        await new Promise((resolve) =>
+          setTimeout(resolve, 3 * 1000 * 3 ** retryCount)
+        );
         retryCount++;
       }
       // Handle any other errors

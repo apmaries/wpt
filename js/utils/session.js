@@ -110,5 +110,5 @@ if (!sessionStorage.getItem("sesion_active")) {
     //disconnect();
   }
 } else {
-  console.debug("WPT: Hope page loaded with active session");
+  console.debug("WPT: Home page loaded with active session");
 }

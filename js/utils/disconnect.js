@@ -1,7 +1,7 @@
-import { globalPageOpts, makeApiCall } from "./apiHandler.js";
+import { globalPageOpts, handleApiCalls } from "./apiHandler.js";
 
 // globalPageOpts is defined as {"pageSize": 100, "pageNumber": 1};
-// makeApiCall is an async function that takes two arguments: apiFunctionStr and requestData
+// handleApiCalls is an async function that takes two arguments: apiFunctionStr and requestData
 // apiFunctionStr is a string e.g. 'usersApi.getUsersMe'
 // requestData is an object and is not required e.g. { 'pageSize': 100, 'pageNumber': 1 }
 
@@ -15,7 +15,7 @@ export async function disconnect() {
   console.log("WPT: Disconnecting user");
 
   // Disconnect the user
-  makeApiCall("TokensApi.deleteTokensMe");
+  handleApiCalls("TokensApi.deleteTokensMe");
 
   // Clear the session storage & redirect to index.html
   sessionStorage.clear();
@@ -35,7 +35,7 @@ function timeout() {
   console.log("WPT: Timeout due to inactivity.");
 
   // Disconnect the user
-  makeApiCall("TokensApi.deleteTokensMe");
+  handleApiCalls("TokensApi.deleteTokensMe");
 
   // Clear the session storage & redirect to index.html
   sessionStorage.clear();

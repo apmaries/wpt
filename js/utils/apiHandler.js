@@ -1,7 +1,7 @@
 // Set up the client
 var platformClient = window.require("platformClient");
 var client = platformClient.ApiClient.instance;
-client.setReturnExtendedResponses(true);
+//client.setReturnExtendedResponses(true);
 
 // Set client logging
 client.config.logger.log_level = client.config.logger.logLevelEnum.level.LDebug;

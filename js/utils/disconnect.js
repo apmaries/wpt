@@ -15,7 +15,7 @@ export async function disconnect() {
   console.log("WPT: Disconnecting user");
 
   // Disconnect the user
-  handleApiCalls("TokensApi.deleteTokensMe");
+  await handleApiCalls("TokensApi.deleteTokensMe");
 
   // Clear the session storage & redirect to index.html
   sessionStorage.clear();
@@ -30,12 +30,12 @@ export async function disconnectWithConfirmation() {
 }
 
 // Session timeout
-function timeout() {
+async function timeout() {
   // Log the timeout
   console.log("WPT: Timeout due to inactivity.");
 
   // Disconnect the user
-  handleApiCalls("TokensApi.deleteTokensMe");
+  await handleApiCalls("TokensApi.deleteTokensMe");
 
   // Clear the session storage & redirect to index.html
   sessionStorage.clear();

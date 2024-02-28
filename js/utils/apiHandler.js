@@ -149,51 +149,40 @@ export async function handleApiCalls(
 
   while (retryCount < maxRetries) {
     try {
-      // If requestData is undefined, set it to an empty object
       requestData = requestData || {};
-
       let currentPage = requestData.pageNumber;
 
       while (true) {
-        try {
-          const response = await apiFunction(requestData);
-          const responseBody = response.body;
+        const response = await apiFunction(requestData);
+        const responseBody = response.body;
 
-          if (responseBody) {
-            if (
-              responseBody.pageNumber !== undefined &&
-              responseBody.pageCount !== undefined
-            ) {
-              currentPage = responseBody.pageNumber;
-              const pageCount = responseBody.pageCount;
+        if (responseBody) {
+          if (
+            responseBody.pageNumber !== undefined &&
+            responseBody.pageCount !== undefined
+          ) {
+            currentPage = responseBody.pageNumber;
+            const pageCount = responseBody.pageCount;
 
-              // Concatenate the entities or results
-              if (responseBody.entities) {
-                allEntities = allEntities.concat(responseBody.entities);
-              } else if (responseBody.results) {
-                allResults = allResults.concat(responseBody.results);
-              }
-
-              if (currentPage >= pageCount) {
-                break;
-              }
-
-              // Prepare for the next page
-              requestData.pageNumber = currentPage + 1;
-            } else {
-              // If there are no pages, return the single object
-              return responseBody;
+            if (responseBody.entities) {
+              allEntities = allEntities.concat(responseBody.entities);
+            } else if (responseBody.results) {
+              allResults = allResults.concat(responseBody.results);
             }
+
+            if (currentPage >= pageCount) {
+              break;
+            }
+
+            requestData.pageNumber = currentPage + 1;
           } else {
-            // If there is no response body, return an empty object
-            return {};
+            return responseBody;
           }
-        } catch (error) {
-          console.error(`WPT: Promise rejected in ${apiFunctionStr}!`);
+        } else {
+          return {};
         }
       }
 
-      // Return the combined results
       if (allEntities.length > 0) {
         return allEntities;
       } else if (allResults.length > 0) {
@@ -207,14 +196,11 @@ export async function handleApiCalls(
         apiFunctionStr
       );
       if (isRetryable) {
-        // update delay if non-429 type error
         if (error.status !== 429) {
-          // exponential backoff at 3, 9 and 27 seconds for retries (delay being returned is already 3)
           let backoffRetry = retryAfter * 1000 * 3 ** retryCount;
           console.warn(`WPT: Retrying after ${backoffRetry} seconds`);
           await new Promise((resolve) => setTimeout(resolve, backoffRetry));
         } else {
-          // if 429 error, use the retryAfter header value
           console.warn(`WPT: Retrying after ${retryAfter} seconds`);
           await new Promise((resolve) =>
             setTimeout(resolve, retryAfter * 1000)

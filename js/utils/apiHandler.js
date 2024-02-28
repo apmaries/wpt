@@ -191,31 +191,32 @@ export async function handleApiCalls(
     } catch (error) {
       console.error(`WPT: Error making API call to ${apiFunctionStr}!`);
       console.warn(error);
-      handleApiErrors(error, apiFunctionStr)
-        .then(({ isRetryable, retryAfter }) => {
-          if (isRetryable) {
-            if (error.status !== 429) {
-              let backoffRetry = retryAfter * 1000 * 3 ** retryCount;
-              console.warn(`WPT: Retrying after ${backoffRetry} seconds`);
-              setTimeout(
-                () => handleApiCalls(apiFunctionStr, requestData),
-                backoffRetry
-              );
-            } else {
-              console.warn(`WPT: Retrying after ${retryAfter} seconds`);
-              setTimeout(
-                () => handleApiCalls(apiFunctionStr, requestData),
-                retryAfter * 1000
-              );
-            }
-            retryCount++;
-          } else {
-            throw error;
-          }
-        })
-        .catch((error) => {
-          console.error(`WPT: Error in handleApiErrors: ${error}`);
-        });
+      const { isRetryable, retryAfter } = await handleApiErrors(
+        error,
+        apiFunctionStr
+      );
+      if (isRetryable) {
+        if (error.status !== 429) {
+          let backoffRetry = retryAfter * 1000 * 3 ** retryCount;
+          console.warn(`WPT: Retrying after ${backoffRetry} seconds`);
+          setTimeout(
+            () => handleApiCalls(apiFunctionStr, requestData),
+            backoffRetry
+          );
+        } else {
+          console.warn(`WPT: Retrying after ${retryAfter} seconds`);
+          setTimeout(
+            () => handleApiCalls(apiFunctionStr, requestData),
+            retryAfter * 1000
+          );
+        }
+        retryCount++;
+      } else {
+        console.error(
+          `WPT: Error in handleApiErrors: ${JSON.stringify(error)}`
+        );
+        break; // Break out of the loop if the error is not retryable
+      }
     }
   }
 }

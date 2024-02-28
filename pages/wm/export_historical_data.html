@@ -354,35 +354,6 @@
       </section>
     </main>
 
-    <!--Date picker options-->
-    <script></script>
-
-    <script>
-      // export all logs
-      /*const exportLogs = function () {
-        terminal(`Export logs`, "INFO");
-        logs = document.getElementsByClassName("log-entry");
-        logEntries = [];
-        for (let l = 0; l < logs.length; l++) {
-          logEntry = logs[l].innerHTML;
-          logEntries.push(logEntry);
-        }
-        const logData = logMaker(logEntries);
-        download(logData, "exportHistData.log", "text/plain");
-      };*/
-
-      // export ignored data
-      /*function exportIgnoredRecords() {
-        terminal(`Exporting ignored records`, "INFO");
-        let exportData = sessionStorage.getItem("wmImpTorIgnored");
-        if (exportData) {
-          const csvdata = csvMaker(JSON.parse(exportData));
-          download(csvdata, "importTimeOff_ignored.csv", "text/csv");
-        } else {
-          terminal(`No ignored records to export`, "WARNING");
-        }
-      }*/
-    </script>
     <footer></footer>
     <!-- Load the subheader.js module -->
     <script src="../js/components/subheader.js" defer></script>
@@ -416,6 +387,36 @@
           .getElementById("export-data-button")
           .removeAttribute("disabled");
       }
+    </script>
+
+    <!--Date picker options-->
+    <script></script>
+
+    <script>
+      // export all logs
+      /*const exportLogs = function () {
+            terminal(`Export logs`, "INFO");
+            logs = document.getElementsByClassName("log-entry");
+            logEntries = [];
+            for (let l = 0; l < logs.length; l++) {
+              logEntry = logs[l].innerHTML;
+              logEntries.push(logEntry);
+            }
+            const logData = logMaker(logEntries);
+            download(logData, "exportHistData.log", "text/plain");
+          };*/
+
+      // export ignored data
+      /*function exportIgnoredRecords() {
+            terminal(`Exporting ignored records`, "INFO");
+            let exportData = sessionStorage.getItem("wmImpTorIgnored");
+            if (exportData) {
+              const csvdata = csvMaker(JSON.parse(exportData));
+              download(csvdata, "importTimeOff_ignored.csv", "text/csv");
+            } else {
+              terminal(`No ignored records to export`, "WARNING");
+            }
+          }*/
     </script>
   </body>
 </html>

@@ -148,12 +148,14 @@ export async function handleApiCalls(
   let allEntities = [];
   let allResults = [];
 
+  // Start the retry loop
   while (retryCount < maxRetries) {
     try {
       requestData = requestData || {};
       let currentPage = requestData.pageNumber;
 
       while (true) {
+        // Make the API call
         const response = await apiFunction(requestData);
 
         // If the response is blank and the API function is 'deleteTokensMe', return a success message
@@ -183,13 +185,17 @@ export async function handleApiCalls(
 
             requestData.pageNumber = currentPage + 1;
           } else {
+            // Return the response body if it is not paginated
             return responseBody;
           }
         } else {
+          // Return an empty object if the response body is blank
+          console.warn(`WPT: Response body is blank for ${apiFunctionStr}!`);
           return {};
         }
       }
 
+      // Return the entities or results
       if (allEntities.length > 0) {
         return allEntities;
       } else if (allResults.length > 0) {
@@ -197,10 +203,14 @@ export async function handleApiCalls(
       }
     } catch (error) {
       console.error(`WPT: Error making API call to ${apiFunctionStr}!`);
+
+      // Check error using handleApiErrors function
       const { isRetryable, retryAfter } = await handleApiErrors(
         error,
         apiFunctionStr
       );
+
+      // Set the retry delay for retryable errors
       if (isRetryable) {
         if (error.status !== 429) {
           let backoffRetry = retryAfter * 1000 * 3 ** retryCount;
@@ -216,12 +226,12 @@ export async function handleApiCalls(
             retryAfter * 1000
           );
         }
+
+        // Increment the retry count
         retryCount++;
       } else {
-        console.error(
-          `WPT: Error in handleApiErrors: ${JSON.stringify(error)}`
-        );
-        break; // Break out of the loop if the error is not retryable
+        // Break out of the loop if the error is not retryable
+        break;
       }
     }
   }

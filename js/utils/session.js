@@ -66,6 +66,7 @@ if (!sessionStorage.getItem("sesion_active")) {
 
     // Set the flag in sessionStorage indicating that session is active
     sessionStorage.setItem("sesion_active", "true");
+    console.log("WPT: Session started successfully!");
   } catch (error) {
     console.error(
       "WPT: Error occurred while fetching session data! User will be disconnected."

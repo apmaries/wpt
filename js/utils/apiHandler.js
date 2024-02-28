@@ -156,35 +156,40 @@ export async function handleApiCalls(
       let currentPage = requestData.pageNumber;
 
       while (true) {
-        const response = await apiFunction(requestData);
-        const responseBody = response.body;
+        try {
+          const response = await apiFunction(requestData);
+          const responseBody = response.body;
 
-        if (responseBody) {
-          if (
-            responseBody.pageNumber !== undefined &&
-            responseBody.pageCount !== undefined
-          ) {
-            currentPage = responseBody.pageNumber;
-            const pageCount = responseBody.pageCount;
+          if (responseBody) {
+            if (
+              responseBody.pageNumber !== undefined &&
+              responseBody.pageCount !== undefined
+            ) {
+              currentPage = responseBody.pageNumber;
+              const pageCount = responseBody.pageCount;
 
-            // Concatenate the entities or results
-            if (responseBody.entities) {
-              allEntities = allEntities.concat(responseBody.entities);
-            } else if (responseBody.results) {
-              allResults = allResults.concat(responseBody.results);
+              // Concatenate the entities or results
+              if (responseBody.entities) {
+                allEntities = allEntities.concat(responseBody.entities);
+              } else if (responseBody.results) {
+                allResults = allResults.concat(responseBody.results);
+              }
+
+              if (currentPage >= pageCount) {
+                break;
+              }
+
+              // Prepare for the next page
+              requestData.pageNumber = currentPage + 1;
+            } else {
+              // If there are no pages, return the single object
+              return responseBody;
             }
-
-            if (currentPage >= pageCount) {
-              break;
-            }
-
-            // Prepare for the next page
-            requestData.pageNumber = currentPage + 1;
           } else {
-            // If there are no pages, return the single object
-            return responseBody;
+            // If there is no response body, return an empty object
+            return {};
           }
-        } else {
+        } catch (error) {
           throw new Error(`Error making API call to ${apiFunctionStr}`);
         }
       }

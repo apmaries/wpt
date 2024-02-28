@@ -91,6 +91,7 @@ if (!sessionStorage.getItem("sesion_active")) {
     //disconnect();
   }
 
+  /* Pagination seems to work fine :)
   try {
     const forcedPagination = await handleApiCalls(
       "UtilitiesApi.getTimezones",
@@ -108,7 +109,7 @@ if (!sessionStorage.getItem("sesion_active")) {
     // Handle the error here
     //alert("An error occurred while fetching timezones. Please try again.");
     //disconnect();
-  }
+  }*/
 } else {
   console.debug("WPT: Home page loaded with active session");
 }

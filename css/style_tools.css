@@ -35,10 +35,6 @@ header {
   text-transform: uppercase;
 }
 
-img[src*="service-bell-expanded"] {
-  margin-right: 25px;
-}
-
 .subHeader {
   box-sizing: border-box;
   display: inline-flex;

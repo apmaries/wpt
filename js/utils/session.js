@@ -34,24 +34,18 @@ if (!sessionStorage.getItem("sesion_active")) {
 
   let org;
   let client;
-  let response;
-  let timeZones;
 
   try {
     // Synchronously return session related data
-    [org, client, response, timeZones] = await Promise.all([
+    [org, client] = await Promise.all([
       handleApiCalls("OrganizationApi.getOrganizationsMe"),
       handleApiCalls(
         "OAuthApi.getOauthClient",
         sessionStorage.getItem("client_id")
       ),
-      handleApiCalls(
-        "GamificationApi.postGamificationProfilesUsersMeQuery",
-        globalPageOpts
-      ),
 
       // TODO: Possible enhancement for later if all timezones need to be read
-      handleApiCalls("UtilitiesApi.getTimezones", globalPageOpts),
+      // handleApiCalls("UtilitiesApi.getTimezones", globalPageOpts),
 
       // TODO: Create notifications channel
     ]);
@@ -70,10 +64,6 @@ if (!sessionStorage.getItem("sesion_active")) {
     // TODO: Future enhancement to validate client scope against list of scopes needed for tools and only show tools that have been authorised
     sessionStorage.setItem("client_scope", client.scope);
 
-    // Check handleApiCalls function pagination by logging number of timezones
-    console.log(`WPT: ${timeZones.length} time zones: `, timeZones);
-    // Confirmation that paginate entities are working
-
     // Set the flag in sessionStorage indicating that session is active
     sessionStorage.setItem("sesion_active", "true");
   } catch (error) {
@@ -83,6 +73,40 @@ if (!sessionStorage.getItem("sesion_active")) {
 
     // Handle the error here
     //alert("An error occurred while fetching session data. Please try again.");
+    //disconnect();
+  }
+
+  // Testing for pagination and error handling
+  try {
+    const forcedError = await handleApiCalls(
+      "GamificationApi.postGamificationProfilesUsersMeQuery",
+      globalPageOpts
+    );
+  } catch (error) {
+    console.error(
+      "WPT: Error occurred while fetching gamification data! User will be disconnected."
+    );
+    // Handle the error here
+    //alert("An error occurred while fetching gamification data. Please try again.");
+    //disconnect();
+  }
+
+  try {
+    const forcedPagination = await handleApiCalls(
+      "UtilitiesApi.getTimezones",
+      globalPageOpts
+    );
+    // Check handleApiCalls function pagination by logging number of timezones
+    console.log(
+      `WPT: ${forcedPagination.length} time zones: `,
+      forcedPagination
+    );
+  } catch (error) {
+    console.error(
+      "WPT: Error occurred while fetching timezones! User will be disconnected."
+    );
+    // Handle the error here
+    //alert("An error occurred while fetching timezones. Please try again.");
     //disconnect();
   }
 } else {

@@ -189,7 +189,7 @@ export async function handleApiCalls(
             return {};
           }
         } catch (error) {
-          throw new Error(`Error making API call to ${apiFunctionStr}`);
+          console.error(`WPT: Promise rejected in ${apiFunctionStr}!`);
         }
       }
 

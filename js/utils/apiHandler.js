@@ -158,10 +158,7 @@ export async function handleApiCalls(
         const responseBody = response.body;
 
         // If the response is blank and the API function is 'deleteTokensMe', return a success message
-        if (
-          (responseBody === "" || responseBody === null) &&
-          apiFunctionStr === "TokensApi.deleteTokensMe"
-        ) {
+        if (!responseBody && apiFunctionStr === "TokensApi.deleteTokensMe") {
           return { message: "Token deletion successful" };
         }
 

@@ -1,4 +1,4 @@
-import { makeApiCallWithRetry } from "./makeApiCall.js";
+import { globalPageOpts, handleApiCalls } from "../utils/apiHandler.js";
 
 // set some global variables
 const test = false;
@@ -422,7 +422,10 @@ async function getQueueSkillLangNames() {
   // get queue, skill & language data
   let queues = await makeApiCallWithRetry(`/api/v2/routing/queues`, "GET");
   let skills = await makeApiCallWithRetry(`/api/v2/routing/skills`, "GET");
-  let languages = await makeApiCallWithRetry(`/api/v2/routing/languages`, "GET");
+  let languages = await makeApiCallWithRetry(
+    `/api/v2/routing/languages`,
+    "GET"
+  );
 
   // get only name and id from the data
   queues = getNameIdArray(queues);

@@ -37,7 +37,7 @@ export const globalPageOpts = {
 };
 
 // Handle errors in API calls
-async function handleApiErrors(error) {
+async function handleApiErrors(error, apiFunctionStr) {
   // Handle error response status
   let errorStatus = error.status;
   let errorMessage = error.message;
@@ -187,7 +187,10 @@ export async function handleApiCalls(
       }
     } catch (error) {
       console.error(`WPT: Error making API call to ${apiFunctionStr}!`);
-      const { isRetryable, retryAfter } = handleApiErrors(error);
+      const { isRetryable, retryAfter } = handleApiErrors(
+        error,
+        apiFunctionStr
+      );
       if (isRetryable) {
         // update delay if non-429 type error
         if (error.status !== 429) {

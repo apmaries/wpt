@@ -112,4 +112,11 @@ if (!sessionStorage.getItem("sesion_active")) {
   }*/
 } else {
   console.debug("WPT: Home page loaded with active session");
+
+  let user = sessionStorage.getItem("user_name");
+  let org = sessionStorage.getItem("org_name");
+
+  // Update the subheader
+  const authText = document.getElementById("authenticatedSubHeader");
+  authText.innerHTML = `${user} authenticated in: ${org}`;
 }

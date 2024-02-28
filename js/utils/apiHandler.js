@@ -136,11 +136,13 @@ export async function handleApiCalls(
   let retryCount = 0;
   let maxRetries = 3;
 
+  // Initialize the combined entities or results
+  let allEntities = [];
+  let allResults = [];
+
   while (retryCount < maxRetries) {
     try {
       let currentPage = requestData.pageNumber;
-      let allEntities = [];
-      let allResults = [];
 
       while (true) {
         const response = await apiFunction(requestData);

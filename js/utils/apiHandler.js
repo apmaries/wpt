@@ -48,14 +48,15 @@ export const globalPageOpts = {
 
 // Handle errors in API calls
 async function handleApiErrors(error, apiFunctionStr) {
-  let errorStatus = error.status;
-  let errorMessage = error.message;
-  let errorCode = error.code;
+  let errorStatus = error.body.status;
+  let errorMessage = error.body.message;
+  let errorCode = error.body.code;
   let errorHeaders = error.headers;
   let errorBody = {
     status: errorStatus,
     message: errorMessage,
     errorCode: errorCode,
+    errorHeaders: errorHeaders,
   }; // used to log shortened objects in error handling
 
   // Define rertry variables
@@ -190,7 +191,6 @@ export async function handleApiCalls(
       }
     } catch (error) {
       console.error(`WPT: Error making API call to ${apiFunctionStr}!`);
-      console.warn(error);
       const { isRetryable, retryAfter } = await handleApiErrors(
         error,
         apiFunctionStr

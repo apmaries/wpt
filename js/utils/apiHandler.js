@@ -140,6 +140,9 @@ export async function handleApiCalls(
 
   while (retryCount < maxRetries) {
     try {
+      // If requestData is undefined, set it to an empty object
+      requestData = requestData || {};
+
       let currentPage = requestData.pageNumber;
 
       while (true) {

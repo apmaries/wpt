@@ -1,3 +1,8 @@
+// Debug promise rejections
+process.on("unhandledRejection", (reason, promise) => {
+  console.log("Unhandled Rejection at:", promise, "reason:", reason);
+});
+
 // Set up the client
 var platformClient = window.require("platformClient");
 var client = platformClient.ApiClient.instance;

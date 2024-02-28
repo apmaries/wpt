@@ -1,3 +1,5 @@
+import e from "express";
+
 // Set up the client
 var platformClient = window.require("platformClient");
 var client = platformClient.ApiClient.instance;
@@ -86,14 +88,19 @@ export async function makeApiCall(
       let errorMessage = error.message;
       let errorCode = error.errorCode;
       let errorHeaders = error.headers;
-      let errorBody; // used to create custom objects in error handling
+      let errorBody = {
+        status: errorStatus,
+        message: errorMessage,
+        errorCode: errorCode,
+      }; // used to log shortened objects in error handling
 
       // Handle 429 rate limit exceeded
       if (errorStatus === 429) {
         let retryAfter = errorHeaders["Retry-After"];
         if (retryAfter) {
           console.debug(
-            `WPT: Rate limit exceeded. Retrying after ${retryAfter} seconds.`
+            `WPT: Rate limit exceeded. Retrying after ${retryAfter} seconds.`,
+            errorBody
           );
           await new Promise((resolve) =>
             setTimeout(resolve, retryAfter * 1000)
@@ -101,20 +108,25 @@ export async function makeApiCall(
           retryCount++;
         } else {
           console.error(
-            `WPT: Rate limit exceeded but Retry-After header is missing.`
+            `WPT: Rate limit exceeded but Retry-After header is missing.`,
+            errorBody
           );
           throw error;
         }
       }
       // Handle 400 malformed syntax
       else if (errorStatus === 400) {
-        console.error(`WPT: Malformed syntax in request to ${apiFunctionStr}.`);
+        console.error(
+          `WPT: Malformed syntax in request to ${apiFunctionStr}.`,
+          errorBody
+        );
         throw error;
       }
       // Handle any other retryable errors
       else if ([408, 500, 503, 504].includes(errorStatus)) {
         console.debug(
-          `WPT: Retryable error occurred. Retrying request to ${apiFunctionStr}.`
+          `WPT: Retryable error occurred. Retrying request to ${apiFunctionStr}.`,
+          errorBody
         );
         // Exponential backoff at 3, 9 and 27 seconds
         await new Promise((resolve) =>
@@ -125,7 +137,8 @@ export async function makeApiCall(
       // Handle any other errors
       else {
         console.error(
-          `WPT: Error making API call to ${apiFunctionStr}. Status = ${responseStatus}`
+          `WPT: Error making API call to ${apiFunctionStr}. Status = ${responseStatus}`,
+          errorBody
         );
         throw new Error(`Error making API call to ${apiFunctionStr}`);
       }

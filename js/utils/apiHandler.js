@@ -48,6 +48,9 @@ export const globalPageOpts = {
 
 // Handle errors in API calls
 async function handleApiErrors(error, apiFunctionStr) {
+  // temp logging
+  console.warn("WPT: Error = ", error);
+
   let errorStatus = error.body.status;
   let errorMessage = error.body.message;
   let errorCode = error.body.code;

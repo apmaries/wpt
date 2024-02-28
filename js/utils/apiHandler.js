@@ -1,7 +1,7 @@
 // Set up the client
 var platformClient = window.require("platformClient");
 var client = platformClient.ApiClient.instance;
-//client.setReturnExtendedResponses(true);
+client.setReturnExtendedResponses(true);
 
 /*
 // Set client logging
@@ -73,93 +73,69 @@ export async function makeApiCall(
 
   // Make the API call
   let response;
-  try {
-    response = await apiFunction(requestData);
-    console.debug(`WPT: ${apiFunctionStr} response = `, response);
-  } catch (error) {
-    console.error(`WPT: Error making API call to ${apiFunctionStr}:`, error);
-    throw error; // re-throw the error so it can be handled by the caller
-  }
-
-  /*
-  // Handle error response status
-  let responseStatus = response.status;
-
-  // TODO: Understand why status codes aren't included in response...
-  // Think when using SDK I need to parse the response object to get the status code
-
-  // If response status is not 2xx
-  if (responseStatus < 200 || responseStatus >= 300) {
-    // Handle 429 status
-    if (responseStatus === 429) {
-      console.warn("WPT: Rate limit exceeded.");
-
-      // Get retry seconds
-      let retrySeconds = response.headers.get("retry-after");
-      console.warn(
-        `WPT: Retrying ${apiFunctionStr} in ${retrySeconds} seconds`
-      );
-
-      // Wait for the retry seconds
-      await new Promise((resolve) => setTimeout(resolve, retrySeconds * 1000));
-
-      // Retry the API call
-      console.warn(
-        `WPT: Retrying ${apiFunctionStr}. Attempt ${
-          retryCount + 1
-        } of ${maxRetries}`
-      );
+  while (retryCount < maxRetries) {
+    try {
       response = await apiFunction(requestData);
-    }
-    // Handle malformed syntax
-    else if (responseStatus === 400) {
-      console.error(
-        `WPT: Malformed syntax in ${apiFunctionStr}. Request data = `,
-        requestData
-      );
-      throw new Error(`Malformed syntax in ${apiFunctionStr}`);
-    }
-    // Handle any other retryable errors
-    else if (responseStatus in [408, 500, 503, 504]) {
-      console.error(
-        `WPT: Error making API call to ${apiFunctionStr}. Status = ${responseStatus}`
-      );
+      console.debug(`WPT: ${apiFunctionStr} response = `, response);
+      break; // If the request was successful, break the loop
+    } catch (error) {
+      console.error(`WPT: Error making API call to ${apiFunctionStr}!`);
 
-      // Retry the API call with exponential backoff at 3, 9 and 27 seconds
-      if (retryCount < maxRetries) {
+      // Handle error response status
+      let errorStatus = error.status;
+      let errorMessage = error.message;
+      let errorCode = error.errorCode;
+      let errorHeaders = error.headers;
+      let errorBody; // used to create custom objects in error handling
+
+      // Handle 429 rate limit exceeded
+      if (errorStatus === 429) {
+        let retryAfter = errorHeaders["Retry-After"];
+        if (retryAfter) {
+          console.debug(
+            `WPT: Rate limit exceeded. Retrying after ${retryAfter} seconds.`
+          );
+          await new Promise((resolve) =>
+            setTimeout(resolve, retryAfter * 1000)
+          );
+          retryCount++;
+        } else {
+          console.error(
+            `WPT: Rate limit exceeded but Retry-After header is missing.`
+          );
+          throw error;
+        }
+      }
+      // Handle 400 malformed syntax
+      else if (errorStatus === 400) {
+        console.error(`WPT: Malformed syntax in request to ${apiFunctionStr}.`);
+        throw error;
+      }
+      // Handle any other retryable errors
+      else if ([408, 500, 503, 504].includes(errorStatus)) {
+        console.debug(
+          `WPT: Retryable error occurred. Retrying request to ${apiFunctionStr}.`
+        );
         retryCount++;
-        const retrySeconds = 3 ** retryCount;
-        console.warn(
-          `WPT: Retrying ${apiFunctionStr}. Attempt ${
-            retryCount + 1
-          } of ${maxRetries}. Next attempt will be made in ${retrySeconds} seconds`
+      }
+      // Handle any other errors
+      else {
+        console.error(
+          `WPT: Error making API call to ${apiFunctionStr}. Status = ${responseStatus}`
         );
-        await new Promise((resolve) =>
-          setTimeout(resolve, retrySeconds * 1000)
-        );
-        response = await apiFunction(requestData);
-      } else {
-        throw new Error(
-          `Exceeded maximum reties while making API call to ${apiFunctionStr}`
-        );
+        throw new Error(`Error making API call to ${apiFunctionStr}`);
       }
     }
-    // Handle any other errors
-    else {
-      console.error(
-        `WPT: Error making API call to ${apiFunctionStr}. Status = ${responseStatus}`
-      );
-      throw new Error(`Error making API call to ${apiFunctionStr}`);
-    }
-  }*/
+  }
 
+  let responseBody = response.body;
   // Handle pagination for entities and results
-  if (response.entities || response.results) {
+  if (responseBody.entities || responseBody.results) {
     let responseAllPages = [];
 
     // if pageNumber exists in response, iterate through all pages
-    if (response.pageNumber) {
-      let pageNumber = response.pageNumber;
+    if (responseBody.pageNumber) {
+      let pageNumber = responseBody.pageNumber;
 
       // get all pages by iterating through the pages while pageNumber < pageCount
       do {
@@ -167,22 +143,22 @@ export async function makeApiCall(
         response = await apiFunction({ ...requestData, pageNumber });
         // concatenate the entities or results
         responseAllPages = responseAllPages.concat(
-          response.entities || response.results
+          response.body.entities || response.body.results
         );
         // increment the pageNumber
         pageNumber++;
-      } while (pageNumber < response.pageCount);
+      } while (pageNumber < response.body.pageCount);
 
       // return the concatenated entities or results
       return responseAllPages;
     }
     // else return entities or results if no pagination
     else {
-      return response.entities || response.results;
+      return responseBody.entities || responseBody.results;
     }
   }
   // Return the object
   else {
-    return response;
+    return responseBody;
   }
 }

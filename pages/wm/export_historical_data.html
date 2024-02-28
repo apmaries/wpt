@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>WEM Power Tools - Export Historical Data</title>
-    <link rel="icon" href="../favicon.ico" type="image/x-icon" />
-    <!-- Genesys CSS https://spark.genesys.com/ -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+    <!-- Genesys stuff https://spark.genesys.com/ -->
     <link
       href="https://dhqbrvplips7x.cloudfront.net/common-ui-docs/genesys-webcomponents/3.8.1-178/genesys-webcomponents/genesys-webcomponents.css"
       rel="stylesheet"
@@ -16,17 +17,12 @@
       type="module"
       src="https://dhqbrvplips7x.cloudfront.net/common-ui-docs/genesys-webcomponents/3.8.1-178/genesys-webcomponents/genesys-webcomponents.esm.js"
     ></script>
-    <link href="../css/style_tools.css" type="text/css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- whats this?? <script src="https://unpkg.com/eventemitter3@latest/dist/eventemitter3.umd.min.js"></script> -->
 
-    <!-- Project src files -->
-    <script src="../js/session.js"></script>
-    <script src="../js/subheader.js"></script>
-    <script src="../js/disconnect.js"></script>
-    <script src="../js/exportMaker.js"></script>
-    <script type="text/javascript" src="../js/htmlHelper.js"></script>
-    <script type="module" src="../js/wm_exportHistData.js"></script>
+    <!-- Project stuff -->
+    <link href="/css/style_tools.css" type="text/css" rel="stylesheet" />
+
+    <!-- External stuff -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body style="background-color: var(--gux-black-30); color: black">
     <header
@@ -105,7 +101,6 @@
           id="disconnectButton"
           style="width: 100px; position: absolute; right: 5%"
           accent="primary"
-          onclick="disconnect()"
         >
           Disconnect
         </gux-button>
@@ -362,31 +357,6 @@
     <!--Date picker options-->
     <script></script>
 
-    <!-- Button event listeners -->
-    <script>
-      // add event listener to export data button
-      const importBtn = document.getElementById("export-data-button");
-      importBtn.addEventListener("click", exportData);
-    </script>
-
-    <!--Clear terminal & reset-->
-    <script>
-      function reset() {
-        clearTerminal();
-        terminal(`Export Historical Data`, "INFO");
-        terminal("Previous terminal data cleared", "DEBUG");
-        let buCount = JSON.parse(sessionStorage.getItem("wfmBuList"));
-        terminal(`${buCount.length} Business Units already in memory`, "INFO");
-        terminal(`Ready!`, "INFO");
-        document
-          .getElementById("export-log-button")
-          .removeAttribute("disabled");
-        document
-          .getElementById("export-data-button")
-          .removeAttribute("disabled");
-      }
-    </script>
-
     <script>
       // export all logs
       /*const exportLogs = function () {
@@ -414,5 +384,38 @@
       }*/
     </script>
     <footer></footer>
+    <!-- Load the subheader.js module -->
+    <script src="../js/components/subheader.js" defer></script>
+
+    <!-- Load the disconnect.js module -->
+    <script type="module" src="../js/utils/disconnect.js" defer></script>
+
+    <!-- Load the wm_exportHistData.js module -->
+    <script type="module" src="/js/pages/wm_exportHistData.js" defer></script>
+
+    <!-- Button event listeners -->
+    <script>
+      // add event listener to export data button
+      const importBtn = document.getElementById("export-data-button");
+      importBtn.addEventListener("click", exportData);
+    </script>
+
+    <!--Clear terminal & reset-->
+    <script>
+      function reset() {
+        clearTerminal();
+        terminal(`Export Historical Data`, "INFO");
+        terminal("Previous terminal data cleared", "DEBUG");
+        let buCount = JSON.parse(sessionStorage.getItem("wfmBuList"));
+        terminal(`${buCount.length} Business Units already in memory`, "INFO");
+        terminal(`Ready!`, "INFO");
+        document
+          .getElementById("export-log-button")
+          .removeAttribute("disabled");
+        document
+          .getElementById("export-data-button")
+          .removeAttribute("disabled");
+      }
+    </script>
   </body>
 </html>

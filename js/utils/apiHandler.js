@@ -196,9 +196,11 @@ export async function handleApiCalls(
         if (error.status !== 429) {
           // exponential backoff at 3, 9 and 27 seconds for retries (delay being returned is already 3)
           let backoffRetry = retryAfter * 1000 * 3 ** retryCount;
+          console.warn(`WPT: Retrying after ${backoffRetry} seconds`);
           await new Promise((resolve) => setTimeout(resolve, backoffRetry));
         } else {
           // if 429 error, use the retryAfter header value
+          console.warn(`WPT: Retrying after ${retryAfter} seconds`);
           await new Promise((resolve) =>
             setTimeout(resolve, retryAfter * 1000)
           );

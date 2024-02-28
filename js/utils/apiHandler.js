@@ -13,6 +13,7 @@ var platformClient = window.require("platformClient");
 var client = platformClient.ApiClient.instance;
 client.setReturnExtendedResponses(true);
 
+/*
 // Set client logging
 client.config.logger.log_level = client.config.logger.logLevelEnum.level.LTrace;
 client.config.logger.log_format =
@@ -21,6 +22,7 @@ client.config.logger.log_request_body = true;
 client.config.logger.log_response_body = true;
 client.config.logger.log_to_console = true;
 client.config.logger.setLogger(); // To apply above changes
+*/
 
 // Get the environment & access token from session storage
 var accessToken = sessionStorage.getItem("token");

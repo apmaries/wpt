@@ -77,6 +77,7 @@ if (!sessionStorage.getItem("sesion_active")) {
   }
 
   // Testing for pagination and error handling
+  /* forced 400 error seems to work fine
   try {
     const forcedError = await handleApiCalls(
       "GamificationApi.postGamificationProfilesUsersMeQuery",
@@ -90,6 +91,7 @@ if (!sessionStorage.getItem("sesion_active")) {
     //alert("An error occurred while fetching gamification data. Please try again.");
     //disconnect();
   }
+  */
 
   /* Pagination seems to work fine :)
   try {
@@ -109,7 +111,8 @@ if (!sessionStorage.getItem("sesion_active")) {
     // Handle the error here
     //alert("An error occurred while fetching timezones. Please try again.");
     //disconnect();
-  }*/
+  }
+  */
 } else {
   console.debug("WPT: Home page loaded with active session");
 

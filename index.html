@@ -28,28 +28,6 @@
     />
 
     <!-- Project stuff -->
-    <script>
-      // Check if testing mode is active
-      var testingMode = true; // Set this variable based on your testing mode condition
-
-      // Load the script only if testing mode is active
-      if (testingMode) {
-        sessionStorage.setItem("test_mode", true);
-        const favicon = document.querySelector("link[rel='icon']");
-        favicon.href = "/.test/test_favicon.ico";
-
-        // Add button to go to home page
-        document.addEventListener("DOMContentLoaded", function () {
-          var homeButton = document.createElement("button");
-          homeButton.innerHTML = "Home";
-          homeButton.onclick = function () {
-            window.location.href = "/wpt.html";
-          };
-          var thing = document.getElementById("header035");
-          thing.appendChild(homeButton);
-        });
-      }
-    </script>
     <link href="./css/new_style.css" type="text/css" rel="stylesheet" />
   </head>
   <body>

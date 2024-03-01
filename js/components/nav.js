@@ -26,12 +26,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const pageIdentifier = path.split("/")[2]?.split(".")[0];
 
   const navLinks = document.querySelectorAll("#nav-items a");
-  navLinks.forEach((navLink) => {
-    if (
-      pageIdentifier &&
-      navLink.getAttribute("href").includes(pageIdentifier)
-    ) {
-      navLink.classList.add("active-nav-item");
-    }
-  });
+
+  if (pageIdentifier) {
+    navLinks.forEach((navLink) => {
+      const href = navLink.getAttribute("href");
+      if (
+        href.substring(href.lastIndexOf("/") + 1).startsWith(pageIdentifier)
+      ) {
+        navLink.classList.add("active-nav-item");
+      }
+    });
+  }
 });

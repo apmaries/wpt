@@ -23,12 +23,15 @@ document.addEventListener("DOMContentLoaded", () => {
   console.debug("Path: ", path);
 
   // Extract the page identifier from the path
-  const pageIdentifier = path.split("/")[2].split(".")[0];
+  const pageIdentifier = path.split("/")[2]?.split(".")[0];
   console.debug("Page Identifier: ", pageIdentifier);
 
   const navLinks = document.querySelectorAll("#nav-items a");
   navLinks.forEach((navLink) => {
-    if (navLink.getAttribute("href").includes(pageIdentifier)) {
+    if (
+      pageIdentifier &&
+      navLink.getAttribute("href").includes(pageIdentifier)
+    ) {
       navLink.classList.add("active-nav-item");
     }
   });

@@ -127,4 +127,7 @@ if (!sessionStorage.getItem("test_mode")) {
   }
 } else {
   console.debug("WPT: Session started with test mode");
+  // Update the subheader
+  const authText = document.getElementById("authenticatedSubHeader");
+  authText.innerHTML = `User Name authenticated in: Org Name`;
 }

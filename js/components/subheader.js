@@ -12,5 +12,8 @@ window.onload = function () {
     authText.innerHTML = `${userName} authenticated in: ${orgName}`;
   } else {
     console.log("WPT: Test mode active");
+    // Update the subheader
+    const authText = document.getElementById("authenticatedSubHeader");
+    authText.innerHTML = `User Name authenticated in: Org Name`;
   }
 };

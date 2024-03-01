@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const navItems = document.getElementById("nav-items");
 
-  const rootPath = window.location.pathname.includes("wpt") ? "/wpt" : "";
+  const rootPath = window.location.pathname.includes("wpt/") ? "/wpt" : "";
   const navObjects = [
     { href: `${rootPath}/pages/gf.html`, text: "Gamification" },
     { href: `${rootPath}/pages/pd.html`, text: "People & Directory" },

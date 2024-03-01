@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const navItems = document.getElementById("nav-items");
-  console.debug("navItems", navItems);
+
   const navObjects = [
     { href: "/pages/gf.html", text: "Gamification" },
     { href: "/pages/pd.html", text: "People & Directory" },
@@ -16,6 +16,20 @@ document.addEventListener("DOMContentLoaded", () => {
     link.textContent = navObject.text;
     li.appendChild(link);
     navItems.appendChild(li);
-    console.debug(`Added ${navObject.text} to nav`);
+  });
+
+  // Check document page and set active class
+  const path = window.location.pathname;
+  console.debug("Path: ", path);
+
+  // Extract the page identifier from the path
+  const pageIdentifier = path.split("/")[2].split(".")[0];
+  console.debug("Page Identifier: ", pageIdentifier);
+
+  const navLinks = document.querySelectorAll("#nav-items a");
+  navLinks.forEach((navLink) => {
+    if (navLink.getAttribute("href").includes(pageIdentifier)) {
+      navLink.classList.add("active-nav-item");
+    }
   });
 });

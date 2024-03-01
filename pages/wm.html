@@ -28,17 +28,37 @@
     />
 
     <!-- Project stuff -->
+    <link href="../css/new_style.css" type="text/css" rel="stylesheet" />
+    <script src="../js/components/nav.js"></script>
+    <script src="../js/components/breadcumbs.js"></script>
     <script>
       // Load the script only if testing mode is active
       if (sessionStorage.getItem("test_mode") === "true") {
         sessionStorage.setItem("test_mode", true);
         const favicon = document.querySelector("link[rel='icon']");
         favicon.href = "/.test/test_favicon.ico";
+
+        // link to the test version of the stylesheet
+        const style = document.createElement("link");
+        style.rel = "stylesheet";
+        style.type = "text/css";
+        style.href = "/css/new_style.css";
+        document.head.appendChild(style);
+
+        // link to the test version of the nav.js script
+        const navScript = document.createElement("script");
+        navScript.src = "/js/components/nav.js";
+        document.head.appendChild(navScript);
+
+        // link to the test version of the breadcrumbs.js script
+        const breadcrumbsScript = document.createElement("script");
+        breadcrumbsScript.src = "/js/components/breadcrumbs.js";
+        document.head.appendChild(breadcrumbsScript);
       }
     </script>
-    <link href="/css/new_style.css" type="text/css" rel="stylesheet" />
-    <script src="/js/components/nav.js"></script>
-    <script src="/js/components/breadcumbs.js"></script>
+    <link href="../css/new_style.css" type="text/css" rel="stylesheet" />
+    <script src="../js/components/nav.js"></script>
+    <script src="../js/components/breadcumbs.js"></script>
   </head>
   <body>
     <header id="header" class="primary-section">

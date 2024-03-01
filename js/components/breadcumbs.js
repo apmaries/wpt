@@ -36,8 +36,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Get document path and identify the page
   const path = window.location.pathname;
+  console.debug("breadcrumb path", path);
+
+  // Count how many / splits are in the path
+  const pathSplits = path.split("/").length;
+
+  // Get the primary page identifier from split 2
   const pageIdentifier = path.split("/")[2]?.split(".")[0];
-  console.debug("pageIdentifier", pageIdentifier);
+  console.debug("breadcrumb pageIdentifier", pageIdentifier);
 
   // Create the page breadcrumb
   if (pageIdentifier) {
@@ -52,5 +58,5 @@ document.addEventListener("DOMContentLoaded", () => {
     breadcrumbsDiv.appendChild(pageBreadcrumb);
   }
 
-  // Create the active page breadcrumb
+  // Set the active page breadcrumb
 });

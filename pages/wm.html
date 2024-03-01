@@ -42,7 +42,7 @@
   </head>
   <body>
     <header id="header" class="primary-section">
-      <nav style="border: red solid">
+      <nav>
         <div id="header065" class="sub-section-065">
           <ul id="nav-items">
             <h1 id="title">
@@ -80,13 +80,13 @@
         </div>
         <div id="header035" class="sub-section-035"></div>
       </nav>
-      <div id="breadcumbs-container" style="border: red solid">
+      <div id="breadcumbs-container">
         <gux-breadcrumbs id="breadcrumbs" accent="primary">
           <!-- Breadcrumbs added dynamically by breadcrumbs.js -->
         </gux-breadcrumbs>
       </div>
 
-      <div id="subheader" style="border: red solid">
+      <div id="subheader">
         <p id="authenticatedSubHeader"></p>
         <p>
           <gux-button id="disconnectButton" accent="primary">
@@ -231,7 +231,16 @@
         </gux-card-beta>
       </div>
     </main>
-    <footer></footer>
+    <footer>
+      <p>
+        Questions? Requests? Problems? Let me know by
+        <a
+          href="mailto:andy.maries@genesys.com?subject=WPT%20Feedback"
+          style="color: #ff4c1c"
+          >email</a
+        >
+      </p>
+    </footer>
 
     <!-- Load the PureCloud platform client library -->
     <script src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>

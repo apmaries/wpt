@@ -104,7 +104,7 @@ a:active {
 }
 
 a.active-nav-item {
-  font-weight: 400;
+  font-weight: bolder;
   letter-spacing: 2px;
   font-style: oblique;
   color: var(--gux-warm-red);

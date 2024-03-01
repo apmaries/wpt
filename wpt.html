@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>WEM Power Tools - Home</title>
-    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
     <!-- Genesys stuff https://spark.genesys.com/ -->
     <link
@@ -28,8 +28,10 @@
     />
 
     <!-- Project stuff -->
+    <script src="/.test/test.js"></script>
     <link href="./css/new_style.css" type="text/css" rel="stylesheet" />
-    <link href="./js/components/nav.js" />
+    <script src="./js/components/nav.js"></script>
+    <script src="./js/components/breadcumbs.js"></script>
   </head>
   <body>
     <header id="header" class="primary-section">
@@ -66,35 +68,19 @@
                 </g>
               </svg>
             </h1>
-            <!-- Nav items are dynamically added by nav.js
-            <li>
-              <a href="/pages/gf.html">Gamification</a>
-            </li>
-            <li>
-              <a href="./pages/pd.html">People & Directory</a>
-            </li>
-            <li>
-              <a href="./pages/qm.html">Quality Management</a>
-            </li>
-            <li>
-              <a href="./pages/st.html">Speech & Text Analytics</a>
-            </li>
-            <li>
-              <a href="./pages/wm.html">Workforce Management</a>
-            </li>
-            -->
+            <!-- Nav items are dynamically added by nav.js -->
           </ul>
         </div>
         <div class="sub-section-035"></div>
       </nav>
       <div id="breadcumbs-container" style="border: red solid">
         <gux-breadcrumbs id="breadcrumbs" accent="primary">
-          <gux-breadcrumb-item>Home</gux-breadcrumb-item>
+          <!-- Breadcrumbs added dynamically by breadcrumbs.js -->
         </gux-breadcrumbs>
       </div>
 
       <div id="subheader" style="border: red solid">
-        <p id="authenticatedSubHeader">User Name authenticated in: Org Name</p>
+        <p id="authenticatedSubHeader"></p>
         <p>
           <gux-button id="disconnectButton" accent="primary">
             Disconnect

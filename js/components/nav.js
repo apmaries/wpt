@@ -1,12 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   const navItems = document.getElementById("nav-items");
 
+  const rootPath = window.location.pathname.includes("wpt") ? "/wpt" : "";
   const navObjects = [
-    { href: "/pages/gf.html", text: "Gamification" },
-    { href: "/pages/pd.html", text: "People & Directory" },
-    { href: "/pages/qm.html", text: "Quality Management" },
-    { href: "/pages/st.html", text: "Speech & Text Analytics" },
-    { href: "/pages/wm.html", text: "Workforce Management" },
+    { href: `${rootPath}/pages/gf.html`, text: "Gamification" },
+    { href: `${rootPath}/pages/pd.html`, text: "People & Directory" },
+    { href: `${rootPath}/pages/qm.html`, text: "Quality Management" },
+    { href: `${rootPath}/pages/st.html`, text: "Speech & Text Analytics" },
+    { href: `${rootPath}/pages/wm.html`, text: "Workforce Management" },
   ];
 
   navObjects.forEach((navObject) => {

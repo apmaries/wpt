@@ -20,11 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Check document page and set active class
   const path = window.location.pathname;
-  console.debug("Path: ", path);
 
   // Extract the page identifier from the path
   const pageIdentifier = path.split("/")[2]?.split(".")[0];
-  console.debug("Page Identifier: ", pageIdentifier);
 
   const navLinks = document.querySelectorAll("#nav-items a");
   navLinks.forEach((navLink) => {

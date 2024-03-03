@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>WEM Power Tools - Workforce Management</title>
-    <link rel="icon" href="/wpt/favicon.ico" type="image/x-icon" />
 
     <!-- Genesys stuff https://spark.genesys.com/ -->
     <link
@@ -28,37 +27,52 @@
     />
 
     <!-- Project stuff -->
-    <link href="../css/new_style.css" type="text/css" rel="stylesheet" />
-    <script src="../js/components/nav.js"></script>
-    <script src="../js/components/breadcumbs.js"></script>
     <script>
-      // Load the script only if testing mode is active
-      if (sessionStorage.getItem("test_mode") === "true") {
-        sessionStorage.setItem("test_mode", true);
-        const favicon = document.querySelector("link[rel='icon']");
-        favicon.href = "/.test/test_favicon.ico";
+      // Check window location protocol for test mode (https is considered production)
+      const testMode = window.location.protocol === "http:" ? true : false;
 
-        // link to the test version of the stylesheet
-        const style = document.createElement("link");
-        style.rel = "stylesheet";
-        style.type = "text/css";
-        style.href = "/css/new_style.css";
-        document.head.appendChild(style);
+      // Link to the favicon
+      const faviconLink = testMode
+        ? "/.test/test_favicon.ico"
+        : "/wpt/favicon.ico";
+      const favicon = document.createElement("link");
+      favicon.rel = "icon";
+      favicon.type = "image/x-icon";
+      favicon.href = faviconLink;
+      document.head.appendChild(favicon);
 
-        // link to the test version of the nav.js script
-        const navScript = document.createElement("script");
-        navScript.src = "/js/components/nav.js";
-        document.head.appendChild(navScript);
+      // Link to the stylesheet
+      const styleLink = testMode
+        ? "/css/new_style.css"
+        : "../css/new_style.css";
+      const style = document.createElement("link");
+      style.href = styleLink;
+      style.rel = "stylesheet";
+      style.type = "text/css";
+      document.head.appendChild(style);
 
-        // link to the test version of the breadcrumbs.js script
-        const breadcrumbsScript = document.createElement("script");
-        breadcrumbsScript.src = "/js/components/breadcrumbs.js";
-        document.head.appendChild(breadcrumbsScript);
-      }
+      // Script to load navigation.js, breadcrumbs.js and availableTools.js
+      const availableToolsScriptSrc = testMode
+        ? "/js/components/availableTools.js"
+        : "../js/components/availableTools.js";
+      const availableToolsScript = document.createElement("script");
+      availableToolsScript.src = availableToolsScriptSrc;
+      document.head.appendChild(availableToolsScript);
+
+      const navScriptSrc = testMode
+        ? "/js/components/nav.js"
+        : "../js/components/nav.js";
+      const navScript = document.createElement("script");
+      navScript.src = navScriptSrc;
+      document.head.appendChild(navScript);
+
+      const breadcrumbsScriptSrc = testMode
+        ? "/js/components/breadcrumbs.js"
+        : "../js/components/breadcrumbs.js";
+      const breadcrumbsScript = document.createElement("script");
+      breadcrumbsScript.src = breadcrumbsScriptSrc;
+      document.head.appendChild(breadcrumbsScript);
     </script>
-    <link href="../css/new_style.css" type="text/css" rel="stylesheet" />
-    <script src="../js/components/nav.js"></script>
-    <script src="../js/components/breadcumbs.js"></script>
   </head>
   <body>
     <header id="header" class="primary-section">

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>WEM Power Tools - Test Page Layout</title>
-    <link rel="icon" href="/wpt/favicon.ico" type="image/x-icon" />
 
     <!-- Genesys stuff https://spark.genesys.com/ -->
     <link
@@ -28,6 +27,52 @@
     />
 
     <!-- Project stuff -->
+    <script>
+      // Check window location protocol for test mode (https is considered production)
+      const testMode = window.location.protocol === "http:" ? true : false;
+
+      // Link to the favicon
+      const faviconLink = testMode
+        ? "/.test/test_favicon.ico"
+        : "/wpt/favicon.ico";
+      const favicon = document.createElement("link");
+      favicon.rel = "icon";
+      favicon.type = "image/x-icon";
+      favicon.href = faviconLink;
+      document.head.appendChild(favicon);
+
+      // Link to the stylesheet
+      const styleLink = testMode
+        ? "/css/new_style.css"
+        : "../css/new_style.css";
+      const style = document.createElement("link");
+      style.href = styleLink;
+      style.rel = "stylesheet";
+      style.type = "text/css";
+      document.head.appendChild(style);
+
+      // Script to load navigation.js, breadcrumbs.js and availableTools.js
+      const availableToolsScriptSrc = testMode
+        ? "/js/components/availableTools.js"
+        : "../js/components/availableTools.js";
+      const availableToolsScript = document.createElement("script");
+      availableToolsScript.src = availableToolsScriptSrc;
+      document.head.appendChild(availableToolsScript);
+
+      const navScriptSrc = testMode
+        ? "/js/components/nav.js"
+        : "../js/components/nav.js";
+      const navScript = document.createElement("script");
+      navScript.src = navScriptSrc;
+      document.head.appendChild(navScript);
+
+      const breadcrumbsScriptSrc = testMode
+        ? "/js/components/breadcrumbs.js"
+        : "../js/components/breadcrumbs.js";
+      const breadcrumbsScript = document.createElement("script");
+      breadcrumbsScript.src = breadcrumbsScriptSrc;
+      document.head.appendChild(breadcrumbsScript);
+    </script>
     <link href="/css/new_style.css" type="text/css" rel="stylesheet" />
     <script src="/js/components/nav.js"></script>
     <script src="/js/components/breadcumbs.js"></script>

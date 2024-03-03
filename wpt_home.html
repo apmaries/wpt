@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>WEM Power Tools - Home</title>
-    <link rel="icon" href="/wpt/favicon.ico" type="image/x-icon" />
 
     <!-- Genesys stuff https://spark.genesys.com/ -->
     <link
@@ -29,62 +28,50 @@
 
     <!-- Project stuff -->
     <script>
-      var testMode = true; // Set this variable based on your testing mode condition
+      // Check window location protocol for test mode (https is considered production)
+      const testMode = window.location.protocol === "http:" ? true : false;
 
-      // Load the script only if testing mode is active
-      if (sessionStorage.getItem("test_mode") === "true") {
-        sessionStorage.setItem("test_mode", true);
+      // Link to the favicon
+      const faviconLink = testMode
+        ? "/.test/test_favicon.ico"
+        : "/wpt/favicon.ico";
+      const favicon = document.createElement("link");
+      favicon.rel = "icon";
+      favicon.type = "image/x-icon";
+      favicon.href = faviconLink;
+      document.head.appendChild(favicon);
 
-        // link to the test version of the favicon
-        const favicon = document.querySelector("link[rel='icon']");
-        favicon.href = "/.test/test_favicon.ico";
+      // Link to the stylesheet
+      const styleLink = testMode
+        ? "/css/new_style.css"
+        : "../css/new_style.css";
+      const style = document.createElement("link");
+      style.href = styleLink;
+      style.rel = "stylesheet";
+      style.type = "text/css";
+      document.head.appendChild(style);
 
-        // link to the test version of the stylesheet
-        const style = document.createElement("link");
-        style.rel = "stylesheet";
-        style.type = "text/css";
-        style.href = "/css/new_style.css";
-        document.head.appendChild(style);
+      // Script to load navigation.js, breadcrumbs.js and availableTools.js
+      const availableToolsScriptSrc = testMode
+        ? "/js/components/availableTools.js"
+        : "../js/components/availableTools.js";
+      const availableToolsScript = document.createElement("script");
+      availableToolsScript.src = availableToolsScriptSrc;
+      document.head.appendChild(availableToolsScript);
 
-        // link to the test version of the nav.js script
-        const navScript = document.createElement("script");
-        navScript.src = "/js/components/nav.js";
-        document.head.appendChild(navScript);
+      const navScriptSrc = testMode
+        ? "/js/components/nav.js"
+        : "../js/components/nav.js";
+      const navScript = document.createElement("script");
+      navScript.src = navScriptSrc;
+      document.head.appendChild(navScript);
 
-        // link to the test version of the breadcrumbs.js script
-        const breadcrumbsScript = document.createElement("script");
-        breadcrumbsScript.src = "/js/components/breadcrumbs.js";
-        document.head.appendChild(breadcrumbsScript);
-
-        // link to the test version of the availableTools.js script
-        const availableToolsScript = document.createElement("script");
-        availableToolsScript.src = "/js/components/availableTools.js";
-        document.head.appendChild(availableToolsScript);
-      } else {
-        sessionStorage.setItem("test_mode", false);
-
-        // link to the production version of the stylesheet
-        const style = document.createElement("link");
-        style.rel = "stylesheet";
-        style.type = "text/css";
-        style.href = "../css/new_style.css";
-        document.head.appendChild(style);
-
-        // link to the production version of the nav.js script
-        const navScript = document.createElement("script");
-        navScript.src = "../js/components/nav.js";
-        document.head.appendChild(navScript);
-
-        // link to the production version of the breadcrumbs.js script
-        const breadcrumbsScript = document.createElement("script");
-        breadcrumbsScript.src = "../js/components/breadcrumbs.js";
-        document.head.appendChild(breadcrumbsScript);
-
-        // link to the production version of the availableTools.js script
-        const availableToolsScript = document.createElement("script");
-        availableToolsScript.src = "../js/components/availableTools.js";
-        document.head.appendChild(availableToolsScript);
-      }
+      const breadcrumbsScriptSrc = testMode
+        ? "/js/components/breadcrumbs.js"
+        : "../js/components/breadcrumbs.js";
+      const breadcrumbsScript = document.createElement("script");
+      breadcrumbsScript.src = breadcrumbsScriptSrc;
+      document.head.appendChild(breadcrumbsScript);
     </script>
   </head>
   <body>

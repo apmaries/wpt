@@ -29,19 +29,63 @@
 
     <!-- Project stuff -->
     <script>
-      // Check if testing mode is active
-      var testingMode = true; // Set this variable based on your testing mode condition
+      var testMode = true; // Set this variable based on your testing mode condition
 
       // Load the script only if testing mode is active
-      if (testingMode) {
+      if (sessionStorage.getItem("test_mode") === "true") {
         sessionStorage.setItem("test_mode", true);
+
+        // link to the test version of the favicon
         const favicon = document.querySelector("link[rel='icon']");
         favicon.href = "/.test/test_favicon.ico";
+
+        // link to the test version of the stylesheet
+        const style = document.createElement("link");
+        style.rel = "stylesheet";
+        style.type = "text/css";
+        style.href = "/css/new_style.css";
+        document.head.appendChild(style);
+
+        // link to the test version of the nav.js script
+        const navScript = document.createElement("script");
+        navScript.src = "/js/components/nav.js";
+        document.head.appendChild(navScript);
+
+        // link to the test version of the breadcrumbs.js script
+        const breadcrumbsScript = document.createElement("script");
+        breadcrumbsScript.src = "/js/components/breadcrumbs.js";
+        document.head.appendChild(breadcrumbsScript);
+
+        // link to the test version of the availableTools.js script
+        const availableToolsScript = document.createElement("script");
+        availableToolsScript.src = "/js/components/availableTools.js";
+        document.head.appendChild(availableToolsScript);
+      } else {
+        sessionStorage.setItem("test_mode", false);
+
+        // link to the production version of the stylesheet
+        const style = document.createElement("link");
+        style.rel = "stylesheet";
+        style.type = "text/css";
+        style.href = "../css/new_style.css";
+        document.head.appendChild(style);
+
+        // link to the production version of the nav.js script
+        const navScript = document.createElement("script");
+        navScript.src = "../js/components/nav.js";
+        document.head.appendChild(navScript);
+
+        // link to the production version of the breadcrumbs.js script
+        const breadcrumbsScript = document.createElement("script");
+        breadcrumbsScript.src = "../js/components/breadcrumbs.js";
+        document.head.appendChild(breadcrumbsScript);
+
+        // link to the production version of the availableTools.js script
+        const availableToolsScript = document.createElement("script");
+        availableToolsScript.src = "../js/components/availableTools.js";
+        document.head.appendChild(availableToolsScript);
       }
     </script>
-    <link href="./css/new_style.css" type="text/css" rel="stylesheet" />
-    <script src="./js/components/nav.js"></script>
-    <script src="./js/components/breadcumbs.js"></script>
   </head>
   <body>
     <header id="header" class="primary-section">
@@ -104,7 +148,9 @@
         <h1>Welcome to the WEM Power Tools!</h1>
         <p>Select from below list or select from above navigation</p>
 
-        <div id="tools-div-all">
+        <container id="tools-container"> </container>
+
+        <container id="tools-container_old" hidden>
           <section>
             <gux-card-beta class="primary-card">
               <h2>Gamification</h2>
@@ -398,7 +444,7 @@
               </div>
             </gux-card-beta>
           </section>
-        </div>
+        </container>
       </section>
     </main>
 

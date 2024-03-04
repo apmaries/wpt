@@ -8,7 +8,7 @@ fetch("/wpt/tools.json")
     const path = window.location.pathname;
 
     // WPT Home
-    if (path.includes("wpt_home.html")) {
+    if (path.includes("wpt-home.html")) {
       toolsArray.array.forEach((discipline) => {
         // Create a elements for each discipline card
         const section = document.createElement("section");

@@ -10,7 +10,7 @@ fetch("/wpt/tools.json")
     homeBreadcrumb.textContent = "Home";
     breadcrumbsDiv.appendChild(homeBreadcrumb);
     homeBreadcrumb.addEventListener("click", () => {
-      window.location.href = "/wpt/wpt_home.html";
+      window.location.href = "/wpt/wpt-home.html";
     });
 
     // Get document path to identify the page

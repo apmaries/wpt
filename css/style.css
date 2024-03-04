@@ -200,7 +200,7 @@ h4 {
 /* Index page styles end */
 
 /* Page styles start */
-#tools-div-all {
+#tools-container {
   /* Wraps tool cards */
   display: flex;
   flex-wrap: wrap;
@@ -213,14 +213,16 @@ gux-card-beta div {
 }
 
 gux-card-beta.primary-card {
-  color: var(--gux-off-white);
-  background-color: var(--gux-black-40);
+  background-color: var(--gux-off-white);
+  color: var(--gux-black-30);
   margin: 24px;
+  border-radius: 10px;
+  box-shadow: #000000 10px 5px 5px;
 }
 
 gux-card-beta.secondary-card {
-  color: #000000;
-  background-color: var(--gux-off-white);
+  color: var(--gux-off-white);
+  background-color: var(--gux-black-70);
   margin: 24px;
   display: inline-block;
 }

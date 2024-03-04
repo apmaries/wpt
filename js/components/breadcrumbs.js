@@ -2,8 +2,10 @@
 fetch("/wpt/tools.json")
   .then((response) => response.json())
   .then((toolsArray) => {
+    // Get the breadcrumbs element
     const breadcrumbsDiv = document.getElementById("breadcrumbs");
 
+    // Create the home breadcrumb
     const homeBreadcrumb = document.createElement("gux-breadcrumb-item");
     homeBreadcrumb.textContent = "Home";
     breadcrumbsDiv.appendChild(homeBreadcrumb);
@@ -11,9 +13,8 @@ fetch("/wpt/tools.json")
       window.location.href = "/wpt/wpt_home.html";
     });
 
-    // Get document path and identify the page
+    // Get document path to identify the page
     const path = window.location.pathname;
-    console.debug("breadcrumb path", path);
 
     // Check if path includes identifier attribute from each discipline in toolsArray
     toolsArray.forEach((discipline) => {
@@ -27,29 +28,21 @@ fetch("/wpt/tools.json")
           window.location.href = discipline.href;
         });
 
-        // Check if path includes identifier attribute from each toolgroup in discipline
+        // Loop through toolgroups to find the tool
         discipline.toolgroups.forEach((group) => {
-          if (path.includes(group.identifier)) {
-            const groupBreadcrumb = document.createElement(
-              "gux-breadcrumb-item"
-            );
-            groupBreadcrumb.textContent = group.group;
-            breadcrumbsDiv.appendChild(groupBreadcrumb);
-            groupBreadcrumb.addEventListener("click", () => {
-              window.location.href = group.href;
-            });
-
-            // Check if path includes identifier attribute from each tool in group
-            group.tools.forEach((tool) => {
-              if (path.includes(tool.identifier)) {
-                const toolBreadcrumb = document.createElement(
-                  "gux-breadcrumb-item"
-                );
-                toolBreadcrumb.textContent = tool.tool;
-                breadcrumbsDiv.appendChild(toolBreadcrumb);
-              }
-            });
-          }
+          // Check if path is equal to href attribute from each tool in group
+          group.tools.forEach((tool) => {
+            if (path === tool.href) {
+              const toolBreadcrumb = document.createElement(
+                "gux-breadcrumb-item"
+              );
+              toolBreadcrumb.textContent = tool.tool;
+              toolBreadcrumb.addEventListener("click", () => {
+                window.location.href = tool.href;
+              });
+              breadcrumbsDiv.appendChild(toolBreadcrumb);
+            }
+          });
         });
       }
     });

@@ -111,6 +111,12 @@ a.active-nav-item {
   text-transform: uppercase;
 }
 
+#breadcrumbs > gux-breadcrumb-item:hover {
+  text-transform: uppercase;
+  font-style: oblique;
+  /* transform: rotate(3deg); */
+}
+
 /* Common styles end */
 
 /* Text specific styles start */

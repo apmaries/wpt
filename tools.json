@@ -1,6 +1,6 @@
 [
   {
-    "identifier": "gf",
+    "identifier": "/gf",
     "href": "/wpt/pages/gf.html",
     "discipline": "Gamification",
     "toolgroups": [
@@ -18,7 +18,7 @@
     ]
   },
   {
-    "identifier": "pd",
+    "identifier": "/pd",
     "href": "/wpt/pages/pd.html",
     "discipline": "People & Directory",
     "toolgroups": [
@@ -93,7 +93,7 @@
     ]
   },
   {
-    "identifier": "qm",
+    "identifier": "/qm",
     "href": "/wpt/pages/qm.html",
     "discipline": "Quality Management",
     "toolgroups": [
@@ -111,7 +111,7 @@
     ]
   },
   {
-    "identifier": "st",
+    "identifier": "/st",
     "href": "/wpt/pages/st.html",
     "discipline": "Speech & Text Analytics",
     "toolgroups": [
@@ -147,7 +147,7 @@
     ]
   },
   {
-    "identifier": "wm",
+    "identifier": "/wm",
     "href": "/wpt/pages/wm.html",
     "discipline": "Workforce Management",
     "toolgroups": [

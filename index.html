@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>WEM Power Tools</title>
-    <link rel="icon" href="/wpt/favicon.ico" type="image/x-icon" />
 
     <!-- Genesys stuff https://spark.genesys.com/ -->
     <link
@@ -28,7 +27,40 @@
     />
 
     <!-- Project stuff -->
-    <link href="./css/new_style.css" type="text/css" rel="stylesheet" />
+    <script>
+      // Check window location protocol for test mode (https is considered production)
+      const testMode = window.location.protocol === "http:" ? true : false;
+
+      // Doing all this because I"m not smart enough to figure out how to do it otherwise
+
+      // Link to the favicon
+      const faviconLink = testMode
+        ? "/.test/test_favicon.ico"
+        : "/wpt/favicon.ico";
+      const favicon = document.createElement("link");
+      favicon.rel = "icon";
+      favicon.type = "image/x-icon";
+      favicon.href = faviconLink;
+      document.head.appendChild(favicon);
+
+      // Link to the stylesheet
+      const styleLink = testMode
+        ? "/css/new_style.css"
+        : "../css/new_style.css";
+      const style = document.createElement("link");
+      style.href = styleLink;
+      style.rel = "stylesheet";
+      style.type = "text/css";
+      document.head.appendChild(style);
+
+      // Script to load populateTools.js
+      const toolsScriptSrc = testMode
+        ? "/js/components/populateTools.js"
+        : "../js/components/populateTools.js";
+      const toolsScript = document.createElement("script");
+      toolsScript.src = toolsScriptSrc;
+      document.head.appendChild(toolsScript);
+    </script>
   </head>
   <body>
     <header id="header" class="primary-section">

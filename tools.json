@@ -1,0 +1,216 @@
+[
+  {
+    "identifier": "gf",
+    "href": "/pages/gf.html",
+    "discipline": "Gamification",
+    "toolgroups": [
+      {
+        "group": "Profiles",
+        "tools": [
+          {
+            "tool": "Replicate profile",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "identifier": "pd",
+    "href": "/pages/pd.html",
+    "discipline": "People & Directory",
+    "toolgroups": [
+      {
+        "group": "Groups",
+        "tools": [
+          {
+            "tool": "Import groups",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          }
+        ]
+      },
+      {
+        "group": "Queues & Skills",
+        "tools": [
+          {
+            "tool": "Bulk update by group",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          },
+          {
+            "tool": "Bulk update by WFM BU",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          }
+        ]
+      },
+      {
+        "group": "Roles & Permissions",
+        "tools": [
+          {
+            "tool": "Copy customer role",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          },
+          {
+            "tool": "Export permissions",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          }
+        ]
+      },
+      {
+        "group": "Users",
+        "tools": [
+          {
+            "tool": "Bulk update users",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          }
+        ]
+      },
+      {
+        "group": "Work Teams",
+        "tools": [
+          {
+            "tool": "Import work teams",
+            "status": "active",
+            "description": "Assign people to new or existing work teams.",
+            "scopes": ["groups", "users"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "identifier": "qm",
+    "href": "/pages/qm.html",
+    "discipline": "Quality Management",
+    "toolgroups": [
+      {
+        "group": "Policies",
+        "tools": [
+          {
+            "tool": "Replicate policy",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "identifier": "st",
+    "href": "/pages/st.html",
+    "discipline": "Speech & Text Analytics",
+    "toolgroups": [
+      {
+        "group": "Sentiment Feedback",
+        "tools": [
+          {
+            "tool": "Export sentiment phrases",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          },
+          {
+            "tool": "Import sentiment phrases",
+            "status": "active",
+            "description": "Import a list of sentiment phrases.",
+            "scopes": ["speech-and-text-analytics"]
+          }
+        ]
+      },
+      {
+        "group": "Topics",
+        "tools": [
+          {
+            "tool": "Export topics",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "identifier": "wm",
+    "href": "/pages/wm.html",
+    "discipline": "Workforce Management",
+    "toolgroups": [
+      {
+        "group": "Configuration",
+        "tools": [
+          {
+            "tool": "Copy activity codes",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          },
+          {
+            "tool": "Copy work plans",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          },
+          {
+            "tool": "Export configiguration items",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          }
+        ]
+      },
+      {
+        "group": "Forecasts & Historical Data",
+        "tools": [
+          {
+            "tool": "Export historical data",
+            "status": "active",
+            "description": "Exports 15-minute interval data for route paths in a specified WFM Business Unit.",
+            "scopes": ["workforce-management:readonly", "analytics:readonly"]
+          },
+          {
+            "tool": "Historical data import tool",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          }
+        ]
+      },
+      {
+        "group": "Schedules",
+        "tools": [
+          {
+            "tool": "Import schedules",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          }
+        ]
+      },
+      {
+        "group": "Time Off",
+        "tools": [
+          {
+            "tool": "Import time off",
+            "status": "active",
+            "description": "Import a list of time off requests.",
+            "scopes": ["workforce-management", "users:readonly"]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -31,36 +31,17 @@
       // Check window location protocol for test mode (https is considered production)
       const testMode = window.location.protocol === "http:" ? true : false;
 
-      // Doing all this because I"m not smart enough to figure out how to do it otherwise
-
       // Link to the favicon
       const faviconLink = testMode
-        ? "/.test/test_favicon.ico"
+        ? "/wpt/.test/test_favicon.ico"
         : "/wpt/favicon.ico";
       const favicon = document.createElement("link");
       favicon.rel = "icon";
       favicon.type = "image/x-icon";
       favicon.href = faviconLink;
       document.head.appendChild(favicon);
-
-      // Link to the stylesheet
-      const styleLink = testMode
-        ? "/css/new_style.css"
-        : "/wpt/css/new_style.css";
-      const style = document.createElement("link");
-      style.href = styleLink;
-      style.rel = "stylesheet";
-      style.type = "text/css";
-      document.head.appendChild(style);
-
-      // Script to load populateTools.js
-      const toolsScriptSrc = testMode
-        ? "/js/components/populateTools.js"
-        : "/wpt/js/components/populateTools.js";
-      const toolsScript = document.createElement("script");
-      toolsScript.src = toolsScriptSrc;
-      document.head.appendChild(toolsScript);
     </script>
+    <link rel="stylesheet" href="/wpt/css/new_style.css" />
   </head>
   <body>
     <header id="header" class="primary-section">
@@ -377,6 +358,8 @@
         >
       </p>
     </footer>
+
+    <script src="/wpt/js/components/indexInfo.js"></script>
 
     <!-- Load the PureCloud platform client library -->
     <script src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>

@@ -1,17 +1,17 @@
-// Description: This file is responsible for populating tool info in index, navigation, breadcrumbs and tools container with items from the availableTools array
+// Description: This file is responsible for populating tool info in index, navigation, breadcrumbs and tools container with items from the toolsArray array
 
 // Master list of tools to add dynamically in pages
-const availableTools = [
+const toolsArray = [
   {
     identifier: "gf",
     href: "/wpt/pages/gf.html",
-    text: "Gamification",
+    discipline: "Gamification",
     toolgroups: [
       {
         group: "Profiles",
         tools: [
           {
-            name: "Replicate profile",
+            tool: "Replicate profile",
             status: "",
             description: "",
             scopes: "",
@@ -23,25 +23,25 @@ const availableTools = [
   {
     identifier: "pd",
     href: "/wpt/pages/pd.html",
-    text: "People & Directory",
+    discipline: "People & Directory",
     toolgroups: [
       {
         group: "Groups",
         tools: [
-          { name: "Import groups", status: "", description: "", scopes: "" },
+          { tool: "Import groups", status: "", description: "", scopes: "" },
         ],
       },
       {
         group: "Queues & Skills",
         tools: [
           {
-            name: "Bulk update by group",
+            tool: "Bulk update by group",
             status: "",
             description: "",
             scopes: "",
           },
           {
-            name: "Bulk update by WFM BU",
+            tool: "Bulk update by WFM BU",
             status: "",
             description: "",
             scopes: "",
@@ -52,13 +52,13 @@ const availableTools = [
         group: "Roles & Permissions",
         tools: [
           {
-            name: "Copy customer role",
+            tool: "Copy customer role",
             status: "",
             description: "",
             scopes: "",
           },
           {
-            name: "Export permissions",
+            tool: "Export permissions",
             status: "",
             description: "",
             scopes: "",
@@ -69,7 +69,7 @@ const availableTools = [
         group: "Users",
         tools: [
           {
-            name: "Bulk update users",
+            tool: "Bulk update users",
             status: "",
             description: "",
             scopes: "",
@@ -80,7 +80,7 @@ const availableTools = [
         group: "Work Teams",
         tools: [
           {
-            name: "Import work teams",
+            tool: "Import work teams",
             status: "active",
             description: "Assign people to new or existing work teams.",
             scopes: ["groups", "users"],
@@ -92,12 +92,12 @@ const availableTools = [
   {
     identifier: "qm",
     href: "/wpt/pages/qm.html",
-    text: "Quality Management",
+    discipline: "Quality Management",
     toolgroups: [
       {
         group: "Policies",
         tools: [
-          { name: "Replicate policy", status: "", description: "", scopes: "" },
+          { tool: "Replicate policy", status: "", description: "", scopes: "" },
         ],
       },
     ],
@@ -105,19 +105,19 @@ const availableTools = [
   {
     identifier: "st",
     href: "/wpt/pages/st.html",
-    text: "Speech & Text Analytics",
+    discipline: "Speech & Text Analytics",
     toolgroups: [
       {
         group: "Sentiment Feedback",
         tools: [
           {
-            name: "Export sentiment phrases",
+            tool: "Export sentiment phrases",
             status: "",
             description: "",
             scopes: "",
           },
           {
-            name: "Import sentiment phrases",
+            tool: "Import sentiment phrases",
             status: "active",
             description: "Import a list of sentiment phrases.",
             scopes: ["speech-and-text-analytics"],
@@ -127,7 +127,7 @@ const availableTools = [
       {
         group: "Topics",
         tools: [
-          { name: "Export topics", status: "", description: "", scopes: "" },
+          { tool: "Export topics", status: "", description: "", scopes: "" },
         ],
       },
     ],
@@ -135,20 +135,20 @@ const availableTools = [
   {
     identifier: "wm",
     href: "/wpt/pages/wm.html",
-    text: "Workforce Management",
+    discipline: "Workforce Management",
     toolgroups: [
       {
         group: "Configuration",
         tools: [
           {
-            name: "Copy activity codes",
+            tool: "Copy activity codes",
             status: "",
             description: "",
             scopes: "",
           },
-          { name: "Copy work plans", status: "", description: "", scopes: "" },
+          { tool: "Copy work plans", status: "", description: "", scopes: "" },
           {
-            name: "Export configiguration items",
+            tool: "Export configiguration items",
             status: "",
             description: "",
             scopes: "",
@@ -159,14 +159,14 @@ const availableTools = [
         group: "Forecasts & Historical Data",
         tools: [
           {
-            name: "Export historical data",
+            tool: "Export historical data",
             status: "active",
             description:
               "Exports 15-minute interval data for route paths in a specified WFM Business Unit.",
             scopes: ["workforce-management:readonly", "analytics:readonly"],
           },
           {
-            name: "Historical data import tool",
+            tool: "Historical data import tool",
             status: "",
             description: "",
             scopes: "",
@@ -176,14 +176,14 @@ const availableTools = [
       {
         group: "Schedules",
         tools: [
-          { name: "Import schedules", status: "", description: "", scopes: "" },
+          { tool: "Import schedules", status: "", description: "", scopes: "" },
         ],
       },
       {
         group: "Time Off",
         tools: [
           {
-            name: "Import time off",
+            tool: "Import time off",
             status: "active",
             description: "Import a list of time off requests.",
             scopes: ["workforce-management", "users:readonly"],
@@ -195,11 +195,91 @@ const availableTools = [
 ];
 
 // Get document path and identify the page
+let page;
 const path = window.location.pathname;
+if (path.includes("/wpt/")) {
+  page = path.replace("/wpt/", "").split(".")[0];
+} else {
+  page = path.split("/")[1].split(".")[0];
+}
 console.debug("populateTools path", path);
+console.debug("populateTools page", page);
 
 // Index page
+if (page === "index") {
+  console.log("Populating index info");
+  const element = document.getElementById("index-available-tools-accordian");
+  console.log(element);
 
+  // Create an empty map to store accordions by discipline
+  const accordions = new Map();
+
+  toolsArray.forEach((discipline) => {
+    discipline.toolgroups.forEach((group) => {
+      group.tools.forEach((tool) => {
+        if (tool.status === "active") {
+          // If an accordion for this discipline doesn't exist, create it
+          if (!accordions.has(discipline.discipline)) {
+            const accordianItem = document.createElement(
+              "gux-accordion-section"
+            );
+            accordianItem.setAttribute("arrow-position", "before-text");
+
+            const headerSlot = document.createElement("h2");
+            headerSlot.slot = "header";
+            headerSlot.textContent = discipline.discipline;
+            accordianItem.appendChild(headerSlot);
+
+            accordions.set(discipline.discipline, accordianItem);
+          }
+
+          // Get the accordion for this discipline
+          const accordianItem = accordions.get(discipline.discipline);
+
+          const contentSlot = document.createElement("div");
+          contentSlot.slot = "content";
+
+          const toolHeader = document.createElement("h4");
+          toolHeader.slot = "header";
+          toolHeader.textContent = tool.tool;
+          contentSlot.appendChild(toolHeader);
+
+          const toolDescription = document.createElement("p");
+          toolDescription.slot = "content";
+          toolDescription.textContent = tool.description;
+          contentSlot.appendChild(toolDescription);
+
+          const scopesSlot = document.createElement("div");
+          scopesSlot.slot = "content";
+
+          const scopesHeader = document.createElement("p");
+          scopesHeader.textContent = "Required scopes:";
+          scopesSlot.appendChild(scopesHeader);
+
+          const scopesList = document.createElement("ul");
+          tool.scopes.forEach((scope) => {
+            const scopeItem = document.createElement("li");
+            scopeItem.textContent = scope;
+            scopesList.appendChild(scopeItem);
+          });
+          scopesSlot.appendChild(scopesList);
+          contentSlot.appendChild(scopesSlot);
+
+          accordianItem.appendChild(contentSlot);
+        }
+      });
+    });
+  });
+
+  // Append all accordions to the main accordion
+  const mainAccordion = document.getElementById(
+    "index-available-tools-accordian"
+  );
+  accordions.forEach((accordion) => {
+    mainAccordion.appendChild(accordion);
+  });
+}
+/*
 // Populate the breadcrumbs container
 const breadcrumbsDiv = document.getElementById("breadcrumbs");
 
@@ -216,3 +296,4 @@ if (toolsContainer) {
   const path = window.location.pathname;
   console.log("tools path", path);
 }
+*/

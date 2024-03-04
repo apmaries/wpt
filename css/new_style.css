@@ -7,7 +7,7 @@ ul {
 /* Common styles start */
 body {
   font-family: "Noto Sans", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--gux-off-white);
   background-color: var(--gux-black-30);
   margin: 10;
@@ -127,6 +127,14 @@ h2 {
   text-transform: lowercase;
 }
 
+h4 {
+  font-family: "Urbanist", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  font-style: oblique;
+  color: var(--gux-aqua-green-sec);
+}
+
 .important-text {
   font-weight: bold;
 }
@@ -160,6 +168,7 @@ h2 {
 
 #index-section > div > container {
   background-color: var(--gux-off-white);
+  color: #000000;
   padding: 10px;
   margin-left: 25px;
   margin-right: auto;

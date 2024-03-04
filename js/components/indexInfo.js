@@ -1,5 +1,3 @@
-// Description: This file is responsible for populating tool info in index, navigation, breadcrumbs and tools container with items from the toolsArray array
-
 // Get master tools array from tools.json
 fetch("/wpt/tools.json")
   .then((response) => response.json())
@@ -78,26 +76,7 @@ fetch("/wpt/tools.json")
     accordions.forEach((accordion) => {
       mainAccordion.appendChild(accordion);
     });
-
-    /*
-    // Populate the breadcrumbs container
-    const breadcrumbsDiv = document.getElementById("breadcrumbs");
-
-    const homeBreadcrumb = document.createElement("gux-breadcrumb-item");
-    homeBreadcrumb.textContent = "Home";
-    breadcrumbsDiv.appendChild(homeBreadcrumb);
-
-    let rootPath = window.location.pathname.includes("wpt") ? "/wpt" : "";
-
-    // Populate the tools container
-    const toolsContainer = document.getElementById("tools-container");
-
-    if (toolsContainer) {
-      const path = window.location.pathname;
-      console.log("tools path", path);
-    }
-    */
   })
   .catch((error) => {
-    console.error("Error fetching tools.json", error);
+    console.error("WPT: Error fetching tools.json", error);
   });

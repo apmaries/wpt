@@ -1,60 +1,59 @@
-const breadcrumbsDiv = document.getElementById("breadcrumbs");
+// Get master tools array from tools.json
+fetch("/wpt/tools.json")
+  .then((response) => response.json())
+  .then((toolsArray) => {
+    const breadcrumbsDiv = document.getElementById("breadcrumbs");
 
-const homeBreadcrumb = document.createElement("gux-breadcrumb-item");
-homeBreadcrumb.textContent = "Home";
-breadcrumbsDiv.appendChild(homeBreadcrumb);
+    const homeBreadcrumb = document.createElement("gux-breadcrumb-item");
+    homeBreadcrumb.textContent = "Home";
+    breadcrumbsDiv.appendChild(homeBreadcrumb);
+    homeBreadcrumb.addEventListener("click", () => {
+      window.location.href = "/wpt/wpt_home.html";
+    });
 
-const rootPath = window.location.pathname.includes("wpt") ? "/wpt" : "";
-const pageBreadcrumbs = [
-  {
-    identifier: "gf",
-    href: `${rootPath}/pages/gf.html`,
-    text: "Gamification",
-  },
-  {
-    identifier: "pd",
-    href: `${rootPath}/pages/pd.html`,
-    text: "People & Directory",
-  },
-  {
-    identifier: "qm",
-    href: `${rootPath}/pages/qm.html`,
-    text: "Quality Management",
-  },
-  {
-    identifier: "st",
-    href: `${rootPath}/pages/st.html`,
-    text: "Speech & Text Analytics",
-  },
-  {
-    identifier: "wm",
-    href: `${rootPath}/pages/wm.html`,
-    text: "Workforce Management",
-  },
-];
+    // Get document path and identify the page
+    const path = window.location.pathname;
+    console.debug("breadcrumb path", path);
 
-// Get document path and identify the page
-const path = window.location.pathname;
-console.debug("breadcrumb path", path);
+    // Check if path includes identifier attribute from each discipline in toolsArray
+    toolsArray.forEach((discipline) => {
+      if (path.includes(discipline.identifier)) {
+        const disciplineBreadcrumb = document.createElement(
+          "gux-breadcrumb-item"
+        );
+        disciplineBreadcrumb.textContent = discipline.discipline;
+        breadcrumbsDiv.appendChild(disciplineBreadcrumb);
+        disciplineBreadcrumb.addEventListener("click", () => {
+          window.location.href = discipline.href;
+        });
 
-// Count how many / splits are in the path
-const pathSplits = path.split("/").length;
+        // Check if path includes identifier attribute from each toolgroup in discipline
+        discipline.toolgroups.forEach((group) => {
+          if (path.includes(group.identifier)) {
+            const groupBreadcrumb = document.createElement(
+              "gux-breadcrumb-item"
+            );
+            groupBreadcrumb.textContent = group.group;
+            breadcrumbsDiv.appendChild(groupBreadcrumb);
+            groupBreadcrumb.addEventListener("click", () => {
+              window.location.href = group.href;
+            });
 
-// Get the primary page identifier from split 2
-const pageIdentifier = path.split("/")[2]?.split(".")[0];
-console.debug("breadcrumb pageIdentifier", pageIdentifier);
-
-// Create the page breadcrumb
-if (pageIdentifier) {
-  // Find the page object
-  const pageObject = pageBreadcrumbs.find(
-    (page) => page.identifier === pageIdentifier
-  );
-  // Create the page breadcrumb
-  const pageBreadcrumb = document.createElement("gux-breadcrumb-item");
-  pageBreadcrumb.textContent = pageObject.text;
-  pageBreadcrumb.href = pageObject.href;
-  breadcrumbsDiv.appendChild(pageBreadcrumb);
-}
-
-// Set the active page breadcrumb
+            // Check if path includes identifier attribute from each tool in group
+            group.tools.forEach((tool) => {
+              if (path.includes(tool.identifier)) {
+                const toolBreadcrumb = document.createElement(
+                  "gux-breadcrumb-item"
+                );
+                toolBreadcrumb.textContent = tool.tool;
+                breadcrumbsDiv.appendChild(toolBreadcrumb);
+              }
+            });
+          }
+        });
+      }
+    });
+  })
+  .catch((error) => {
+    console.error("WPT: Error fetching tools.json", error);
+  });

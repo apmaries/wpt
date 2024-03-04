@@ -8,7 +8,7 @@ import { disconnect } from "./disconnect.js";
 
 // Description: This file initiates the session and checks if the user is authorised
 
-if (!sessionStorage.getItem("test_mode")) {
+if (!window.origin.includes("127.0.0.1")) {
   if (!sessionStorage.getItem("sesion_active")) {
     console.log("WPT: Session starting...");
     // Function to check if internal user

@@ -1,7 +1,7 @@
 [
   {
     "identifier": "gf",
-    "href": "/pages/gf.html",
+    "href": "/wpt/pages/gf.html",
     "discipline": "Gamification",
     "toolgroups": [
       {
@@ -19,7 +19,7 @@
   },
   {
     "identifier": "pd",
-    "href": "/pages/pd.html",
+    "href": "/wpt/pages/pd.html",
     "discipline": "People & Directory",
     "toolgroups": [
       {
@@ -85,7 +85,8 @@
             "tool": "Import work teams",
             "status": "active",
             "description": "Assign people to new or existing work teams.",
-            "scopes": ["groups", "users"]
+            "scopes": ["groups", "users"],
+            "href": "/wpt/pages/pd/import-work-teams.html"
           }
         ]
       }
@@ -93,7 +94,7 @@
   },
   {
     "identifier": "qm",
-    "href": "/pages/qm.html",
+    "href": "/wpt/pages/qm.html",
     "discipline": "Quality Management",
     "toolgroups": [
       {
@@ -111,7 +112,7 @@
   },
   {
     "identifier": "st",
-    "href": "/pages/st.html",
+    "href": "/wpt/pages/st.html",
     "discipline": "Speech & Text Analytics",
     "toolgroups": [
       {
@@ -127,7 +128,8 @@
             "tool": "Import sentiment phrases",
             "status": "active",
             "description": "Import a list of sentiment phrases.",
-            "scopes": ["speech-and-text-analytics"]
+            "scopes": ["speech-and-text-analytics"],
+            "href": "/wpt/pages/st/import-sentiment-phrases.html"
           }
         ]
       },
@@ -146,7 +148,7 @@
   },
   {
     "identifier": "wm",
-    "href": "/pages/wm.html",
+    "href": "/wpt/pages/wm.html",
     "discipline": "Workforce Management",
     "toolgroups": [
       {
@@ -179,7 +181,8 @@
             "tool": "Export historical data",
             "status": "active",
             "description": "Exports 15-minute interval data for route paths in a specified WFM Business Unit.",
-            "scopes": ["workforce-management:readonly", "analytics:readonly"]
+            "scopes": ["workforce-management:readonly", "analytics:readonly"],
+            "href": "/wpt/pages/wm/export-historical-data.html"
           },
           {
             "tool": "Historical data import tool",
@@ -207,7 +210,8 @@
             "tool": "Import time off",
             "status": "active",
             "description": "Import a list of time off requests.",
-            "scopes": ["workforce-management", "users:readonly"]
+            "scopes": ["workforce-management", "users:readonly"],
+            "href": "/wpt/pages/wm/import-time-off.html"
           }
         ]
       }

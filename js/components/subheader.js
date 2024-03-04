@@ -1,5 +1,5 @@
 window.onload = function () {
-  if (!sessionStorage.getItem("test_mode")) {
+  if (!window.origin.includes("127.0.0.1")) {
     const token = sessionStorage.getItem("token");
     if (!token) {
       alert(`No token found! Redirecting to login page.`);

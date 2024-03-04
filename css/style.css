@@ -1,92 +1,141 @@
-@font-face {
-  font-family: "springwood-brush";
-  src: url("../fonts/Springwood Brush Regular/springwood_brush-webfont.woff2")
-      format("woff2"),
-    url("../fonts/Springwood Brush Regular/springwood_brush-webfont.woff")
-      format("woff");
-  font-weight: normal;
-  font-style: normal;
+/* Remove default ul margin & padding */
+ul {
+  margin: 0;
+  padding: 0;
 }
 
-@font-face {
-  font-family: "consolas";
-  src: url("../fonts/Consolas.ttf") format("ttf");
-  font-weight: normal;
-  font-style: normal;
+/* Common styles start */
+body {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 14px;
+  color: var(--gux-off-white);
+  background-color: var(--gux-black-30);
+  margin: 10;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-header {
-  box-sizing: border-box;
-  background-color: #ecebeb;
-  color: #ff4c1c;
-  padding: 5px 5px;
-  position: relative;
-  top: 0;
-  width: 100%;
-  z-index: 999;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+nav {
+  display: flex;
+  overflow: hidden;
+}
+
+footer {
+  margin-top: auto;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.primary-section {
+  margin: 10px 0;
+  padding: 0 10px;
+  /* temp border for testing */
+  border: green solid 2px;
+}
+
+.sub-section-065 {
+  overflow: hidden;
+  width: 65%;
+  margin: 0 5px 0 0;
+  /* temp border for testing */
+  border: yellow solid 2px;
+}
+
+.sub-section-035 {
+  overflow: hidden;
+  width: 35%;
+  margin: 0 0 0 5px;
+  /* temp border for testing */
+  border: purple solid 2px;
 }
 
 #title {
-  color: #ff4c1c;
-  font-size: 65px;
-  font-family: springwood-brush, sans-serif;
-  text-transform: uppercase;
+  font-family: "Urbanist", sans-serif;
+  font-weight: 700;
+  font-size: 60px;
+  font-style: oblique;
+  color: var(--gux-warm-red);
 }
 
-.subHeader {
-  box-sizing: border-box;
-  display: inline-flex;
-  position: relative;
-  padding-left: 5px;
-  top: 0;
-  width: 100%;
-  height: 75px;
-  z-index: 999;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  font-size: 16px;
-}
-
-.header-li {
+#header {
+  font-family: "Urbanist", sans-serif;
   color: #000000;
-  display: inline-block;
   font-size: 20px;
   font-weight: 300;
-  letter-spacing: 2px;
+  background-color: var(--gux-off-white);
+  box-sizing: border-box;
+  position: relative;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  border-radius: 10px;
+  box-shadow: #000000 0px 0px 10px;
+}
+
+#subheader {
+  background-color: var(--gux-off-white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav ul li {
+  display: inline-block;
   margin: 0;
-  padding: 10px 18px 10px 0px;
+  padding: 0px 18px 10px 0px;
   text-transform: lowercase;
-}
-
-.active {
-  font-size: 16px;
-  font-weight: 1000;
+  font-weight: bolder;
   letter-spacing: 2px;
-  margin: 0;
-  text-transform: uppercase;
 }
 
-.header a,
+nav ul li a,
 a:visited {
   text-decoration: none;
   color: #000000;
 }
 
-.header a:hover,
+nav ul li a:hover,
 a:active {
   text-decoration: none;
-  color: #ff4c1c;
+  color: var(--gux-warm-red);
 }
 
-.toy-table-containter {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+a.active-nav-item {
+  font-weight: bolder;
+  letter-spacing: 2px;
+  font-style: oblique;
+  color: var(--gux-warm-red);
+  text-transform: uppercase;
 }
 
-.important {
+/* Common styles end */
+
+/* Text specific styles start */
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+h2 {
+  font-family: "Urbanist", sans-serif;
+  font-size: 20px;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  text-transform: lowercase;
+}
+
+h4 {
+  font-family: "Urbanist", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  font-style: oblique;
+  color: var(--gux-aqua-green-sec);
+}
+
+.important-text {
   font-weight: bold;
 }
 
@@ -94,62 +143,92 @@ a:active {
   font-style: italic;
 }
 
-.Row {
-  display: table;
-  width: 100%; /*Optional*/
-  table-layout: fixed; /*Optional*/
-  margin-bottom: 10px;
+/* Font specific styles end */
+
+/* Index page styles start */
+#index-section {
+  display: flex;
 }
 
-.Column {
-  display: table-cell;
-  vertical-align: middle;
+#index-section > div {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
 }
 
-.wpt-page {
-  float: left;
-  display: inline;
-  margin: 10px;
-}
-
-table a,
-a:visited {
+#index-section div a {
+  color: var(--gux-off-white);
   text-decoration: none;
+}
+
+#index-section gux-icon {
+  padding-right: 0;
+  color: var(--gux-warm-red);
+}
+
+#index-section > div > container {
+  background-color: var(--gux-off-white);
   color: #000000;
+  padding: 10px;
+  margin-left: 25px;
+  margin-right: auto;
+  margin-bottom: 25px;
+  width: 75%;
+  border-radius: 10px;
+  box-shadow: #000000 10px 5px 5px;
 }
 
-table a:hover {
-  text-decoration: underline;
-  color: #00b8aa;
+#index-info-div ul li {
+  margin-left: 25px;
 }
 
-table {
-  table-layout: fixed;
-  width: 180px;
-  padding: 5px 5px;
+/*
+#index-login-container {
+  background-color: var(--gux-off-white);
+  padding: 10px;
+  margin-left: 25px;
+  margin-right: auto;
+  width: 75%; 
+} */
+
+/* Index page styles end */
+
+/* Page styles start */
+#tools-div-all {
+  /* Wraps tool cards */
+  display: flex;
+  flex-wrap: wrap;
+}
+
+gux-card-beta div {
+  /* Vertically aligns tool names */
+  display: flex;
+  align-items: flex-start;
+}
+
+gux-card-beta.primary-card {
+  color: var(--gux-off-white);
+  background-color: var(--gux-black-40);
+  margin: 24px;
+}
+
+gux-card-beta.secondary-card {
+  color: #000000;
+  background-color: var(--gux-off-white);
+  margin: 24px;
   display: inline-block;
-  text-align: left;
-  vertical-align: top;
-  margin: 10px 20px;
 }
 
-thead {
-  height: 50px;
-  text-align: left;
-  font-size: 20px;
-  font-weight: bold;
+/* Page styles end */
+
+/* Tool pages styles start */
+
+#tool-group {
+  display: flex;
 }
 
-table,
-td + td {
-  border-left: 2px solid #00b8aa;
-  font-size: 16px;
+#tool-group > div {
+  flex: 1;
 }
 
-table td {
-  padding-bottom: 10px;
-}
-
-.coming-soon {
-  color: #adadad;
-}
+/* Tool pages styles end */

@@ -1,36 +1,31 @@
-const navItems = document.getElementById("nav-items");
+// Get master tools array from tools.json
+fetch("/wpt/tools.json")
+  .then((response) => response.json())
+  .then((toolsArray) => {
+    // TODO: Add a sort for tools array in case any new added tools are not in the correct order
 
-let rootPath = window.location.pathname.includes("wpt/") ? "/wpt" : "";
-const navObjects = [
-  { href: `${rootPath}/pages/gf.html`, text: "Gamification" },
-  { href: `${rootPath}/pages/pd.html`, text: "People & Directory" },
-  { href: `${rootPath}/pages/qm.html`, text: "Quality Management" },
-  { href: `${rootPath}/pages/st.html`, text: "Speech & Text Analytics" },
-  { href: `${rootPath}/pages/wm.html`, text: "Workforce Management" },
-];
+    // Get the nav items element
+    const navItems = document.getElementById("nav-items");
+    // Get document path to add active class to the current page
+    const path = window.location.pathname;
 
-navObjects.forEach((navObject) => {
-  const li = document.createElement("li");
-  const link = document.createElement("a");
-  link.href = navObject.href;
-  link.textContent = navObject.text;
-  li.appendChild(link);
-  navItems.appendChild(li);
-});
+    toolsArray.forEach((discipline) => {
+      // Create the nav link
+      const li = document.createElement("li");
+      const link = document.createElement("a");
 
-// Check document page and set active class
-const path = window.location.pathname;
+      // Set the link attributes
+      link.href = discipline.href;
+      link.textContent = discipline.discipline;
+      if (path.includes(discipline.identifier)) {
+        link.classList.add("active-nav-item");
+      }
 
-// Extract the page identifier from the path
-const pageIdentifier = path.split("/")[2]?.split(".")[0];
-
-const navLinks = document.querySelectorAll("#nav-items a");
-
-if (pageIdentifier) {
-  navLinks.forEach((navLink) => {
-    const href = navLink.getAttribute("href");
-    if (href.substring(href.lastIndexOf("/") + 1).startsWith(pageIdentifier)) {
-      navLink.classList.add("active-nav-item");
-    }
+      // Append the link to the list item
+      li.appendChild(link);
+      navItems.appendChild(li);
+    });
+  })
+  .catch((error) => {
+    console.error("WPT: Error fetching tools.json", error);
   });
-}

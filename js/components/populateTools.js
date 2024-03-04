@@ -194,6 +194,8 @@ const toolsArray = [
   },
 ];
 
+// TODO: Add a sort for tools array in case any new added tools are not in the correct order
+
 // Get document path and identify the page
 let page;
 const path = window.location.pathname;
@@ -202,12 +204,12 @@ if (path.includes("/wpt/")) {
 } else {
   page = path.split("/")[1].split(".")[0];
 }
-console.debug("populateTools path", path);
-console.debug("populateTools page", page);
+console.debug("WPT: populateTools path", path);
+console.debug("WPT: populateTools page", page);
 
-// Index page
 if (page === "index") {
   console.log("Populating index info");
+  // Index page
   const element = document.getElementById("index-available-tools-accordian");
   console.log(element);
 
@@ -277,6 +279,19 @@ if (page === "index") {
   );
   accordions.forEach((accordion) => {
     mainAccordion.appendChild(accordion);
+  });
+} else {
+  // Populate the nav items
+  const navItemsUl = document.getElementById("nav-items");
+
+  // Create li item for each discipline
+  toolsArray.forEach((discipline) => {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.href = discipline.href;
+    a.textContent = discipline.discipline;
+    li.appendChild(a);
+    navItemsUl.appendChild(li);
   });
 }
 /*

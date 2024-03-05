@@ -103,137 +103,9 @@
       <section style="color: var(--gux-grey-100); padding-left: 24px">
         <h1 class="page-header">Workforce Management Tools</h1>
       </section>
-      <div class="toy-table-container">
-        <gux-card-beta
-          accent="raised"
-          style="margin: 24px; display: inline-block"
-        >
-          <table>
-            <thead>
-              <tr>
-                <td>Configuration</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <a class="coming-soon">Copy activity codes (coming soon!)</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a class="coming-soon">Copy work plans (coming soon!)</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a class="coming-soon"
-                    >Export activity codes (coming soon!)</a
-                  >
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a class="coming-soon">Export BU list (coming soon!)</a>
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  <a class="coming-soon"
-                    >Export historical data (coming soon!)</a
-                  >
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a class="coming-soon"
-                    >Export all config for As Built (coming soon!)</a
-                  >
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </gux-card-beta>
-
-        <gux-card-beta
-          accent="raised"
-          style="margin: 24px; display: inline-block"
-        >
-          <table>
-            <thead>
-              <tr>
-                <td>Forecasts & Historical Data</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <a class="tableLink" href="./wm/export_historical_data.html"
-                    >Export historical data</a
-                  >
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a class="coming-soon"
-                    >Historical data import tool (coming soon!)</a
-                  >
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </gux-card-beta>
-
-        <gux-card-beta
-          accent="raised"
-          style="margin: 24px; display: inline-block"
-        >
-          <table>
-            <thead>
-              <tr>
-                <td>Schedules</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <a class="coming-soon">Schedule import (In development)</a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </gux-card-beta>
-
-        <gux-card-beta
-          accent="raised"
-          style="margin: 24px; display: inline-block"
-        >
-          <table>
-            <thead>
-              <tr>
-                <td>Time Off</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <a class="tableLink" href="./wm/import_timeoff.html"
-                    >Import time off</a
-                  >
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a class="coming-soon"
-                    >Import time off limits (coming soon!)</a
-                  >
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </gux-card-beta>
-      </div>
+      <container id="tools-container" style="border: #ff4c1c solid">
+        <!-- Tools being dynamically added by tools.js -->
+      </container>
     </main>
     <footer>
       <p>
@@ -254,16 +126,20 @@
 
     <!-- Load the breadcrumbs.js module -->
     <script src="/wpt/js/components/breadcrumbs.js" defer></script>
-    <!-- Load the subheader.js module -->
-    <script src="../js/components/subheader.js" defer></script>
+
+    <!-- Load the tools.js module -->
+    <script type="module" src="/wpt/js/components/tools.js" defer></script>
+
+    <!-- Load the session.js module -->
+    <script type="module" src="/wpt/js/utils/session.js" defer></script>
 
     <!-- Load the disconnect.js module -->
-    <script type="module" src="../js/utils/disconnect.js" defer></script>
+    <script type="module" src="/wpt/js/utils/disconnect.js" defer></script>
 
     <script>
-      // Return home if heading clicked
+      // Return home if title clicked
       document.getElementById("title").addEventListener("click", () => {
-        window.location.href = "/wpt/wpt_home.html";
+        window.location.href = "/wpt/wpt-home.html";
       });
     </script>
   </body>

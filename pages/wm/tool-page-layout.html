@@ -31,36 +31,17 @@
       // Check window location protocol for test mode (https is considered production)
       const testMode = window.location.protocol === "http:" ? true : false;
 
-      // Doing all this because I"m not smart enough to figure out how to do it otherwise
-
       // Link to the favicon
       const faviconLink = testMode
-        ? "/.test/test_favicon.ico"
+        ? "/wpt/.test/test_favicon.ico"
         : "/wpt/favicon.ico";
       const favicon = document.createElement("link");
       favicon.rel = "icon";
       favicon.type = "image/x-icon";
       favicon.href = faviconLink;
       document.head.appendChild(favicon);
-
-      // Link to the stylesheet
-      const styleLink = testMode
-        ? "/css/new_style.css"
-        : "../css/new_style.css";
-      const style = document.createElement("link");
-      style.href = styleLink;
-      style.rel = "stylesheet";
-      style.type = "text/css";
-      document.head.appendChild(style);
-
-      // Script to load populateTools.js
-      const toolsScriptSrc = testMode
-        ? "/js/components/populateTools.js"
-        : "../js/components/populateTools.js";
-      const toolsScript = document.createElement("script");
-      toolsScript.src = toolsScriptSrc;
-      document.head.appendChild(toolsScript);
     </script>
+    <link rel="stylesheet" href="/wpt/css/style.css" />
   </head>
   <body>
     <header id="header" class="primary-section">
@@ -119,43 +100,11 @@
     </header>
     <main>
       <section id="info-section" class="primary-section">
-        <div id="info-container" style="border: red solid">
-          <h1>Export Historical Data</h1>
-          <p>
-            Exports 15-minute interval data for route paths in a specified WFM
-            Business Unit.
-          </p>
-
-          <gux-card-beta>
-            <gux-accordion>
-              <gux-accordion-section arrow-position="before-text">
-                <h3 slot="header">Information</h3>
-                <div slot="content">
-                  <ul>
-                    <li>Supports multiple BU's and full / part day requests</li>
-                    <li>
-                      All dates and times should be relative to BU specified
-                    </li>
-                    <li>
-                      Use yyyy-mm-dd and HH:MM formats until I build in option
-                      to choose formats
-                    </li>
-                  </ul>
-                </div>
-              </gux-accordion-section>
-              <gux-accordion-section arrow-position="before-text">
-                <h3 slot="header">Required scopes for OAuth client</h3>
-                <div slot="content">
-                  <ul>
-                    <li>workforce-management:readonly</li>
-                    <li>analytics:readonly</li>
-                  </ul>
-                </div>
-              </gux-accordion-section>
-            </gux-accordion>
-          </gux-card-beta>
+        <div id="tool-info-div" class="sub-section-035">
+          <!-- Tool info is dynamically added by tools.js -->
         </div>
       </section>
+
       <section id="content-section" class="primary-section">
         <div id="tool-group">
           <div id="input-group" style="border: blue solid; height: 100px"></div>
@@ -181,5 +130,29 @@
         >
       </p>
     </footer>
+    <!-- Load the PureCloud platform client library -->
+    <script src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>
+
+    <!-- Load the nav.js module -->
+    <script src="/wpt/js/components/nav.js" defer></script>
+
+    <!-- Load the breadcrumbs.js module -->
+    <script src="/wpt/js/components/breadcrumbs.js" defer></script>
+
+    <!-- Load the tools.js module -->
+    <script type="module" src="/wpt/js/components/tools.js" defer></script>
+
+    <!-- Load the session.js module -->
+    <script type="module" src="/wpt/js/utils/session.js" defer></script>
+
+    <!-- Load the disconnect.js module -->
+    <script type="module" src="/wpt/js/utils/disconnect.js" defer></script>
+
+    <script>
+      // Return home if title clicked
+      document.getElementById("title").addEventListener("click", () => {
+        window.location.href = "/wpt/wpt-home.html";
+      });
+    </script>
   </body>
 </html>

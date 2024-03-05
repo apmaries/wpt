@@ -104,7 +104,8 @@
         <h1>Welcome to the WEM Power Tools!</h1>
         <p>Select from below list or select from above navigation</p>
 
-        <container id="tools-container"> </container>
+        <container id="tools-container" style="border: #ff4c1c solid">
+        </container>
 
         <container id="tools-container_old" hidden>
           <section>
@@ -460,15 +461,15 @@
     <script type="module" src="/wpt/js/components/tools.js" defer></script>
 
     <!-- Load the session.js module -->
-    <script type="module" src="./js/utils/session.js" defer></script>
+    <script type="module" src="/wpt/js/utils/session.js" defer></script>
 
     <!-- Load the disconnect.js module -->
-    <script type="module" src="./js/utils/disconnect.js" defer></script>
+    <script type="module" src="/wpt/js/utils/disconnect.js" defer></script>
 
     <script>
       // Return home if title clicked
       document.getElementById("title").addEventListener("click", () => {
-        window.location.href = "/wpt/wpt_home.html";
+        window.location.href = "/wpt/wpt-home.html";
       });
     </script>
   </body>

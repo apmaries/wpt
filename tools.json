@@ -167,10 +167,18 @@
             "scopes": ""
           },
           {
-            "tool": "Export configiguration items",
+            "tool": "Export configuration items",
             "status": "",
             "description": "",
             "scopes": ""
+          },
+          {
+            "tool": "Test Page",
+            "status": "active",
+            "description": "Template for page layouts",
+            "scopes": ["workforce-management:readonly", "analytics:readonly"],
+            "href": "/wpt/pages/wm/tool-page-layout.html",
+            "info": "Supports muiltple BU's and both full and part day requests. All dates and times should be relative to BU's timezone. Use 'yyyy-mm-dd' format for dates and 'hh:mm' for times."
           }
         ]
       },

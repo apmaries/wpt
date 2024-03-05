@@ -127,17 +127,26 @@ h1 {
 
 h2 {
   font-family: "Urbanist", sans-serif;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bolder;
   letter-spacing: 2px;
   text-transform: lowercase;
+  text-decoration: underline;
+  text-shadow: black 1px 1px 1px;
+}
+
+h3 {
+  font-family: "Urbanist", sans-serif;
+  font-size: 20px;
 }
 
 h4 {
   font-family: "Urbanist", sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   font-style: oblique;
+  text-decoration: underline;
+  text-shadow: var(--gux-grey-60) 1px 1px 1px;
   color: var(--gux-aqua-green-sec);
 }
 
@@ -188,15 +197,6 @@ h4 {
   margin-left: 25px;
 }
 
-/*
-#index-login-container {
-  background-color: var(--gux-off-white);
-  padding: 10px;
-  margin-left: 25px;
-  margin-right: auto;
-  width: 75%; 
-} */
-
 /* Index page styles end */
 
 /* Page styles start */
@@ -206,30 +206,68 @@ h4 {
   flex-wrap: wrap;
 }
 
-gux-card-beta div {
-  /* Vertically aligns tool names */
-  display: flex;
-  align-items: flex-start;
-}
-
 gux-card-beta.primary-card {
-  background-color: var(--gux-off-white);
-  color: var(--gux-black-30);
+  background-color: var(--gux-black-60);
+  color: var(--gux-off-white);
   margin: 24px;
   border-radius: 10px;
   box-shadow: #000000 10px 5px 5px;
 }
 
 gux-card-beta.secondary-card {
-  color: var(--gux-off-white);
-  background-color: var(--gux-black-70);
+  color: var(--gux-black-80);
+  background-color: var(--gux-off-white);
   margin: 24px;
-  display: inline-block;
+  border-radius: 10px;
+  box-shadow: var(--gux-grey-30) 3px 3px 1px, inset white 2px 2px;
+}
+
+gux-card-beta.secondary-card > ul {
+  list-style-type: none;
+}
+
+.secondary-card > ul > li a,
+.secondary-card > ul > li a:visited {
+  text-decoration: none;
+  color: var(--gux-black-70);
+}
+
+gux-card-beta.secondary-card > ul > li a:hover,
+a:active {
+  text-decoration: none;
+  color: var(--gux-aqua-green-sec);
 }
 
 /* Page styles end */
 
 /* Tool pages styles start */
+/* Replicates style of index container / accordians */
+#info-section {
+  display: flex;
+}
+
+#info-section > div {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+
+#info-section > div > container {
+  background-color: var(--gux-off-white);
+  color: #000000;
+  padding: 10px;
+  margin-left: 25px;
+  margin-right: auto;
+  margin-bottom: 25px;
+  width: 75%;
+  border-radius: 10px;
+  box-shadow: #000000 10px 5px 5px;
+}
+
+#tool-error-div {
+  display: flex;
+  align-items: center; /* This will vertically align the items in the middle */
+}
 
 #tool-group {
   display: flex;
@@ -238,5 +276,4 @@ gux-card-beta.secondary-card {
 #tool-group > div {
   flex: 1;
 }
-
 /* Tool pages styles end */

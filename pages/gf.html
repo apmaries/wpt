@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>WEM Power Tools - Gamification</title>
-    <link rel="icon" href="/wpt/favicon.ico" type="image/x-icon" />
 
     <!-- Genesys stuff https://spark.genesys.com/ -->
     <link
@@ -29,17 +28,22 @@
 
     <!-- Project stuff -->
     <script>
-      // Load the script only if testing mode is active
-      if (sessionStorage.getItem("test_mode") === "true") {
-        sessionStorage.setItem("test_mode", true);
-        const favicon = document.querySelector("link[rel='icon']");
-        favicon.href = "/.test/test_favicon.ico";
-      }
+      // Check window location protocol for test mode (https is considered production)
+      const testMode = window.location.protocol === "http:" ? true : false;
+
+      // Link to the favicon
+      const faviconLink = testMode
+        ? "/wpt/.test/test_favicon.ico"
+        : "/wpt/favicon.ico";
+      const favicon = document.createElement("link");
+      favicon.rel = "icon";
+      favicon.type = "image/x-icon";
+      favicon.href = faviconLink;
+      document.head.appendChild(favicon);
     </script>
-    <link href="/css/new_style.css" type="text/css" rel="stylesheet" />
-    <script src="/js/components/nav.js"></script>
-    <script src="/js/components/breadcumbs.js"></script>
+    <link rel="stylesheet" href="/wpt/css/style.css" />
   </head>
+
   <body>
     <header id="header" class="primary-section">
       <nav>
@@ -97,31 +101,11 @@
     </header>
     <main>
       <section style="color: var(--gux-grey-100); padding-left: 24px">
-        <h1 class="page-header">Gamification Tools</h1>
+        <h1 class="page-header">Workforce Management Tools</h1>
       </section>
-      <div class="toy-table-container">
-        <gux-card-beta
-          accent="raised"
-          style="margin: 24px; display: inline-block"
-        >
-          <table>
-            <thead>
-              <tr>
-                <td>Profiles</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <a class="coming-soon" href="./gf/replicate_profile.html"
-                    >Replicate profile (coming soon!)</a
-                  >
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </gux-card-beta>
-      </div>
+      <container id="tools-container">
+        <!-- Tools being dynamically added by tools.js -->
+      </container>
     </main>
     <footer>
       <p>
@@ -133,13 +117,30 @@
         >
       </p>
     </footer>
+
     <!-- Load the PureCloud platform client library -->
     <script src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>
 
-    <!-- Load the subheader.js module -->
-    <script src="../js/components/subheader.js" defer></script>
+    <!-- Load the nav.js module -->
+    <script src="/wpt/js/components/nav.js" defer></script>
+
+    <!-- Load the breadcrumbs.js module -->
+    <script src="/wpt/js/components/breadcrumbs.js" defer></script>
+
+    <!-- Load the tools.js module -->
+    <script type="module" src="/wpt/js/components/tools.js" defer></script>
+
+    <!-- Load the session.js module -->
+    <script type="module" src="/wpt/js/utils/session.js" defer></script>
 
     <!-- Load the disconnect.js module -->
-    <script type="module" src="../js/utils/disconnect.js" defer></script>
+    <script type="module" src="/wpt/js/utils/disconnect.js" defer></script>
+
+    <script>
+      // Return home if title clicked
+      document.getElementById("title").addEventListener("click", () => {
+        window.location.href = "/wpt/wpt-home.html";
+      });
+    </script>
   </body>
 </html>

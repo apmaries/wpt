@@ -25,6 +25,10 @@ fetch("/wpt/tools.json")
         console.log(discipline.discipline);
         guxCardPrimary.appendChild(cardHeading);
 
+        const cardsDiv = document.createElement("div");
+        cardsDiv.id = "cards-div";
+        guxCardPrimary.appendChild(cardsDiv);
+
         // Create cards for each tool group in discipline
         discipline.toolgroups.forEach((group) => {
           // Create a div, card and a ul for each tool group
@@ -66,8 +70,8 @@ fetch("/wpt/tools.json")
           // Append the group card to the group div
           groupDiv.appendChild(guxCardSecondary);
 
-          // Append the group div to the primary card
-          guxCardPrimary.appendChild(groupDiv);
+          // Append the group div to the cards div
+          cardsDiv.appendChild(groupDiv);
         });
 
         // Append gux-card-beta to section
@@ -76,7 +80,10 @@ fetch("/wpt/tools.json")
         // Append section to toolsContainer
         toolsContainer.appendChild(section);
       });
-    } else {
+    }
+    // Sub pages
+    else {
+      // Parent page
       if (toolsContainer) {
         // Sub page with container using id="tools-container"
         console.log("WPT: Not wpt-home.html", toolsContainer);
@@ -96,6 +103,10 @@ fetch("/wpt/tools.json")
             cardHeading.textContent = discipline.discipline;
             console.log(discipline.discipline);
             guxCardPrimary.appendChild(cardHeading);
+
+            const cardsDiv = document.createElement("div");
+            cardsDiv.id = "cards-div";
+            guxCardPrimary.appendChild(cardsDiv);
 
             // Create cards for each tool group in discipline
             discipline.toolgroups.forEach((group) => {
@@ -126,9 +137,11 @@ fetch("/wpt/tools.json")
                 if (tool.status === "active") {
                   toolLink.href = tool.href;
                   toolLink.textContent = tool.tool;
+                  toolLink.style.fontWeight = 500;
                 } else {
                   toolLink.textContent = tool.tool + " (coming soon)";
                   toolLink.style.color = "grey";
+                  toolLink.style.fontWeight = 300;
                 }
                 li.appendChild(toolLink);
 
@@ -139,7 +152,7 @@ fetch("/wpt/tools.json")
               groupDiv.appendChild(guxCardSecondary);
 
               // Append the group div to the primary card
-              guxCardPrimary.appendChild(groupDiv);
+              cardsDiv.appendChild(groupDiv);
             });
 
             // Append gux-card-beta to section
@@ -149,9 +162,9 @@ fetch("/wpt/tools.json")
             toolsContainer.appendChild(section);
           }
         });
-      } else {
-        // Should be an individual tool page with a container using id="tool-info"
-
+      }
+      // Tool page
+      else {
         const toolInfoDiv = document.getElementById("tool-info-div");
         const toolInfoContainer = document.createElement("container");
         toolInfoContainer.id = "tool-info-container";

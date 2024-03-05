@@ -86,7 +86,8 @@
             "status": "active",
             "description": "Assign people to new or existing work teams.",
             "scopes": ["groups", "users"],
-            "href": "/wpt/pages/pd/import-work-teams.html"
+            "href": "/wpt/pages/pd/import-work-teams.html",
+            "info": "Agent email address is case sensitive! An exact match is need for looking them up. Will create work teams that don't currently exist. Can also assign people to existing work teams."
           }
         ]
       }
@@ -97,6 +98,28 @@
     "href": "/wpt/pages/qm.html",
     "discipline": "Quality Management",
     "toolgroups": [
+      {
+        "group": "Evaluations",
+        "tools": [
+          {
+            "tool": "Bulk delete evaluations",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          }
+        ]
+      },
+      {
+        "group": "Forms",
+        "tools": [
+          {
+            "tool": "Export form",
+            "status": "",
+            "description": "",
+            "scopes": ""
+          }
+        ]
+      },
       {
         "group": "Policies",
         "tools": [
@@ -190,7 +213,8 @@
             "status": "active",
             "description": "Exports 15-minute interval data for route paths in a specified WFM Business Unit.",
             "scopes": ["workforce-management:readonly", "analytics:readonly"],
-            "href": "/wpt/pages/wm/export-historical-data.html"
+            "href": "/wpt/pages/wm/export-historical-data.html",
+            "info": "Looks up Planning Groups in given BU. Exports historical data for each route path in each Planning Group."
           },
           {
             "tool": "Historical data import tool",
@@ -219,7 +243,8 @@
             "status": "active",
             "description": "Import a list of time off requests.",
             "scopes": ["workforce-management", "users:readonly"],
-            "href": "/wpt/pages/wm/import-time-off.html"
+            "href": "/wpt/pages/wm/import-time-off.html",
+            "info": "Supports muiltple BU's and both full and part day requests. All dates and times should be relative to BU's timezone. Use 'yyyy-mm-dd' format for dates and 'hh:mm' for times."
           }
         ]
       }

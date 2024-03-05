@@ -32,24 +32,18 @@ footer {
 .primary-section {
   margin: 10px 0;
   padding: 0 10px;
-  /* temp border for testing */
-  border: green solid 2px;
 }
 
 .sub-section-065 {
   overflow: hidden;
   width: 65%;
   margin: 0 5px 0 0;
-  /* temp border for testing */
-  border: yellow solid 2px;
 }
 
 .sub-section-035 {
   overflow: hidden;
   width: 35%;
   margin: 0 0 0 5px;
-  /* temp border for testing */
-  border: purple solid 2px;
 }
 
 #title {
@@ -201,9 +195,14 @@ h4 {
 
 /* Page styles start */
 #tools-container {
-  /* Wraps tool cards */
+  /* Wraps primary tool cards */
   display: flex;
   flex-wrap: wrap;
+}
+
+/* Wraps secondary tool cards */
+#cards-div {
+  display: flex;
 }
 
 gux-card-beta.primary-card {
@@ -211,7 +210,7 @@ gux-card-beta.primary-card {
   color: var(--gux-off-white);
   margin: 24px;
   border-radius: 10px;
-  box-shadow: #000000 10px 5px 5px;
+  box-shadow: #000000 10px 5px 5px, inset var(--gux-alert-yellow-100) 2px 2px;
 }
 
 gux-card-beta.secondary-card {
@@ -219,7 +218,8 @@ gux-card-beta.secondary-card {
   background-color: var(--gux-off-white);
   margin: 24px;
   border-radius: 10px;
-  box-shadow: var(--gux-grey-30) 3px 3px 1px, inset white 2px 2px;
+  box-shadow: var(--gux-grey-30) 3px 3px 1px,
+    inset var(--gux-alert-yellow-90) 2px 2px;
 }
 
 gux-card-beta.secondary-card > ul {

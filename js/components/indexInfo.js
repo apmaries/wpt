@@ -4,10 +4,7 @@ fetch("/wpt/tools.json")
   .then((toolsArray) => {
     // TODO: Add a sort for tools array in case any new added tools are not in the correct order
 
-    console.log("Populating index info");
-    // Index page
-    const element = document.getElementById("index-available-tools-accordian");
-    console.log(element);
+    console.log("WTP: Populating index info");
 
     // Create an empty map to store accordions by discipline
     const accordions = new Map();

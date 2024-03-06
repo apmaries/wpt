@@ -69,11 +69,6 @@ async function resetTerminal() {
   terminal("INFO", "Terminal reset...");
 }
 
-terminal("DEBUG", "Terminal debug test");
-terminal("INFO", "Terminal info test");
-terminal("WARNING", "Terminal warning test");
-terminal("ERROR", "Terminal error test");
-
 // Event listener for clear logs button
 const clearLogsButton = document.getElementById("reset-button");
 clearLogsButton.addEventListener("click", resetTerminal);

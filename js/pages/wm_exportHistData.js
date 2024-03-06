@@ -27,4 +27,8 @@ if (!window.origin.includes("127.0.0.1")) {
   const response = await fetch("/wpt/.test/data/businessUnits.json");
   const businessUnits = await response.json();
   populateDropdown(buListbox, businessUnits.entities);
+  terminal(
+    "INFO",
+    `${businessUnits.entities.length} business units loaded in test mode...`
+  );
 }

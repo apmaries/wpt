@@ -1,5 +1,5 @@
 import { globalPageOpts, handleApiCalls } from "./apiHandler.js";
-import { disconnect } from "./disconnect.js";
+import { disconnect } from "./disconnectHandler.js";
 
 // globalPageOpts is defined as {"pageSize": 100, "pageNumber": 1};
 // handleApiCalls is an async function that takes two arguments: apiFunctionStr and requestData

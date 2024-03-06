@@ -1,4 +1,5 @@
 import { globalPageOpts, handleApiCalls } from "../utils/apiHandler.js";
+import { populateDropdown } from "../utils/dropdownHandler.js";
 
 // Function to get all WFM Business Units
 async function getWfmBusinessUnits() {

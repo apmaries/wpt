@@ -385,8 +385,13 @@ a:active {
   white-space: nowrap;
 }
 
-#buttons-group > container {
+#buttons-container {
   display: flex;
+  justify-content: right;
+  align-items: center;
+  align-self: flex-end;
+  margin-top: auto;
+  margin-left: auto;
 }
 
 #buttons-group > container > gux-button {
@@ -403,14 +408,6 @@ a:active {
   font-family: "Urbanist", sans-serif;
   font-size: 20px;
   color: #000000;
-}
-
-#buttons-container {
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  align-self: flex-end;
-  margin-left: auto;
 }
 
 #terminal-group {

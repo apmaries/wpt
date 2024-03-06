@@ -22,7 +22,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap&family=Inconsolata:wght@200..900&display=swap"
       rel="stylesheet"
     />
 
@@ -45,7 +45,7 @@
   </head>
   <body>
     <header id="header" class="primary-section">
-      <nav style="border: red solid">
+      <nav>
         <div class="sub-section-065">
           <ul id="nav-items">
             <h1 id="title">
@@ -83,13 +83,13 @@
         </div>
         <div class="sub-section-035"></div>
       </nav>
-      <div id="breadcumbs-container" style="border: red solid">
+      <div id="breadcumbs-container">
         <gux-breadcrumbs id="breadcrumbs" accent="primary">
           <!-- Breadcrumbs added dynamically by breadcrumbs.js -->
         </gux-breadcrumbs>
       </div>
 
-      <div id="subheader" style="border: red solid">
+      <div id="subheader">
         <p id="authenticatedSubHeader">User Name authenticated in: Org Name</p>
         <p>
           <gux-button id="disconnectButton" accent="primary">
@@ -106,18 +106,94 @@
       </section>
 
       <section id="content-section" class="primary-section">
-        <div id="tool-group">
-          <div id="input-group" style="border: blue solid; height: 100px"></div>
-          <div
-            id="options-group"
-            style="border: blue solid; height: 100px"
-          ></div>
-          <div
-            id="buttons-group"
-            style="border: blue solid; height: 100px"
-          ></div>
+        <div id="content-div">
+          <div id="tool-header-group">
+            <div id="inputs-group">
+              <h3>1. Select some things</h3>
+              <div class="sub-section-065">
+                <h5>Select Business Unit</h5>
+                <gux-dropdown
+                  id="bu-dropdown"
+                  filter-type="starts-with"
+                  placeholder="Select a Business Unit"
+                >
+                  <gux-listbox
+                    id="bu-listbox"
+                    aria-label="BusinessUnits"
+                  ></gux-listbox>
+                </gux-dropdown>
+
+                <h5>Set start date</h5>
+                <gux-datepicker
+                  id="export-start"
+                  format="dd/mm/yyyy"
+                ></gux-datepicker>
+              </div>
+            </div>
+            <div id="options-group">
+              <h3>2. Set some options</h3>
+              <div>
+                <div id="log-level-div">
+                  <h5>Log level</h5>
+                  <gux-form-field-radio>
+                    <input
+                      slot="input"
+                      type="radio"
+                      name="log-level"
+                      value="DEBUG"
+                    />
+                    <label slot="label">DEBUG</label>
+                  </gux-form-field-radio>
+
+                  <gux-form-field-radio>
+                    <input
+                      slot="input"
+                      type="radio"
+                      name="log-level"
+                      value="INFO"
+                      checked="checked"
+                    />
+                    <label slot="label">INFO</label>
+                  </gux-form-field-radio>
+
+                  <gux-form-field-radio>
+                    <input
+                      slot="input"
+                      type="radio"
+                      name="log-level"
+                      value="WARNING"
+                    />
+                    <label slot="label">WARNING</label>
+                  </gux-form-field-radio>
+                </div>
+                <div id="formatting-methods-div">
+                  <h5>Formatting methods</h5>
+                </div>
+                <div id="another-option-div">
+                  <h5>Some other option</h5>
+                </div>
+              </div>
+            </div>
+            <div id="buttons-group">
+              <h3>3. Click some buttons</h3>
+              <container id="buttons-container">
+                <gux-button id="tertiary-button" accent="tertiary"
+                  >Tertiary button</gux-button
+                >
+                <gux-button id="secondary-button" accent="secondary"
+                  >Secondary button</gux-button
+                >
+                <gux-button id="primary-button" accent="primary"
+                  >Primary button</gux-button
+                >
+              </container>
+            </div>
+          </div>
+          <div id="terminal" style="height: 100px">
+            <p>This is the terminal</p>
+            <p>This is the terminal</p>
+          </div>
         </div>
-        <div id="terminal" style="border: blue solid; height: 100px"></div>
       </section>
     </main>
     <footer>

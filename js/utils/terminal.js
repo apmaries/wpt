@@ -9,7 +9,7 @@ function setLogLevel() {
 }
 
 // function to populate terminal window
-function terminal(message, type) {
+function terminal(type, message) {
   const logLevel = setLogLevel();
   const d = new Date();
   let nowISO8601 = d.toISOString();

@@ -22,7 +22,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap&family=Inconsolata:wght@200..900&display=swap"
       rel="stylesheet"
     />
 
@@ -45,7 +45,7 @@
   </head>
   <body>
     <header id="header" class="primary-section">
-      <nav style="border: red solid">
+      <nav>
         <div class="sub-section-065">
           <ul id="nav-items">
             <h1 id="title">
@@ -83,13 +83,13 @@
         </div>
         <div class="sub-section-035"></div>
       </nav>
-      <div id="breadcumbs-container" style="border: red solid">
+      <div id="breadcumbs-container">
         <gux-breadcrumbs id="breadcrumbs" accent="primary">
           <!-- Breadcrumbs added dynamically by breadcrumbs.js -->
         </gux-breadcrumbs>
       </div>
 
-      <div id="subheader" style="border: red solid">
+      <div id="subheader">
         <p id="authenticatedSubHeader">User Name authenticated in: Org Name</p>
         <p>
           <gux-button id="disconnectButton" accent="primary">
@@ -99,13 +99,109 @@
       </div>
     </header>
     <main>
+      <!-- Info section -->
       <section id="info-section" class="primary-section">
         <div id="tool-info-div" class="sub-section-035">
           <!-- Tool info is dynamically added by tools.js -->
         </div>
       </section>
 
-      <!-- action section-->
+      <!-- Content section -->
+      <section id="content-section" class="primary-section">
+        <div id="content-div">
+          <div id="tool-header-group">
+            <div id="inputs-group">
+              <h3>1. Select some things</h3>
+              <div class="sub-section-065">
+                <h5>Select Business Unit</h5>
+                <gux-dropdown
+                  id="bu-dropdown"
+                  filter-type="starts-with"
+                  placeholder="Select a Business Unit"
+                >
+                  <gux-listbox
+                    id="bu-listbox"
+                    aria-label="BusinessUnits"
+                  ></gux-listbox>
+                </gux-dropdown>
+
+                <h5>Set start date</h5>
+                <gux-datepicker
+                  id="export-start"
+                  format="dd/mm/yyyy"
+                ></gux-datepicker>
+              </div>
+            </div>
+            <div id="options-group">
+              <h3>2. Set some options</h3>
+              <div>
+                <div id="log-level-div">
+                  <h5>Log level</h5>
+                  <gux-form-field-radio>
+                    <input
+                      slot="input"
+                      type="radio"
+                      name="log-level"
+                      value="DEBUG"
+                    />
+                    <label slot="label">DEBUG</label>
+                  </gux-form-field-radio>
+
+                  <gux-form-field-radio>
+                    <input
+                      slot="input"
+                      type="radio"
+                      name="log-level"
+                      value="INFO"
+                      checked="checked"
+                    />
+                    <label slot="label">INFO</label>
+                  </gux-form-field-radio>
+
+                  <gux-form-field-radio>
+                    <input
+                      slot="input"
+                      type="radio"
+                      name="log-level"
+                      value="WARNING"
+                    />
+                    <label slot="label">WARNING</label>
+                  </gux-form-field-radio>
+                </div>
+                <div id="formatting-methods-div">
+                  <h5>Formatting methods</h5>
+                </div>
+              </div>
+            </div>
+            <div id="buttons-group">
+              <h3>3. Click some buttons</h3>
+              <container id="buttons-container">
+                <gux-button id="clear-logs-button" accent="secondary"
+                  ><gux-icon
+                    icon-name="trashcan"
+                    screenreader-text="Clear logs"
+                  ></gux-icon>
+                  Clear logs</gux-button
+                >
+                <gux-button id="export-logs-button" accent="tertiary"
+                  >Export logs</gux-button
+                >
+                <gux-button id="primary-button" accent="primary"
+                  >Export</gux-button
+                >
+              </container>
+            </div>
+          </div>
+          <div id="terminal-group">
+            <div id="terminal">
+              <p>This is the terminal</p>
+              <p>This is the terminal</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- action section OLD -->
       <section
         id="action-section"
         class="Row"
@@ -114,6 +210,7 @@
           border: 4px solid var(--gux-electric-purple-sec);
           background-color: var(--gux-grey-100);
         "
+        hidden
       >
         <!-- input group -->
         <div id="input-grp" class="Row">
@@ -332,12 +429,8 @@
     <!-- Load the disconnect.js module -->
     <script type="module" src="/wpt/js/utils/disconnect.js" defer></script>
 
-    <script>
-      // Return home if title clicked
-      document.getElementById("title").addEventListener("click", () => {
-        window.location.href = "/wpt/wpt-home.html";
-      });
-    </script>
+    <!-- Load the main tool module -->
+    <script type="module" src="/wpt/js/pages/wm_exportHistData.js"></script>
 
     <!-- Button event listeners -->
     <script>

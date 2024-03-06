@@ -10,7 +10,7 @@ body {
   font-size: 14px;
   color: var(--gux-off-white);
   background-color: var(--gux-black-30);
-  margin: 10;
+  margin: 0;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -65,12 +65,12 @@ footer {
   top: 0;
   width: 100%;
   z-index: 999;
-  border-radius: 10px;
-  box-shadow: #000000 0px 0px 10px;
+  box-shadow: inset 0 15px 15px -15px var(--gux-black-30),
+    inset 0 -15px 15px -15px var(--gux-black-30);
 }
 
 #subheader {
-  background-color: var(--gux-off-white);
+  background-color: transparent;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -111,6 +111,11 @@ a.active-nav-item {
   /* transform: rotate(3deg); */
 }
 
+gux-button {
+  width: 125px;
+  margin-right: 35px;
+}
+
 /* Common styles end */
 
 /* Text specific styles start */
@@ -126,12 +131,14 @@ h2 {
   letter-spacing: 2px;
   text-transform: lowercase;
   text-decoration: underline;
+  text-decoration-color: var(--gux-electric-purple-sec);
   text-shadow: black 1px 1px 1px;
 }
 
 h3 {
   font-family: "Urbanist", sans-serif;
   font-size: 20px;
+  color: #000000;
 }
 
 h4 {
@@ -140,8 +147,15 @@ h4 {
   font-weight: bold;
   font-style: oblique;
   text-decoration: underline;
-  text-shadow: var(--gux-grey-60) 1px 1px 1px;
-  color: var(--gux-aqua-green-sec);
+  color: #0a9ca7;
+}
+
+h5 {
+  font-family: "Urbanist", sans-serif;
+  font-size: 14px;
+  color: #000000;
+  margin-top: 10px;
+  margin-bottom: 0px;
 }
 
 .important-text {
@@ -252,6 +266,10 @@ a:active {
   align-items: left;
 }
 
+#info-section > div > h1 {
+  margin-bottom: 5px;
+}
+
 #info-section > div > container {
   background-color: var(--gux-off-white);
   color: #000000;
@@ -264,16 +282,86 @@ a:active {
   box-shadow: #000000 10px 5px 5px;
 }
 
-#tool-error-div {
+#tool-header-group {
   display: flex;
-  align-items: center; /* This will vertically align the items in the middle */
+  background-color: var(--gux-off-white);
+  border-radius: 10px 10px 0 0;
 }
 
-#tool-group {
+#tool-header-group > div:not(#buttons-group) {
+  flex: 1;
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+
+#buttons-group {
+  display: flex;
+  flex: 0 0 450px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+
+#buttons-group > h3 {
+  white-space: nowrap;
+}
+
+#buttons-group > container > gux-button {
+  /* lower the margin to allow for 5px electric purple border */
+  margin-right: 30px;
+}
+
+#options-group {
+  display: flex;
+  flex-direction: column;
+}
+
+#options-group > div {
   display: flex;
 }
 
-#tool-group > div {
+#options-group > div > div {
   flex: 1;
 }
+
+#content-div {
+  border: var(--gux-electric-purple-sec) solid 5px;
+  border-radius: 15px;
+}
+
+#content-div > h3 {
+  font-family: "Urbanist", sans-serif;
+  font-size: 20px;
+  color: #000000;
+}
+
+#buttons-container {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+#terminal-group {
+  background-color: var(--gux-off-white);
+  padding: 10px 30px 30px 30px;
+  border-radius: 0 0 10px 10px;
+}
+
+#terminal {
+  background-color: #000000;
+  padding: 5px;
+  border-radius: 3px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+#terminal > p {
+  font-family: "Inconsolata", sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--gux-alert-green-50);
+  margin: 1px;
+}
+
 /* Tool pages styles end */

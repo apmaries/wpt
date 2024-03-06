@@ -6,7 +6,6 @@ fetch("/wpt/tools.json")
 
     const toolsContainer = document.getElementById("tools-container");
     const path = window.location.pathname;
-    console.log(path);
 
     // WPT Home
     if (path.includes("wpt-home.html")) {

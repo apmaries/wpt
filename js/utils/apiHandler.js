@@ -31,6 +31,9 @@ var environment = sessionStorage.getItem("client_env");
 // Set the client configuration
 client.setEnvironment(environment);
 client.setAccessToken(accessToken);
+client.config.reauthentication.refresh_access_token = true;
+client.config.reauthentication.refresh_token_wait_max = 10;
+
 client.setPersistSettings(true, "wpt");
 // TODO: Why does the client need to be set up again? Can't we use the one from index.html?
 

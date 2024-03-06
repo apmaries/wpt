@@ -34,9 +34,6 @@ client.setAccessToken(accessToken);
 client.setPersistSettings(true, "wpt");
 // TODO: Why does the client need to be set up again? Can't we use the one from index.html?
 
-// Log the client object
-console.debug("WPT: Client (apiHandler.js) = ", client);
-
 // Define the API instances in an object
 const apiInstances = {}; // Is added to dynamically as calls are made
 

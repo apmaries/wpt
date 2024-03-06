@@ -381,9 +381,6 @@
           client.setEnvironment(clientEnvironment.value);
           client.setPersistSettings(true, "wpt");
 
-          // temp logging
-          console.debug("WPT: Client (index.html): ", client);
-
           try {
             client.loginImplicitGrant(
               clientId.value,

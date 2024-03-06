@@ -52,6 +52,7 @@ footer {
   font-size: 60px;
   font-style: oblique;
   color: var(--gux-warm-red);
+  margin-bottom: 0px;
 }
 
 #header {
@@ -130,7 +131,7 @@ h2 {
   font-weight: bolder;
   letter-spacing: 2px;
   text-transform: lowercase;
-  text-decoration: underline;
+
   text-decoration-color: var(--gux-electric-purple-sec);
   text-shadow: black 1px 1px 1px;
 }
@@ -155,7 +156,9 @@ h5 {
   font-size: 14px;
   color: #000000;
   margin-top: 10px;
+  margin-right: 5px;
   margin-bottom: 0px;
+  display: flex;
 }
 
 .important-text {
@@ -164,6 +167,12 @@ h5 {
 
 .italic {
   font-style: italic;
+}
+
+gux-option {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 14px;
+  color: #000000;
 }
 
 /* Font specific styles end */
@@ -267,7 +276,7 @@ a:active {
 }
 
 #info-section > div > h1 {
-  margin-bottom: 5px;
+  margin: 0;
 }
 
 #info-section > div > container {
@@ -284,8 +293,12 @@ a:active {
 
 #tool-header-group {
   display: flex;
+  flex-wrap: wrap;
   background-color: var(--gux-off-white);
   border-radius: 10px 10px 0 0;
+  padding-left: 20px;
+  padding-top: 10px;
+  overflow: visible;
 }
 
 #tool-header-group > div:not(#buttons-group) {
@@ -294,20 +307,57 @@ a:active {
   padding-bottom: 10px;
 }
 
-#buttons-group {
+#inputs-group {
   display: flex;
-  flex: 0 0 450px;
-  padding-left: 10px;
-  padding-bottom: 10px;
+  flex-direction: column;
 }
 
-#buttons-group > h3 {
-  white-space: nowrap;
+#inputs-group > div {
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
 }
 
-#buttons-group > container > gux-button {
-  /* lower the margin to allow for 5px electric purple border */
-  margin-right: 30px;
+#inputs-group > div > div {
+  display: flex;
+}
+
+#inputs-group > div > div > div {
+  margin-right: 10px;
+}
+
+#export-start-div {
+  width: 200px;
+}
+#dates-input-div > div > div {
+  display: flex;
+}
+
+#export-start-div,
+#export-end-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#export-start-div > h5,
+#export-end-div > h5 {
+  align-self: flex-start;
+}
+#export-start-div > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+#export-end-div gux-datepicker {
+  margin-left: 15px;
+}
+
+#export-end-div > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 #options-group {
@@ -321,6 +371,27 @@ a:active {
 
 #options-group > div > div {
   flex: 1;
+}
+
+#buttons-group {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 350px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+
+#buttons-group > h3 {
+  white-space: nowrap;
+}
+
+#buttons-group > container {
+  display: flex;
+}
+
+#buttons-group > container > gux-button {
+  /* lower the margin to allow for 5px electric purple border */
+  margin-right: 30px;
 }
 
 #content-div {
@@ -352,7 +423,8 @@ a:active {
   background-color: #000000;
   padding: 5px;
   border-radius: 3px;
-  max-height: 600px;
+  height: 400px;
+  max-height: 400px;
   overflow-y: auto;
 }
 
@@ -360,8 +432,24 @@ a:active {
   font-family: "Inconsolata", sans-serif;
   font-size: 14px;
   font-weight: bold;
-  color: var(--gux-alert-green-50);
+  color: var(--gux-alert-green-70);
   margin: 1px;
+}
+
+#terminal > p.debug {
+  color: white;
+}
+
+#terminal > p.info {
+  color: var(--gux-alert-green-70);
+}
+
+#terminal > p.warning {
+  color: var(--gux-alert-yellow-70);
+}
+
+#terminal > p.error {
+  color: var(--gux-alert-red-70);
 }
 
 /* Tool pages styles end */

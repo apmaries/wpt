@@ -1,100 +1,87 @@
-// function to set log level
+// Function to set log level
 function setLogLevel() {
   var ele = document.getElementsByName("log-level");
-  for (i = 0; i < ele.length; i++) {
+  let logLevel;
+
+  // Get value of selected radio button
+  for (let i = 0; i < ele.length; i++) {
     if (ele[i].checked) {
-      return ele[i].value;
+      logLevel = ele[i].value;
     }
   }
+
+  // Hide lower level logs based on selected log level
+  const allLogs = document.querySelectorAll("#terminal p");
+
+  if (logLevel === "DEBUG") {
+    allLogs.forEach((log) => {
+      log.style.display = "block";
+    });
+  } else if (logLevel === "INFO") {
+    allLogs.forEach((log) => {
+      if (log.className === "debug") {
+        log.style.display = "none";
+      } else {
+        log.style.display = "block";
+      }
+    });
+  } else if (logLevel === "WARNING") {
+    allLogs.forEach((log) => {
+      if (log.className === "debug" || log.className === "info") {
+        log.style.display = "none";
+      } else {
+        log.style.display = "block";
+      }
+    });
+  } else if (logLevel === "ERROR") {
+    allLogs.forEach((log) => {
+      if (
+        log.className === "debug" ||
+        log.className === "info" ||
+        log.className === "warning"
+      ) {
+        log.style.display = "none";
+      } else {
+        log.style.display = "block";
+      }
+    });
+  }
+  return logLevel;
 }
 
 // function to populate terminal window
-function terminal(type, message) {
-  const logLevel = setLogLevel();
+export function terminal(type, message) {
+  const terminalWindow = document.getElementById("terminal");
   const d = new Date();
   let nowISO8601 = d.toISOString();
-  let style;
-  if (type === "DEBUG") {
-    style = "white";
-  } else if (type === "INFO") {
-    style = "lime-green";
-  } else if (type === "WARNING") {
-    style = "yellow";
-  } else {
-    style = "red";
-  }
 
-  if (logLevel === "DEBUG") {
-    // debug level - allow all through
-    $(".terminal").append(
-      `<p class='log-entry' style='color: ${style}'>` +
-        nowISO8601 +
-        "; " +
-        type +
-        "; " +
-        message +
-        "</p>"
-    );
-  } else if (logLevel === "INFO") {
-    // info level - ignore debug
-    if (type !== "DEBUG") {
-      $(".terminal").append(
-        `<p class='log-entry' style='color: ${style}'>` +
-          nowISO8601 +
-          "; " +
-          type +
-          "; " +
-          message +
-          "</p>"
-      );
-    } else {
-      // ignore debug level
-    }
-  } else {
-    // warning or error level
-    if (type === "WARNING") {
-      $(".terminal").append(
-        `<p class='log-entry' style='color: ${style}'>` +
-          nowISO8601 +
-          "; " +
-          type +
-          "; " +
-          message +
-          "</p>"
-      );
-    } else if (type === "ERROR") {
-      $(".terminal").append(
-        `<p class='log-entry' style='color: ${style}'>` +
-          nowISO8601 +
-          "; " +
-          type +
-          "; " +
-          message +
-          "</p>"
-      );
-    } else {
-      // ignore info and debug levels
-    }
-  }
-
-  const smoothScroll = () => {
-    const element = $(`#terminal`);
-    element.stop().animate(
-      {
-        scrollTop: element.prop("scrollHeight"),
-      },
-      500
-    );
-  };
-  smoothScroll("terminal-window");
+  // Create a new p element
+  const p = document.createElement("p");
+  p.innerHTML = `${nowISO8601} [${type}] ${message}`;
+  p.className = type.toLowerCase();
+  terminalWindow.appendChild(p);
 }
 
 // function to clear terminal window
-function clearTerminal(...storageKeys) {
-  $(".terminal").empty();
-  $("input[type=file]").val("");
-
-  storageKeys.forEach((key) => {
-    sessionStorage.removeItem(key);
-  });
+async function resetTerminal() {
+  const terminalWindow = document.getElementById("terminal");
+  terminalWindow.innerHTML = "";
+  terminal("INFO", "Terminal reset...");
 }
+
+terminal("DEBUG", "Terminal debug test");
+terminal("INFO", "Terminal info test");
+terminal("WARNING", "Terminal warning test");
+terminal("ERROR", "Terminal error test");
+
+// Event listener for clear logs button
+const clearLogsButton = document.getElementById("reset-button");
+clearLogsButton.addEventListener("click", resetTerminal);
+
+// Event listener for log level radio buttons
+const logLevelRadio = document.getElementsByName("log-level");
+logLevelRadio.forEach((radio) => {
+  radio.addEventListener("click", () => {
+    console.log("Log level changed to: ", setLogLevel());
+  });
+});

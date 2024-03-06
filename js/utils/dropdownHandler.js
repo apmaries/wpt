@@ -5,20 +5,20 @@
 
 export async function populateDropdown(dropdown, data) {
   if (data.length === 0) {
-    dropdown.innerHTML = '<option value="">No data found</option>';
+    dropdown.innerHTML = '<gux-option value="">No data found</gux-option>';
     return;
   }
 
+  // sort data by name (not case sensitive)
+  data.sort((a, b) =>
+    a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+  );
+
   dropdown.innerHTML = "";
   data.forEach((item) => {
-    const option = document.createElement("option");
+    const option = document.createElement("gux-option");
     option.value = item.id;
-    option.text = item.name;
-    Object.keys(item).forEach((key) => {
-      if (key !== "id" && key !== "name") {
-        option.dataset[key] = item[key];
-      }
-    });
+    option.innerHTML = item.name;
     dropdown.appendChild(option);
   });
 }

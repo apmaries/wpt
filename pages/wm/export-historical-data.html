@@ -115,21 +115,55 @@
               <div class="sub-section-065">
                 <h5>Select Business Unit</h5>
                 <gux-dropdown
-                  id="bu-dropdown"
+                  id="input-dropdown"
                   filter-type="starts-with"
                   placeholder="Select a Business Unit"
                 >
-                  <gux-listbox
-                    id="bu-listbox"
-                    aria-label="BusinessUnits"
-                  ></gux-listbox>
+                  <gux-listbox id="dropdown-listbox" aria-label="BusinessUnits">
+                  </gux-listbox>
                 </gux-dropdown>
 
-                <h5>Set start date</h5>
-                <gux-datepicker
-                  id="export-start"
-                  format="dd/mm/yyyy"
-                ></gux-datepicker>
+                <div id="dates-input-div">
+                  <div id="export-start-div">
+                    <h5>Export start:</h5>
+                    <div>
+                      <gux-datepicker
+                        id="export-start-datepicker"
+                        format="dd/mm/yyyy"
+                      ></gux-datepicker>
+                    </div>
+                  </div>
+                  <div id="export-end-div">
+                    <h5>Export end</h5>
+                    <div>
+                      <gux-form-field-radio>
+                        <input
+                          slot="input"
+                          type="radio"
+                          name="export-end"
+                          value="now"
+                          checked="checked"
+                        />
+                        <label slot="label">Now</label>
+                      </gux-form-field-radio>
+
+                      <gux-form-field-radio>
+                        <input
+                          slot="input"
+                          type="radio"
+                          name="export-end"
+                          value="not-now"
+                        />
+                        <label slot="label">Set end date</label>
+                      </gux-form-field-radio>
+                      <gux-datepicker
+                        id="export-end-datepicker"
+                        format="dd/mm/yyyy"
+                        disabled
+                      ></gux-datepicker>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div id="options-group">
@@ -168,20 +202,52 @@
                     <label slot="label">WARNING</label>
                   </gux-form-field-radio>
                 </div>
-                <div id="formatting-methods-div">
-                  <h5>Formatting methods</h5>
+                <div id="timezone-div">
+                  <h5>
+                    Time zone
+                    <div style="margin-left: 5px">
+                      <gux-icon
+                        icon-name="help"
+                        screenreader-text="help-icon"
+                      ></gux-icon
+                      ><gux-tooltip
+                        >Defines if export start / end are relative to Business
+                        Unit or UTC time zone</gux-tooltip
+                      >
+                    </div>
+                  </h5>
+                  <gux-form-field-radio>
+                    <input
+                      slot="input"
+                      type="radio"
+                      name="time-zone"
+                      value="business-unit"
+                      checked="checked"
+                    />
+                    <label slot="label">Business Unit</label>
+                  </gux-form-field-radio>
+
+                  <gux-form-field-radio>
+                    <input
+                      slot="input"
+                      type="radio"
+                      name="time-zone"
+                      value="utc"
+                    />
+                    <label slot="label">UTC</label>
+                  </gux-form-field-radio>
                 </div>
               </div>
             </div>
             <div id="buttons-group">
               <h3>3. Click some buttons</h3>
               <container id="buttons-container">
-                <gux-button id="clear-logs-button" accent="secondary"
+                <gux-button id="reset-button" accent="secondary"
                   ><gux-icon
                     icon-name="trashcan"
-                    screenreader-text="Clear logs"
+                    screenreader-text="Reset"
                   ></gux-icon>
-                  Clear logs</gux-button
+                  Reset</gux-button
                 >
                 <gux-button id="export-logs-button" accent="tertiary"
                   >Export logs</gux-button
@@ -193,210 +259,8 @@
             </div>
           </div>
           <div id="terminal-group">
-            <div id="terminal">
-              <p>This is the terminal</p>
-              <p>This is the terminal</p>
-            </div>
+            <div id="terminal"></div>
           </div>
-        </div>
-      </section>
-
-      <!-- action section OLD -->
-      <section
-        id="action-section"
-        class="Row"
-        style="
-          box-sizing: border-box;
-          border: 4px solid var(--gux-electric-purple-sec);
-          background-color: var(--gux-grey-100);
-        "
-        hidden
-      >
-        <!-- input group -->
-        <div id="input-grp" class="Row">
-          <!--file-->
-          <div
-            id="file"
-            class="Column"
-            style="
-              background-color: var(--gux-grey-100);
-              padding-left: 40px;
-              border-bottom-width: 10px solid var(--gux-grey-100);
-              border-top-left-radius: 10px;
-            "
-          >
-            <div class="align-content-left">
-              <h2>Select Business Unit</h2>
-            </div>
-            <!-- BU selector -->
-
-            <div id="file-div" style="padding-right: 25px; width: 300px" hidden>
-              <gux-dropdown
-                id="bu-dropdown"
-                filter-type="starts-with"
-                placeholder="Select a Business Unit"
-              >
-                <gux-listbox
-                  id="bu-listbox"
-                  aria-label="BusinessUnits"
-                ></gux-listbox>
-              </gux-dropdown>
-              <gux-datepicker
-                id="export-start"
-                label="Export start date"
-                format="dd/mm/yyyy"
-              ></gux-datepicker>
-              <!-- <input
-                id="file-name"
-                type="text"
-                class="file-input"
-                placeholder="File to import"
-                style="height: 28px; width: 250px"
-              />
-              <gux-button
-                disabled
-                id="importFile"
-                for="fileInput"
-                accent="primary"
-                style="display: inline-block; width: 100px"
-                >Browse</gux-button
-              >
-              <input
-                id="fileInput"
-                class="file-input"
-                type="file"
-                accept=".csv"
-                style="display: none"
-              /> -->
-            </div>
-            <gux-loading-message-beta
-              id="loading-message"
-              style="display: block"
-            >
-              <div slot="primary-message">Loading BU data...</div>
-              <gux-radial-progress
-                id="radial-progress"
-                slot="progress"
-                value="0"
-                max="1000"
-                screenreader-text="loading"
-              ></gux-radial-progress>
-            </gux-loading-message-beta>
-          </div>
-
-          <div
-            id="variables"
-            class="Column"
-            style="
-              background-color: var(--gux-grey-100);
-              border-bottom-width: 10px solid var(--gux-grey-100);
-              position: relative;
-              bottom: 0%;
-            "
-          >
-            <fieldset
-              id="import-method"
-              class="align-content"
-              style="padding-top: 30px"
-            >
-              <legend>Log level</legend>
-              <gux-form-field-radio>
-                <input
-                  slot="input"
-                  type="radio"
-                  name="log-level"
-                  value="DEBUG"
-                />
-                <label slot="label">DEBUG</label>
-              </gux-form-field-radio>
-
-              <gux-form-field-radio>
-                <input
-                  slot="input"
-                  type="radio"
-                  name="log-level"
-                  value="INFO"
-                  checked="checked"
-                />
-                <label slot="label">INFO</label>
-              </gux-form-field-radio>
-
-              <gux-form-field-radio>
-                <input
-                  slot="input"
-                  type="radio"
-                  name="log-level"
-                  value="WARNING"
-                />
-                <label slot="label">WARNING</label>
-              </gux-form-field-radio>
-            </fieldset>
-
-            <!--formatting methods-->
-          </div>
-
-          <!--buttons-->
-          <div
-            id="buttons"
-            class="Column"
-            style="
-              position: relative;
-              background-color: var(--gux-grey-100);
-              border-bottom-width: 10px solid var(--gux-grey-100);
-              border-top-right-radius: 10px;
-            "
-          >
-            <div
-              id="button-container"
-              class="align-content"
-              style="
-                position: absolute;
-                align-items: center;
-                bottom: 1%;
-                right: 15%;
-              "
-            >
-              <gux-button
-                disabled
-                id="clear-button"
-                onclick="reset()"
-                style="display: inline-block; width: 100px; position: relative"
-              >
-                <gux-icon
-                  icon-name="trashcan"
-                  screenreader-text="Clear terminal"
-                ></gux-icon>
-                <span>Clear</span>
-              </gux-button>
-
-              <gux-button
-                disabled
-                id="export-log-button"
-                text="Export"
-                accent="tertiary"
-                onclick="exportLogs()"
-                style="display: inline-block; position: relative"
-                >Export log
-              </gux-button>
-
-              <gux-button
-                disabled
-                id="export-data-button"
-                accent="primary"
-                style="display: inline-block; width: 100px; position: relative"
-                >Export data</gux-button
-              >
-            </div>
-          </div>
-        </div>
-
-        <!--terminal-->
-        <div
-          id="terminal-grp"
-          class="Row process-grp"
-          style="margin-bottom: 0px"
-        >
-          <div id="terminal" class="terminal"></div>
         </div>
       </section>
     </main>
@@ -427,20 +291,49 @@
     <script type="module" src="/wpt/js/utils/sessionHandler.js" defer></script>
 
     <!-- Load the disconnectHandler.js module -->
-    <script type="module" src="/wpt/js/utils/disconnectHandler.js" defer></script>
+    <script
+      type="module"
+      src="/wpt/js/utils/disconnectHandler.js"
+      defer
+    ></script>
+
+    <!-- Load the terminalHandler.js module -->
+    <script type="module" src="/wpt/js/utils/terminalHandler.js" defer></script>
 
     <!-- Load the main tool module -->
     <script type="module" src="/wpt/js/pages/wm_exportHistData.js"></script>
 
+    <!-- Add end date picker -->
+    <script>
+      // get value of radio with name "export-end", if value is "not-now" remove disabled attrinute from end date picker
+      const exportEndRadio = document.getElementsByName("export-end");
+      for (let i = 0; i < exportEndRadio.length; i++) {
+        exportEndRadio[i].addEventListener("click", function () {
+          if (exportEndRadio[i].value === "not-now") {
+            document
+              .getElementById("export-end-datepicker")
+              .removeAttribute("disabled");
+          } else {
+            document
+              .getElementById("export-end-datepicker")
+              .setAttribute("disabled", "");
+          }
+        });
+      }
+    </script>
+
     <!-- Button event listeners -->
     <script>
-      // add event listener to export data button
-      const importBtn = document.getElementById("export-data-button");
-      importBtn.addEventListener("click", exportData);
+      // add event listener to primary button
+      const primaryButton = document.getElementById("primary-button");
+      primaryButton.addEventListener("click", function () {
+        terminal("INFO", "Primary button clicked");
+      });
     </script>
 
     <!--Clear terminal & reset-->
     <script>
+      /*
       function reset() {
         clearTerminal();
         terminal(`Export Historical Data`, "INFO");
@@ -454,11 +347,8 @@
         document
           .getElementById("export-data-button")
           .removeAttribute("disabled");
-      }
+      }*/
     </script>
-
-    <!--Date picker options-->
-    <script></script>
 
     <script>
       // export all logs

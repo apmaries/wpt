@@ -74,8 +74,8 @@ if (!window.origin.includes("127.0.0.1")) {
       );
 
       // Handle the error here
-      //alert("An error occurred while fetching session data. Please try again.");
-      //disconnect();
+      alert("An error occurred while fetching session data. Please try again.");
+      disconnect();
     }
 
     // Testing for pagination and error handling

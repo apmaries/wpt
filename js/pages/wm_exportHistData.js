@@ -2,6 +2,9 @@ import { globalPageOpts, handleApiCalls } from "/wpt/js/utils/apiHandler.js";
 import { populateDropdown } from "/wpt/js/utils/dropdownHandler.js";
 import { terminal } from "/wpt/js/utils/terminalHandler.js";
 
+terminal("INFO", "Export historical data page loaded...");
+
+// Functions start here
 // Function to get all WFM Business Units
 async function getWfmBusinessUnits() {
   const businessUnits = await handleApiCalls(
@@ -11,12 +14,13 @@ async function getWfmBusinessUnits() {
   return businessUnits;
 }
 
-terminal("INFO", "Export historical data page loaded...");
+// Functions end here
 
+// Populate the business unit dropdown on page load
 const buListbox = document.getElementById("dropdown-listbox");
 if (!window.origin.includes("127.0.0.1")) {
   // get WFM Business Units and populate bu-listbox on page load
-  const businessUnits = getWfmBusinessUnits();
+  const businessUnits = await getWfmBusinessUnits();
   populateDropdown(buListbox, businessUnits.entities);
 
   // Main function to export historical data

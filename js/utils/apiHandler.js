@@ -153,6 +153,7 @@ export async function handleApiCalls(
     try {
       requestData = requestData || {};
       let currentPage = requestData.pageNumber;
+      console.debug("WPT: Current page: ", currentPage);
 
       while (true) {
         // Make the API call
@@ -165,6 +166,9 @@ export async function handleApiCalls(
 
         const responseBody = response.body;
 
+        // temp logging
+        console.debug("WTP: Response body: ", responseBody);
+
         if (responseBody) {
           if (
             responseBody.pageNumber !== undefined &&
@@ -172,6 +176,9 @@ export async function handleApiCalls(
           ) {
             currentPage = responseBody.pageNumber;
             const pageCount = responseBody.pageCount;
+            console.debbug(
+              `WTP: Multiple pages to process. Page ${currentPage} of ${pageCount}`
+            );
 
             if (responseBody.entities) {
               allEntities = allEntities.concat(responseBody.entities);
@@ -186,6 +193,9 @@ export async function handleApiCalls(
             requestData.pageNumber = currentPage + 1;
           } else {
             // Return the response body if it is not paginated
+            console.debug(
+              `WPT: Response body is not paginated for ${apiFunctionStr}`
+            );
             return responseBody;
           }
         } else {

@@ -21,7 +21,6 @@ fetch("/wpt/tools.json")
         // Create the card heading element and set it to the discipline name
         const cardHeading = document.createElement("h2");
         cardHeading.textContent = discipline.discipline;
-        console.log(discipline.discipline);
         guxCardPrimary.appendChild(cardHeading);
 
         const cardsDiv = document.createElement("div");

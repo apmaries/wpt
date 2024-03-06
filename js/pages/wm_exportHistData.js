@@ -1,6 +1,7 @@
 import { globalPageOpts, handleApiCalls } from "/wpt/js/utils/apiHandler.js";
 import { populateDropdown } from "/wpt/js/utils/dropdownHandler.js";
 import { terminal } from "/wpt/js/utils/terminalHandler.js";
+import { enableButtons } from "/wpt/js/utils/pageHandler.js";
 
 terminal("INFO", "Export historical data page loaded...");
 
@@ -14,6 +15,8 @@ async function getWfmBusinessUnits() {
   return businessUnits;
 }
 
+//
+
 // Functions end here
 
 // Populate the business unit dropdown on page load
@@ -22,6 +25,11 @@ if (!window.origin.includes("127.0.0.1")) {
   // get WFM Business Units and populate bu-listbox on page load
   const businessUnits = await getWfmBusinessUnits();
   populateDropdown(buListbox, businessUnits.entities);
+  terminal(
+    "INFO",
+    `${businessUnits.entities.length} business units loaded... `
+  );
+  terminal("INFO", "Please select a business unit to export historical data");
 
   // Main function to export historical data
 } else {
@@ -36,3 +44,4 @@ if (!window.origin.includes("127.0.0.1")) {
     `${businessUnits.entities.length} business units loaded in test mode...`
   );
 }
+enableButtons();

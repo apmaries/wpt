@@ -98,7 +98,14 @@
         </p>
       </div>
     </header>
-    <main>
+    <section id="loading-section" class="primary-section">
+      <gux-page-loading-spinner
+        screenreader-text="Loading..."
+      ></gux-page-loading-spinner>
+    </section>
+    <main style="display: none">
+      <!-- Loading section -->
+
       <!-- Info section -->
       <section id="info-section" class="primary-section">
         <div id="tool-info-div" class="sub-section-035">
@@ -242,17 +249,17 @@
             <div id="buttons-group">
               <h3>3. Click some buttons</h3>
               <container id="buttons-container">
-                <gux-button id="reset-button" accent="secondary"
+                <gux-button id="reset-button" accent="secondary" disabled
                   ><gux-icon
                     icon-name="trashcan"
                     screenreader-text="Reset"
                   ></gux-icon>
                   Reset</gux-button
                 >
-                <gux-button id="export-logs-button" accent="tertiary"
+                <gux-button id="export-logs-button" accent="tertiary" disabled
                   >Export logs</gux-button
                 >
-                <gux-button id="primary-button" accent="primary"
+                <gux-button id="primary-button" accent="primary" disabled
                   >Export</gux-button
                 >
               </container>
@@ -299,6 +306,9 @@
 
     <!-- Load the terminalHandler.js module -->
     <script type="module" src="/wpt/js/utils/terminalHandler.js" defer></script>
+
+    <!-- Load the pageHandler.js module -->
+    <script type="module" src="/wpt/js/utils/pageHandler.js" defer></script>
 
     <!-- Load the main tool module -->
     <script type="module" src="/wpt/js/pages/wm_exportHistData.js"></script>

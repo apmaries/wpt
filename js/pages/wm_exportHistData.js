@@ -29,6 +29,29 @@ let runTime = new Date()
 // Constants end here
 
 // Functions start here
+// Function to get QSL objects
+async function getQsl() {
+  const queues = handleApiCalls(
+    "RoutingApi.getRoutingQueues",
+    null,
+    globalPageOpts
+  ).entities;
+  const skills = handleApiCalls(
+    "RoutingApi.getRoutingSkills",
+    null,
+    globalPageOpts
+  );
+  const languages = handleApiCalls(
+    "RoutingApi.getRoutingLanguages",
+    null,
+    globalPageOpts
+  );
+
+  const qsl = await Promise.all([queues, skills, languages]);
+  console.debug("WPT: qsl = ", qsl);
+  return qsl;
+}
+
 // Function to get all WFM Business Units
 async function getWfmBusinessUnits() {
   const businessUnits = await handleApiCalls(
@@ -90,7 +113,8 @@ async function getWfmPlanningGroups(buId) {
 // Main function to export historical data
 async function exportHistoricalData() {
   // Get Planning Groups concurrently
-  const planningGroups = getWfmPlanningGroups(selectedBuId);
+  const planningGroupsPromise = getWfmPlanningGroups(selectedBuId);
+  const qslPromise = getQsl();
 
   // Update runTime
   runTime = new Date()
@@ -164,7 +188,7 @@ async function exportHistoricalData() {
   terminal("DEBUG", `Time zone = ${timeZone}`);
 
   // Continue with the export once planningGroups is resolved
-  planningGroups.then(async (planningGroups) => {
+  planningGroupsPromise.then(async (planningGroups) => {
     const planningGroupIds = planningGroups.entities.map((group) => group.id);
     terminal(
       "INFO",

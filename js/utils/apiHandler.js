@@ -48,65 +48,67 @@ async function handleApiErrors(error, apiFunctionStr) {
   // temp logging
   console.warn("WPT: Error = ", error);
 
-  let errorStatus = error.body.status;
-  let errorMessage = error.body.message;
-  let errorCode = error.body.code;
-  let errorHeaders = error.headers;
-  let errorBody = {
-    status: errorStatus,
-    message: errorMessage,
-    errorCode: errorCode,
-    errorHeaders: errorHeaders,
-  }; // used to log shortened objects in error handling
+  if (error.body) {
+    let errorStatus = error.body.status;
+    let errorMessage = error.body.message;
+    let errorCode = error.body.code;
+    let errorHeaders = error.headers;
+    let errorBody = {
+      status: errorStatus,
+      message: errorMessage,
+      errorCode: errorCode,
+      errorHeaders: errorHeaders,
+    }; // used to log shortened objects in error handling
 
-  // Define rertry variables
-  let isRetryable = false; // default to not retryable
-  let retryAfter; // default to undefined - exponential backoff will be handled in the catch block
+    // Define rertry variables
+    let isRetryable = false; // default to not retryable
+    let retryAfter; // default to undefined - exponential backoff will be handled in the catch block
 
-  // Handle 429 rate limit exceeded
-  if (errorStatus === 429) {
-    isRetryable = true; // set to retryable
-    retryAfter = errorHeaders["Retry-After"]; // override default retryAfter, value is seconds
-    if (retryAfter) {
-      console.warn(
-        `WPT: Rate limit exceeded. Retrying after ${retryAfter} seconds.`,
-        errorBody
-      );
-    } else {
-      // if retryAfter is missing, log the error and throw it
+    // Handle 429 rate limit exceeded
+    if (errorStatus === 429) {
+      isRetryable = true; // set to retryable
+      retryAfter = errorHeaders["Retry-After"]; // override default retryAfter, value is seconds
+      if (retryAfter) {
+        console.warn(
+          `WPT: Rate limit exceeded. Retrying after ${retryAfter} seconds.`,
+          errorBody
+        );
+      } else {
+        // if retryAfter is missing, log the error and throw it
+        console.error(
+          `WPT: Rate limit exceeded but Retry-After header is missing.`,
+          errorBody
+        );
+        throw error;
+      }
+    }
+    // Handle 400 malformed syntax
+    else if (errorStatus === 400) {
       console.error(
-        `WPT: Rate limit exceeded but Retry-After header is missing.`,
+        `WPT: Malformed syntax in request to ${apiFunctionStr}.`,
         errorBody
       );
       throw error;
     }
+    // Handle any other retryable errors
+    else if ([408, 500, 503, 504].includes(errorStatus)) {
+      isRetryable = true; // set to retryable
+      retryAfter = 3; // override default retryAfter to initial 3 second delay
+      console.warn(
+        `WPT: Retryable error occurred. Retrying request to ${apiFunctionStr}.`,
+        errorBody
+      );
+    }
+    // Handle any other errors
+    else {
+      console.error(
+        `WPT: Error making API call to ${apiFunctionStr}. Status = ${errorStatus}`,
+        errorBody
+      );
+      throw new Error(`Error making API call to ${apiFunctionStr}`);
+    }
+    return { isRetryable, retryAfter };
   }
-  // Handle 400 malformed syntax
-  else if (errorStatus === 400) {
-    console.error(
-      `WPT: Malformed syntax in request to ${apiFunctionStr}.`,
-      errorBody
-    );
-    throw error;
-  }
-  // Handle any other retryable errors
-  else if ([408, 500, 503, 504].includes(errorStatus)) {
-    isRetryable = true; // set to retryable
-    retryAfter = 3; // override default retryAfter to initial 3 second delay
-    console.warn(
-      `WPT: Retryable error occurred. Retrying request to ${apiFunctionStr}.`,
-      errorBody
-    );
-  }
-  // Handle any other errors
-  else {
-    console.error(
-      `WPT: Error making API call to ${apiFunctionStr}. Status = ${errorStatus}`,
-      errorBody
-    );
-    throw new Error(`Error making API call to ${apiFunctionStr}`);
-  }
-  return { isRetryable, retryAfter };
 }
 
 // Make API calls

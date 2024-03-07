@@ -41,6 +41,11 @@ async function getWfmBusinessUnits() {
 // Populate the business unit dropdown on script load
 async function initiate() {
   terminal("INFO", `Initiating program - ${toolName}`);
+
+  // Rest log-level to INFO
+  const logRadio = document.getElementsByName("log-level");
+  logRadio[1].checked = true;
+
   if (!window.origin.includes("127.0.0.1")) {
     // Production mode - get WFM Business Units and populate bu-listbox on page load
     const businessUnits = await getWfmBusinessUnits();

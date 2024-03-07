@@ -112,7 +112,7 @@ async function exportHistoricalData() {
   const endDateRadio = document.getElementsByName("export-end");
   const rpRadio = document.getElementsByName("route-paths");
 
-  const timeZone = getRadioValue(timeZoneRadio);
+  const timeZoneMethod = getRadioValue(timeZoneRadio);
   const rpMode = getRadioValue(rpRadio);
 
   let startDate = document.getElementById("export-start-datepicker").value;
@@ -139,13 +139,14 @@ async function exportHistoricalData() {
   // Debug log tool variables
   terminal("DEBUG", `BU = ${selectedBuName} (${selectedBuId})`);
   terminal("DEBUG", `Run time = ${runTime}`);
-  terminal("DEBUG", `Time zone method = ${timeZone}`);
+  terminal("DEBUG", `Time zone method = ${timeZoneMethod}`);
   terminal("DEBUG", `Start date = ${startDate}`);
   terminal("DEBUG", `End date mode = ${endDateMode}`);
   terminal("DEBUG", `End date = ${endDate}`);
   terminal("DEBUG", `Route paths mode = ${rpMode}`);
 
-  if (timeZone === "business-unit") {
+  let timeZone;
+  if (timeZoneMethod === "business-unit") {
     // Get business unit time zone
     console.log("WPT: Getting business unit time zone");
     const requestData = { expand: ["settings.timeZone"] };
@@ -154,12 +155,22 @@ async function exportHistoricalData() {
       selectedBuId,
       requestData
     );
-    const buTimeZone = selectedBuDetails.settings.timeZone;
-    terminal("INFO", `Business unit time zone = ${buTimeZone}`);
+    timeZone = selectedBuDetails.settings.timeZone;
+
     // Don't need to muck around with datetimes - can just pass the time zone to the API
   } else {
-    terminal("INFO", `Using UTC time zone`);
+    timeZone = "UTC";
   }
+  terminal("DEBUG", `Time zone = ${timeZone}`);
+
+  // Continue with the export once planningGroups is resolved
+  planningGroups.then(async (planningGroups) => {
+    const planningGroupIds = planningGroups.entities.map((group) => group.id);
+    terminal(
+      "INFO",
+      `Exporting historical data for ${planningGroupIds.length} planning groups...`
+    );
+  });
 
   // Add Execution end message to terminal
   const endP = document.createElement("p");

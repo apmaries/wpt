@@ -42,9 +42,13 @@ async function getWfmBusinessUnits() {
 async function initiate() {
   terminal("INFO", `Initiating program - ${toolName}`);
 
-  // Rest log-level to INFO
+  // Reset log-level to INFO
   const logRadio = document.getElementsByName("log-level");
   logRadio[1].checked = true;
+
+  // Reset export-end to now
+  const endDateRadio = document.getElementsByName("export-end");
+  endDateRadio[0].checked = true;
 
   if (!window.origin.includes("127.0.0.1")) {
     // Production mode - get WFM Business Units and populate bu-listbox on page load
@@ -92,12 +96,30 @@ async function exportHistoricalData() {
 
   // Get tool page variables
   const timeZoneRadio = document.getElementsByName("time-zone");
+  const endDateRadio = document.getElementsByName("export-end");
   const timeZone = getRadioValue(timeZoneRadio);
+  const startDate = document.getElementById("export-start-datepicker").value;
+  const endDateMode = getRadioValue(endDateRadio);
+  let endDate;
+  if (endDateMode === "user-defined-value") {
+    endDate = document.getElementById("export-end-datepicker").value;
+  } else {
+    // Get current datetime rounded down to nearest 15-minute interval
+    const datetime = new Date();
+    const minutes = datetime.getMinutes();
+    datetime.setMinutes(minutes - (minutes % 15));
+    datetime.setSeconds(0);
+    datetime.setMilliseconds(0);
+    endDate = datetime.toISOString().split(".")[0];
+  }
 
   // Debug log tool variables
   terminal("DEBUG", `BU = ${selectedBuName} (${selectedBuId})`);
   terminal("DEBUG", `Run time = ${runTime}`);
   terminal("DEBUG", `Time zone method = ${timeZone}`);
+  terminal("DEBUG", `Start date = ${startDate}`);
+  terminal("DEBUG", `End date mode = ${endDateMode}`);
+  terminal("DEBUG", `End date = ${endDate}`);
 
   if (timeZone === "business-unit") {
     // Get business unit time zone
@@ -149,6 +171,22 @@ buListbox.addEventListener("change", (event) => {
     "INFO",
     `Selected business unit: ${selectedBuName} (${selectedBuId})`
   );
+});
+
+// Event listener for end date radio buttons
+const endDateRadio = document.getElementsByName("export-end");
+endDateRadio.forEach((radio, index) => {
+  radio.addEventListener("click", (event) => {
+    const datePicker = document.getElementById("export-end-datepicker");
+    const radioValue = getRadioValue(endDateRadio);
+    if (radioValue === radio.value) {
+      if (index === 0) {
+        datePicker.setAttribute("disabled", true);
+      } else if (index === 1) {
+        datePicker.removeAttribute("disabled");
+      }
+    }
+  });
 });
 
 // Event listener for reset button

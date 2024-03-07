@@ -25,6 +25,7 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap&family=Inconsolata:wght@200..900&display=swap"
       rel="stylesheet"
     />
+    <script src="https://moment.github.io/luxon/global/luxon.min.js"></script>
 
     <!-- Project stuff -->
     <script>
@@ -148,7 +149,7 @@
                           slot="input"
                           type="radio"
                           name="export-end"
-                          value="now"
+                          value="last-interval"
                           checked="checked"
                         />
                         <label slot="label">Now</label>
@@ -159,7 +160,7 @@
                           slot="input"
                           type="radio"
                           name="export-end"
-                          value="not-now"
+                          value="user-defined-value"
                         />
                         <label slot="label">Set end date</label>
                       </gux-form-field-radio>

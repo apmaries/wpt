@@ -60,7 +60,7 @@ document.addEventListener("keydown", resetActivityTimer);
 
 // Run disconnect() when id="disconnectButton" is clicked
 document
-  .getElementById("disconnectButton")
+  .getElementById("disconnect-button")
   .addEventListener("click", disconnectWithConfirmation);
 
 // TODO: Fix this so that navigation doesn't disconnect the user

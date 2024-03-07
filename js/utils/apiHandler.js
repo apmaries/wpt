@@ -119,9 +119,10 @@ export async function handleApiCalls(
   const [apiInstanceName, functionName] = apiFunctionStr.split(".");
 
   // Debug log the API instance and function
+  requestObject = { requestId, requestId, requestData, requestData };
   console.log(
     `WPT: Making API call to ${apiInstanceName}.${functionName} with data: `,
-    requestData
+    requestObject
   );
 
   // If platformClient[apiInstanceName] is not defined, throw an error

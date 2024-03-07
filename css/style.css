@@ -114,7 +114,10 @@ a.active-nav-item {
 
 gux-button {
   width: 125px;
-  margin-right: 35px;
+}
+
+#disconnect-button {
+  margin-right: 50px;
 }
 
 /* Common styles end */
@@ -387,24 +390,29 @@ a:active {
 
 #buttons-container {
   display: flex;
-  justify-content: right;
-  align-items: center;
+  justify-content: flex-end; /* Aligns items to the right */
+  align-items: space-between;
   align-self: flex-end;
   margin-top: auto;
   margin-left: auto;
+  margin-bottom: 10px;
 }
 
-#buttons-container > div {
+#buttons-container > fieldset {
+  font-family: "Urbanist", sans-serif;
+  font-size: 14px;
+  color: #000000;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: left;
+  justify-content: center;
+  align-items: center; /* Center buttons horizontally */
   height: 100%;
+  margin-right: 30px;
 }
 
-#buttons-container > div > gux-button {
+#buttons-container > fieldset > gux-button {
   /* lower the margin to allow for 5px electric purple border */
-  margin-right: 30px;
+  align-self: flex-end;
   padding: 5px;
 }
 
@@ -421,7 +429,7 @@ a:active {
 
 #terminal-group {
   background-color: var(--gux-off-white);
-  padding: 10px 30px 30px 30px;
+  padding: 20px 30px 30px 30px;
   border-radius: 0 0 10px 10px;
 }
 

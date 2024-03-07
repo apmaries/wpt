@@ -109,7 +109,9 @@ async function exportHistoricalData() {
       requestData
     );
     const buTimeZone = selectedBuDetails.settings.timeZone;
-    terminal("DEBUG", `Business unit time zone = ${buTimeZone}`);
+    terminal("INFO", `Business unit time zone = ${buTimeZone}`);
+  } else {
+    terminal("INFO", `Using UTC time zone`);
   }
 
   // Add Execution end message to terminal
@@ -150,14 +152,14 @@ buListbox.addEventListener("change", (event) => {
 });
 
 // Event listener for reset button
-const clearLogsButton = document.getElementById("reset-button");
+const clearLogsButton = document.getElementById("terminal-reset-button");
 clearLogsButton.addEventListener("click", (event) => {
   resetTerminal();
   initiate();
 });
 
 // Event listener for download button
-const downloadButton = document.getElementById("download-button");
+const downloadButton = document.getElementById("terminal-download-button");
 downloadButton.addEventListener("click", (event) => {
   const consoleLogs = document.getElementById("terminal").querySelectorAll("p");
   const fileName = `${toolShortName}_${

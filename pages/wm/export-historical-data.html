@@ -92,7 +92,7 @@
       <div id="subheader">
         <p id="authenticatedSubHeader">User Name authenticated in: Org Name</p>
         <p>
-          <gux-button id="disconnectButton" accent="primary">
+          <gux-button id="disconnect-button" accent="primary">
             Disconnect
           </gux-button>
         </p>
@@ -249,29 +249,48 @@
             <div id="buttons-group">
               <h3>3. Click some buttons</h3>
               <container id="buttons-container">
-                <div id="terminal-buttons">
-                  <h5>Terminal</h5>
-                  <gux-button id="reset-button" accent="secondary" disabled
-                    ><gux-icon
-                      icon-name="trashcan"
-                      screenreader-text="Reset terminal"
-                    ></gux-icon>
-                    Reset</gux-button
-                  >
-                  <gux-button id="download-button" accent="tertiary" disabled
+                <fieldset id="terminal-buttons">
+                  <legend>Terminal</legend>
+                  <gux-button
+                    id="terminal-download-button"
+                    accent="tertiary"
+                    disabled
                     ><gux-icon
                       icon-name="download"
                       screenreader-text="Download terminal logs"
                     ></gux-icon
                     >Download</gux-button
                   >
-                </div>
-                <div id="execute-tool-button">
-                  <h5>Tool</h5>
+                  <gux-button
+                    id="terminal-reset-button"
+                    accent="secondary"
+                    disabled
+                    ><gux-icon
+                      icon-name="trashcan"
+                      screenreader-text="Reset terminal"
+                    ></gux-icon>
+                    Reset</gux-button
+                  >
+                </fieldset>
+
+                <fieldset id="tool-buttons">
+                  <!-- Tool download button used to download ignored records etc. -->
+                  <gux-button
+                    id="tool-download-button"
+                    accent="tertiary"
+                    disabled
+                    style="visibility: hidden"
+                    ><gux-icon
+                      icon-name="download"
+                      screenreader-text="Download terminal logs"
+                    ></gux-icon
+                    >Results</gux-button
+                  >
+                  <legend>Tool</legend>
                   <gux-button id="primary-button" accent="primary" disabled
                     >Export</gux-button
                   >
-                </div>
+                </fieldset>
               </container>
             </div>
           </div>

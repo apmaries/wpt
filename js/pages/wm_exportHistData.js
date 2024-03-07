@@ -38,7 +38,7 @@ async function getWfmBusinessUnits() {
   return businessUnits;
 }
 
-// Populate the business unit dropdown on script load
+// Initialisation function
 async function initiate() {
   terminal("INFO", `Initiating program - ${toolName}`);
 
@@ -49,6 +49,10 @@ async function initiate() {
   // Reset export-end to now
   const endDateRadio = document.getElementsByName("export-end");
   endDateRadio[0].checked = true;
+
+  // Reset route to now
+  const rpRadio = document.getElementsByName("route-paths");
+  rpRadio[0].checked = true;
 
   if (!window.origin.includes("127.0.0.1")) {
     // Production mode - get WFM Business Units and populate bu-listbox on page load
@@ -75,10 +79,19 @@ async function initiate() {
 }
 
 // Function to get planning groups for a business unit
-async function getWfmPlanningGroups(buId) {}
+async function getWfmPlanningGroups(buId) {
+  const planningGroups = await handleApiCalls(
+    "WorkforceManagementApi.getWorkforcemanagementBusinessunitPlanninggroups",
+    buId
+  );
+  return planningGroups;
+}
 
 // Main function to export historical data
 async function exportHistoricalData() {
+  // Get Planning Groups concurrently
+  const planningGroups = getWfmPlanningGroups(selectedBuId);
+
   // Update runTime
   runTime = new Date()
     .toISOString()
@@ -97,7 +110,11 @@ async function exportHistoricalData() {
   // Get tool page variables
   const timeZoneRadio = document.getElementsByName("time-zone");
   const endDateRadio = document.getElementsByName("export-end");
+  const rpRadio = document.getElementsByName("route-paths");
+
   const timeZone = getRadioValue(timeZoneRadio);
+  const rpMode = getRadioValue(rpRadio);
+
   let startDate = document.getElementById("export-start-datepicker").value;
   // Append 'Z' to the date string to denote it's in UTC
   startDate = new Date(`${startDate}Z`);
@@ -126,6 +143,7 @@ async function exportHistoricalData() {
   terminal("DEBUG", `Start date = ${startDate}`);
   terminal("DEBUG", `End date mode = ${endDateMode}`);
   terminal("DEBUG", `End date = ${endDate}`);
+  terminal("DEBUG", `Route paths mode = ${rpMode}`);
 
   if (timeZone === "business-unit") {
     // Get business unit time zone
@@ -138,25 +156,9 @@ async function exportHistoricalData() {
     );
     const buTimeZone = selectedBuDetails.settings.timeZone;
     terminal("INFO", `Business unit time zone = ${buTimeZone}`);
-    // Update start & end date to business unit time zone using luxon
-    const { DateTime } = luxon;
-    const startDateTime = DateTime.fromISO(startDate, { zone: buTimeZone });
-    const endDateTime = DateTime.fromISO(endDate, { zone: buTimeZone });
-    startDate = startDateTime.toISO();
-    endDate = endDateTime.toISO();
-    terminal("INFO", `Start date in BU time zone = ${startDate}`);
-    terminal("INFO", `End date in BU time zone = ${endDate}`);
+    // Don't need to muck around with datetimes - can just pass the time zone to the API
   } else {
     terminal("INFO", `Using UTC time zone`);
-
-    // Update start & end date to UTC time zone using luxon
-    const { DateTime } = luxon;
-    const startDateTime = DateTime.fromISO(startDate, { zone: "UTC" });
-    const endDateTime = DateTime.fromISO(endDate, { zone: "UTC" });
-    startDate = startDateTime.toISO();
-    endDate = endDateTime.toISO();
-    terminal("INFO", `Start date in BU time zone = ${startDate}`);
-    terminal("INFO", `End date in BU time zone = ${endDate}`);
   }
 
   // Add Execution end message to terminal
@@ -212,16 +214,18 @@ endDateRadio.forEach((radio, index) => {
   });
 });
 
-// Event listener for reset button
+// Event listener for terminal reset button
 const clearLogsButton = document.getElementById("terminal-reset-button");
 clearLogsButton.addEventListener("click", (event) => {
   resetTerminal();
   initiate();
 });
 
-// Event listener for download button
-const downloadButton = document.getElementById("terminal-download-button");
-downloadButton.addEventListener("click", (event) => {
+// Event listener for terminal download button
+const terminalDownloadButton = document.getElementById(
+  "terminal-download-button"
+);
+terminalDownloadButton.addEventListener("click", (event) => {
   const consoleLogs = document.getElementById("terminal").querySelectorAll("p");
   const fileName = `${toolShortName}_${
     selectedBuName ? selectedBuName + "_" : ""

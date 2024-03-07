@@ -245,6 +245,41 @@
                     <label slot="label">UTC</label>
                   </gux-form-field-radio>
                 </div>
+                <div id="routepaths-div">
+                  <h5>
+                    Route paths
+                    <div style="margin-left: 5px">
+                      <gux-icon
+                        icon-name="help"
+                        screenreader-text="help-icon"
+                      ></gux-icon
+                      ><gux-tooltip
+                        >Defines if export should extract all route paths by
+                        queue or only route paths specified in Planning
+                        Group(s)</gux-tooltip
+                      >
+                    </div>
+                  </h5>
+                  <gux-form-field-radio>
+                    <input
+                      slot="input"
+                      type="radio"
+                      name="route-paths"
+                      value="pg"
+                      checked="checked"
+                    />
+                    <label slot="label">Planning Group only</label>
+                  </gux-form-field-radio>
+                  <gux-form-field-radio>
+                    <input
+                      slot="input"
+                      type="radio"
+                      name="route-paths"
+                      value="all"
+                    />
+                    <label slot="label">All route paths</label>
+                  </gux-form-field-radio>
+                </div>
               </div>
             </div>
             <div id="buttons-group">

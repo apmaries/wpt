@@ -68,7 +68,7 @@ async function handleApiErrors(error, apiFunctionStr) {
     isRetryable = true; // set to retryable
     retryAfter = errorHeaders["Retry-After"]; // override default retryAfter, value is seconds
     if (retryAfter) {
-      console.debug(
+      console.warn(
         `WPT: Rate limit exceeded. Retrying after ${retryAfter} seconds.`,
         errorBody
       );
@@ -93,7 +93,7 @@ async function handleApiErrors(error, apiFunctionStr) {
   else if ([408, 500, 503, 504].includes(errorStatus)) {
     isRetryable = true; // set to retryable
     retryAfter = 3; // override default retryAfter to initial 3 second delay
-    console.debug(
+    console.warn(
       `WPT: Retryable error occurred. Retrying request to ${apiFunctionStr}.`,
       errorBody
     );
@@ -118,7 +118,7 @@ export async function handleApiCalls(
   const [apiInstanceName, functionName] = apiFunctionStr.split(".");
 
   // Debug log the API instance and function
-  console.debug(
+  console.log(
     `WPT: Making API call to ${apiInstanceName}.${functionName} with data: `,
     requestData
   );
@@ -153,7 +153,6 @@ export async function handleApiCalls(
     try {
       requestData = requestData || {};
       let currentPage = requestData.pageNumber;
-      console.debug("WPT: Current page: ", currentPage);
 
       while (true) {
         // Make the API call
@@ -163,10 +162,8 @@ export async function handleApiCalls(
         if (!response && apiFunctionStr === "TokensApi.deleteTokensMe") {
           return { message: "Token deletion successful" };
         }
-
         const responseBody = response.body;
 
-        // temp logging
         console.debug("WTP: Response body: ", responseBody);
 
         if (responseBody) {
@@ -193,9 +190,7 @@ export async function handleApiCalls(
             requestData.pageNumber = currentPage + 1;
           } else {
             // Return the response body if it is not paginated
-            console.debug(
-              `WPT: Response body is not paginated for ${apiFunctionStr}`
-            );
+
             return responseBody;
           }
         } else {

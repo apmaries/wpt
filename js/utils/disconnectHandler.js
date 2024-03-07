@@ -58,7 +58,7 @@ resetActivityTimer();
 document.addEventListener("mousemove", resetActivityTimer);
 document.addEventListener("keydown", resetActivityTimer);
 
-// Run disconnect() when id="disconnectButton" is clicked
+// Run disconnect() when id="disconnect-button" is clicked
 document
   .getElementById("disconnect-button")
   .addEventListener("click", disconnectWithConfirmation);

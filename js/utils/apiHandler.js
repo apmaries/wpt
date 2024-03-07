@@ -119,7 +119,7 @@ export async function handleApiCalls(
   const [apiInstanceName, functionName] = apiFunctionStr.split(".");
 
   // Debug log the API instance and function
-  requestObject = { requestId, requestId, requestData, requestData };
+  const requestObject = { requestId, requestId, requestData, requestData };
   console.debug(
     `WPT: Making API call to ${apiInstanceName}.${functionName} with data: `,
     requestObject

@@ -120,7 +120,7 @@ export async function handleApiCalls(
 
   // Debug log the API instance and function
   requestObject = { requestId, requestId, requestData, requestData };
-  console.log(
+  console.debug(
     `WPT: Making API call to ${apiInstanceName}.${functionName} with data: `,
     requestObject
   );
@@ -167,7 +167,10 @@ export async function handleApiCalls(
         }
         const responseBody = response.body;
 
-        console.debug("WTP: Response body: ", responseBody);
+        console.debug(
+          `WPT: ${apiInstanceName}.${functionName} response body: `,
+          responseBody
+        );
 
         if (responseBody) {
           if (

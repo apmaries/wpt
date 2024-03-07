@@ -102,9 +102,11 @@ async function exportHistoricalData() {
   if (timeZone === "business-unit") {
     // Get business unit time zone
     console.log("WPT: Getting business unit time zone");
+    const requestData = { expand: ["settings.timeZone"] };
     const selectedBuDetails = await handleApiCalls(
       `WorkforceManagementApi.getWorkforcemanagementBusinessunit`,
-      selectedBuId
+      selectedBuId,
+      requestData
     );
     const buTimeZone = selectedBuDetails.settings.timeZone;
     terminal("DEBUG", `Business unit time zone = ${buTimeZone}`);

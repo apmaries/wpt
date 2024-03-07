@@ -5,6 +5,11 @@ import { enableButtons } from "/wpt/js/utils/pageHandler.js";
 import { getRadioValue } from "/wpt/js/utils/jsHelper.js";
 import { exportLogs } from "/wpt/js/utils/exportHandler.js";
 
+let testMode = false;
+if (!window.origin.includes("127.0.0.1")) {
+  testMode = true;
+}
+
 // Function to catch any error and log to terminal
 window.onerror = function (message, source, lineno, colno, error) {
   terminal(
@@ -80,7 +85,7 @@ async function initiate() {
   const rpRadio = document.getElementsByName("route-paths");
   rpRadio[0].checked = true;
 
-  if (!window.origin.includes("127.0.0.1")) {
+  if (!testMode) {
     // Production mode - get WFM Business Units and populate bu-listbox on page load
     const businessUnits = await getWfmBusinessUnits();
     populateDropdown(buListbox, businessUnits.entities);
@@ -174,17 +179,22 @@ async function exportHistoricalData() {
   terminal("DEBUG", `End date = ${endDate}`);
   terminal("DEBUG", `Route paths mode = ${rpMode}`);
 
-  let timeZone;
+  let timeZone = "UTC"; // Default for testing
   if (timeZoneMethod === "business-unit") {
-    // Get business unit time zone
-    console.log("WPT: Getting business unit time zone");
-    const requestData = { expand: ["settings.timeZone"] };
-    const selectedBuDetails = await handleApiCalls(
-      `WorkforceManagementApi.getWorkforcemanagementBusinessunit`,
-      selectedBuId,
-      requestData
-    );
-    timeZone = selectedBuDetails.settings.timeZone;
+    try {
+      // Get business unit time zone
+      console.log("WPT: Getting business unit time zone");
+      const requestData = { expand: ["settings.timeZone"] };
+      const selectedBuDetails = await handleApiCalls(
+        `WorkforceManagementApi.getWorkforcemanagementBusinessunit`,
+        selectedBuId,
+        requestData
+      );
+      timeZone = selectedBuDetails.settings.timeZone;
+    } catch (error) {
+      terminal("ERROR", `Error getting business unit time zone: ${error}`);
+      terminal("INFO", "Defaulting to UTC time zone...");
+    }
 
     // Don't need to muck around with datetimes - can just pass the time zone to the API
   } else {

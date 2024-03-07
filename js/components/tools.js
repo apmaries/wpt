@@ -2,8 +2,33 @@
 fetch("/wpt/tools.json")
   .then((response) => response.json())
   .then((toolsArray) => {
-    // TODO: Add a sort for tools array in case any new added tools are not in the correct order
+    // Remove Test Page tool from Workforce Management discipline if not in test mode
+    if (!window.origin.includes("127.0.0.1")) {
+      toolsArray.forEach((discipline) => {
+        if (discipline.discipline === "Workforce Management") {
+          discipline.toolgroups.forEach((group) => {
+            group.tools = group.tools.filter(
+              (tool) => tool.tool !== "Test Page"
+            );
+          });
+        }
+      });
+    }
 
+    // Sort by discipline
+    toolsArray.sort((a, b) => a.discipline.localeCompare(b.discipline));
+
+    // Sort toolgroups within each discipline
+    toolsArray.forEach((tool) => {
+      tool.toolgroups.sort((a, b) => a.group.localeCompare(b.group));
+
+      // Sort tools within each group
+      tool.toolgroups.forEach((group) => {
+        group.tools.sort((a, b) => a.tool.localeCompare(b.tool));
+      });
+    });
+
+    // Get the tools container
     const toolsContainer = document.getElementById("tools-container");
     const path = window.location.pathname;
 

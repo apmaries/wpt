@@ -179,7 +179,7 @@ export async function handleApiCalls(
           ) {
             currentPage = responseBody.pageNumber;
             const pageCount = responseBody.pageCount;
-            console.debbug(
+            console.debug(
               `WTP: Multiple pages to process. Page ${currentPage} of ${pageCount}`
             );
 

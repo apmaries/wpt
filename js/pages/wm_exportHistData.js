@@ -26,6 +26,9 @@ let runTime = new Date()
   .replace("T", "_")
   .split(".")[0];
 
+// Start loading the QSL data on page load
+let qslPromise = getQsl();
+
 // Constants end here
 
 // Functions start here
@@ -85,6 +88,9 @@ async function initiate() {
       "INFO",
       `${businessUnits.entities.length} business units loaded... `
     );
+
+    // Don't await here, let qsl promise run in the background
+    qslPromise = getQsl();
   } else {
     console.log(`WPT: ${toolName} in test mode...`);
 
@@ -114,7 +120,6 @@ async function getWfmPlanningGroups(buId) {
 async function exportHistoricalData() {
   // Get Planning Groups concurrently
   const planningGroupsPromise = getWfmPlanningGroups(selectedBuId);
-  const qslPromise = getQsl();
 
   // Update runTime
   runTime = new Date()
@@ -194,14 +199,20 @@ async function exportHistoricalData() {
       "INFO",
       `Exporting historical data for ${planningGroupIds.length} planning groups...`
     );
-  });
 
-  // Add Execution end message to terminal
-  const endP = document.createElement("p");
-  endP.innerHTML = `---- Execution completed ----`;
-  endP.className = "error";
-  endP.style.margin = "1em 0"; // Add a top and bottom margin
-  terminalDiv.appendChild(endP);
+    // Await the QSL data here - need it to resolve prior to mapping returned id's to names for export file
+    const qsl = await qslPromise;
+    console.log("WPT: qsl = ", qsl);
+
+    // Export results to csv file
+
+    // Add Execution end message to terminal
+    const endP = document.createElement("p");
+    endP.innerHTML = `---- Execution completed ----`;
+    endP.className = "error";
+    endP.style.margin = "1em 0"; // Add a top and bottom margin
+    terminalDiv.appendChild(endP);
+  });
 }
 
 // Functions end here

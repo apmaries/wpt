@@ -249,19 +249,29 @@
             <div id="buttons-group">
               <h3>3. Click some buttons</h3>
               <container id="buttons-container">
-                <gux-button id="reset-button" accent="secondary" disabled
-                  ><gux-icon
-                    icon-name="trashcan"
-                    screenreader-text="Reset"
-                  ></gux-icon>
-                  Reset</gux-button
-                >
-                <gux-button id="export-logs-button" accent="tertiary" disabled
-                  >Export logs</gux-button
-                >
-                <gux-button id="primary-button" accent="primary" disabled
-                  >Export</gux-button
-                >
+                <div id="terminal-buttons">
+                  <h5>Terminal</h5>
+                  <gux-button id="reset-button" accent="secondary" disabled
+                    ><gux-icon
+                      icon-name="trashcan"
+                      screenreader-text="Reset terminal"
+                    ></gux-icon>
+                    Reset</gux-button
+                  >
+                  <gux-button id="download-button" accent="tertiary" disabled
+                    ><gux-icon
+                      icon-name="download"
+                      screenreader-text="Download terminal logs"
+                    ></gux-icon
+                    >Download</gux-button
+                  >
+                </div>
+                <div id="execute-tool-button">
+                  <h5>Tool</h5>
+                  <gux-button id="primary-button" accent="primary" disabled
+                    >Export</gux-button
+                  >
+                </div>
               </container>
             </div>
           </div>
@@ -310,6 +320,12 @@
     <!-- Load the pageHandler.js module -->
     <script type="module" src="/wpt/js/utils/pageHandler.js" defer></script>
 
+    <!-- Load the exportHandler.js module -->
+    <script type="module" src="/wpt/js/utils/exportHandler.js" defer></script>
+
+    <!-- Load the jsHelper.js module -->
+    <script type="module" src="/wpt/js/utils/jsHelper.js" defer></script>
+
     <!-- Load the main tool module -->
     <script type="module" src="/wpt/js/pages/wm_exportHistData.js"></script>
 
@@ -333,13 +349,7 @@
     </script>
 
     <!-- Button event listeners -->
-    <script>
-      // add event listener to primary button
-      const primaryButton = document.getElementById("primary-button");
-      primaryButton.addEventListener("click", function () {
-        terminal("INFO", "Primary button clicked");
-      });
-    </script>
+    <script></script>
 
     <!--Clear terminal & reset-->
     <script>

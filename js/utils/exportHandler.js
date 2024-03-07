@@ -1,3 +1,5 @@
+import { terminal, resetTerminal } from "/wpt/js/utils/terminalHandler.js";
+
 const download = function (data, name, fileType) {
   // Creating a Blob with the specified file type
   const blob = new Blob([data], { type: fileType });
@@ -12,6 +14,8 @@ const download = function (data, name, fileType) {
   // and passing the download file name
   a.setAttribute("href", url);
   a.setAttribute("download", name);
+
+  terminal("INFO", `Downloading ${name}...`);
 
   // Performing a download with click
   a.click();
@@ -49,3 +53,30 @@ const csvMaker = function (data) {
   // Returning the array joining with new line
   return csvRows.join("\n");
 };
+
+// Function to export logs as a .log file
+export function exportLogs(data, name) {
+  console.debug(`exportLogs was called with name: ${name}`);
+  const file = `${name}.log`;
+  terminal("INFO", `Exporting logs as ${file}...`);
+
+  // Ensure data is an array
+  if (!Array.isArray(data)) {
+    if (NodeList.prototype.isPrototypeOf(data)) {
+      // Convert NodeList to array
+      data = Array.from(data);
+    } else {
+      // Convert single element to array
+      data = [data];
+    }
+  }
+
+  // Converting the data into an array of text
+  const textData = data.map((paragraph) => paragraph.textContent);
+
+  // Making the log file
+  const logFile = logMaker(textData);
+
+  // Downloading the log file
+  download(logFile, file, "text/plain");
+}

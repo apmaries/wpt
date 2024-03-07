@@ -18,6 +18,7 @@ export async function populateDropdown(dropdown, data) {
   data.forEach((item) => {
     const option = document.createElement("gux-option");
     option.value = item.id;
+    option.name = item.name;
     option.innerHTML = item.name;
     dropdown.appendChild(option);
   });

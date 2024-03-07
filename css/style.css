@@ -394,9 +394,18 @@ a:active {
   margin-left: auto;
 }
 
-#buttons-group > container > gux-button {
+#buttons-container > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+  height: 100%;
+}
+
+#buttons-container > div > gux-button {
   /* lower the margin to allow for 5px electric purple border */
   margin-right: 30px;
+  padding: 5px;
 }
 
 #content-div {

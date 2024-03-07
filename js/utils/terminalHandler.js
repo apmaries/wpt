@@ -1,14 +1,12 @@
+import { getRadioValue } from "/wpt/js/utils/jsHelper.js";
+
 // Function to set log level
 function setLogLevel() {
-  var ele = document.getElementsByName("log-level");
+  var logRadio = document.getElementsByName("log-level");
   let logLevel;
 
   // Get value of selected radio button
-  for (let i = 0; i < ele.length; i++) {
-    if (ele[i].checked) {
-      logLevel = ele[i].value;
-    }
-  }
+  logLevel = getRadioValue(logRadio);
 
   // Hide lower level logs based on selected log level
   const allLogs = document.querySelectorAll("#terminal p");
@@ -63,20 +61,16 @@ export function terminal(type, message) {
 }
 
 // function to clear terminal window
-async function resetTerminal() {
+export async function resetTerminal() {
   const terminalWindow = document.getElementById("terminal");
   terminalWindow.innerHTML = "";
   terminal("INFO", "Terminal reset...");
 }
 
-// Event listener for clear logs button
-const clearLogsButton = document.getElementById("reset-button");
-clearLogsButton.addEventListener("click", resetTerminal);
-
 // Event listener for log level radio buttons
 const logLevelRadio = document.getElementsByName("log-level");
 logLevelRadio.forEach((radio) => {
   radio.addEventListener("click", () => {
-    console.log("Log level changed to: ", setLogLevel());
+    console.log("WTP: Log level changed to: ", setLogLevel());
   });
 });

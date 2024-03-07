@@ -112,6 +112,7 @@ async function handleApiErrors(error, apiFunctionStr) {
 // Make API calls
 export async function handleApiCalls(
   apiFunctionStr, // should be a string e.g. 'usersApi.getUsersMe'
+  requestId, // should be a string e.g. '12345'
   requestData // should be an object e.g. { 'pageSize': 100, 'pageNumber': 1 }
 ) {
   // Split the apiFunctionStr string and get the API instance and function
@@ -151,12 +152,13 @@ export async function handleApiCalls(
   // Start the retry loop
   while (retryCount < maxRetries) {
     try {
+      requestId = requestId || "";
       requestData = requestData || {};
       let currentPage = requestData.pageNumber;
 
       while (true) {
         // Make the API call
-        const response = await apiFunction(requestData);
+        const response = await apiFunction(requestId, requestData);
 
         // If the response is blank and the API function is 'deleteTokensMe', return a success message
         if (!response && apiFunctionStr === "TokensApi.deleteTokensMe") {

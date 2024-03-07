@@ -179,10 +179,9 @@ export async function handleApiCalls(
             responseBody.pageNumber !== undefined &&
             responseBody.pageCount !== undefined
           ) {
-            currentPage = responseBody.pageNumber;
             const pageCount = responseBody.pageCount;
             console.debug(
-              `WTP: Multiple pages to process. Page ${currentPage} of ${pageCount}`
+              `WTP: ${apiInstanceName}.${functionName} has multiple pages to process. Page ${currentPage} of ${pageCount}`
             );
 
             if (responseBody.entities) {
@@ -195,10 +194,14 @@ export async function handleApiCalls(
               break;
             }
 
+            currentPage = responseBody.pageNumber;
             requestData.pageNumber = currentPage + 1;
+            console.debug(
+              "WPT: Requesting next page of results. requestData = ",
+              requestData
+            );
           } else {
             // Return the response body if it is not paginated
-
             return responseBody;
           }
         } else {

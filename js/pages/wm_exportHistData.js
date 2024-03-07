@@ -98,7 +98,13 @@ async function exportHistoricalData() {
   const timeZoneRadio = document.getElementsByName("time-zone");
   const endDateRadio = document.getElementsByName("export-end");
   const timeZone = getRadioValue(timeZoneRadio);
-  const startDate = document.getElementById("export-start-datepicker").value;
+  let startDate = document.getElementById("export-start-datepicker").value;
+  // Append 'Z' to the date string to denote it's in UTC
+  startDate = new Date(`${startDate}Z`);
+  startDate.setUTCHours(0, 0, 0, 0);
+  // Format date as yyyy-mm-ddThh:mm:ss
+  startDate = startDate.toISOString().split(".")[0];
+
   const endDateMode = getRadioValue(endDateRadio);
   let endDate;
   if (endDateMode === "user-defined-value") {
@@ -132,8 +138,25 @@ async function exportHistoricalData() {
     );
     const buTimeZone = selectedBuDetails.settings.timeZone;
     terminal("INFO", `Business unit time zone = ${buTimeZone}`);
+    // Update start & end date to business unit time zone using luxon
+    const { DateTime } = luxon;
+    const startDateTime = DateTime.fromISO(startDate, { zone: buTimeZone });
+    const endDateTime = DateTime.fromISO(endDate, { zone: buTimeZone });
+    startDate = startDateTime.toISO();
+    endDate = endDateTime.toISO();
+    terminal("INFO", `Start date in BU time zone = ${startDate}`);
+    terminal("INFO", `End date in BU time zone = ${endDate}`);
   } else {
     terminal("INFO", `Using UTC time zone`);
+
+    // Update start & end date to UTC time zone using luxon
+    const { DateTime } = luxon;
+    const startDateTime = DateTime.fromISO(startDate, { zone: "UTC" });
+    const endDateTime = DateTime.fromISO(endDate, { zone: "UTC" });
+    startDate = startDateTime.toISO();
+    endDate = endDateTime.toISO();
+    terminal("INFO", `Start date in BU time zone = ${startDate}`);
+    terminal("INFO", `End date in BU time zone = ${endDate}`);
   }
 
   // Add Execution end message to terminal

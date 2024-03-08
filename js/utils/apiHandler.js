@@ -160,8 +160,11 @@ export async function handleApiCalls(
       let currentPage = requestData.pageNumber;
 
       while (true) {
+        // Create a new object with the updated pageNumber
+        const updatedRequestData = { ...requestData, pageNumber: currentPage };
+
         // Make the API call
-        const response = await apiFunction(requestId, requestData);
+        const response = await apiFunction(requestId, updatedRequestData);
 
         // If the response is blank and the API function is 'deleteTokensMe', return a success message
         if (!response && apiFunctionStr === "TokensApi.deleteTokensMe") {

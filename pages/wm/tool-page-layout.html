@@ -108,232 +108,245 @@
       <!-- Content section -->
       <section id="content-section" class="primary-section">
         <div id="content-div">
-          <div id="tool-header-group">
-            <div id="inputs-group">
+          <div id="tool-header-group" style="border: green solid 1px">
+            <fieldset id="inputs-group" style="border: red solid 1px">
               <h3>1. Select some things</h3>
               <div class="modules-wrapper">
                 <module
                   style="border: hotpink solid 1px"
                   id="input-dropdown-module"
-                >
-                  <h5>Select Business Unit</h5>
-                  <gux-dropdown
-                    id="input-dropdown"
-                    filter-type="starts-with"
-                    placeholder="Select a Business Unit"
-                  >
-                    <gux-listbox
-                      id="dropdown-listbox"
-                      aria-label="BusinessUnits"
+                  ><fieldset>
+                    <legend>Select Business Unit</legend>
+
+                    <gux-dropdown
+                      id="input-dropdown"
+                      filter-type="starts-with"
+                      placeholder="Select a Business Unit"
                     >
-                    </gux-listbox>
-                  </gux-dropdown>
+                      <gux-listbox
+                        id="dropdown-listbox"
+                        aria-label="BusinessUnits"
+                      >
+                      </gux-listbox>
+                    </gux-dropdown>
+                  </fieldset>
                 </module>
 
                 <module
                   style="border: hotpink solid 1px"
                   id="dates-input-module"
-                >
-                  <div id="dates-start-div">
-                    <h5>Export start:</h5>
-                    <div>
-                      <gux-datepicker
-                        id="dates-start-datepicker"
-                        format="dd/mm/yyyy"
-                      ></gux-datepicker>
+                  ><fieldset>
+                    <legend>Select dates</legend>
+                    <div id="dates-start-div">
+                      <h5>Export start:</h5>
+                      <div>
+                        <gux-datepicker
+                          id="dates-start-datepicker"
+                          format="dd/mm/yyyy"
+                        ></gux-datepicker>
+                      </div>
                     </div>
-                  </div>
-                  <div id="dates-end-div">
-                    <h5>Export end</h5>
-                    <div>
-                      <gux-form-field-radio>
-                        <input
-                          slot="input"
-                          type="radio"
-                          name="export-end"
-                          value="last-interval"
-                          checked="checked"
-                        />
-                        <label slot="label">Now</label>
-                      </gux-form-field-radio>
+                    <div id="dates-end-div">
+                      <h5>Export end</h5>
+                      <div>
+                        <gux-form-field-radio>
+                          <input
+                            slot="input"
+                            type="radio"
+                            name="export-end"
+                            value="last-interval"
+                            checked="checked"
+                          />
+                          <label slot="label">Now</label>
+                        </gux-form-field-radio>
 
-                      <gux-form-field-radio>
-                        <input
-                          slot="input"
-                          type="radio"
-                          name="export-end"
-                          value="user-defined-value"
-                        />
-                        <label slot="label">Set end date</label>
-                      </gux-form-field-radio>
-                      <gux-datepicker
-                        id="dates-end-datepicker"
-                        format="dd/mm/yyyy"
-                        disabled
-                      ></gux-datepicker>
+                        <gux-form-field-radio>
+                          <input
+                            slot="input"
+                            type="radio"
+                            name="export-end"
+                            value="user-defined-value"
+                          />
+                          <label slot="label">Set end date</label>
+                        </gux-form-field-radio>
+                        <gux-datepicker
+                          id="dates-end-datepicker"
+                          format="dd/mm/yyyy"
+                          disabled
+                        ></gux-datepicker>
+                      </div>
                     </div>
-                  </div>
+                  </fieldset>
                 </module>
               </div>
-            </div>
-            <div id="options-group">
+            </fieldset>
+            <fieldset id="options-group" style="border: red solid 1px">
               <h3>2. Set some options</h3>
               <div class="modules-wrapper">
                 <module style="border: hotpink solid 1px" id="log-level-module">
-                  <h5>Log level</h5>
-                  <gux-form-field-radio>
-                    <input
-                      slot="input"
-                      type="radio"
-                      name="log-level"
-                      value="DEBUG"
-                    />
-                    <label slot="label">DEBUG</label>
-                  </gux-form-field-radio>
+                  <fieldset>
+                    <legend>Log level</legend>
+                    <gux-form-field-radio>
+                      <input
+                        slot="input"
+                        type="radio"
+                        name="log-level"
+                        value="DEBUG"
+                      />
+                      <label slot="label">DEBUG</label>
+                    </gux-form-field-radio>
 
-                  <gux-form-field-radio>
-                    <input
-                      slot="input"
-                      type="radio"
-                      name="log-level"
-                      value="INFO"
-                      checked="checked"
-                    />
-                    <label slot="label">INFO</label>
-                  </gux-form-field-radio>
+                    <gux-form-field-radio>
+                      <input
+                        slot="input"
+                        type="radio"
+                        name="log-level"
+                        value="INFO"
+                        checked="checked"
+                      />
+                      <label slot="label">INFO</label>
+                    </gux-form-field-radio>
 
-                  <gux-form-field-radio>
-                    <input
-                      slot="input"
-                      type="radio"
-                      name="log-level"
-                      value="WARNING"
-                    />
-                    <label slot="label">WARNING</label>
-                  </gux-form-field-radio>
+                    <gux-form-field-radio>
+                      <input
+                        slot="input"
+                        type="radio"
+                        name="log-level"
+                        value="WARNING"
+                      />
+                      <label slot="label">WARNING</label>
+                    </gux-form-field-radio>
+                  </fieldset>
                 </module>
                 <module style="border: hotpink solid 1px" id="timezone-module">
-                  <h5>
-                    Time zone
-                    <div style="margin-left: 5px">
-                      <gux-icon
-                        icon-name="help"
-                        screenreader-text="help-icon"
-                      ></gux-icon
-                      ><gux-tooltip
-                        >Defines if export start / end are relative to Business
-                        Unit or UTC time zone</gux-tooltip
-                      >
-                    </div>
-                  </h5>
-                  <gux-form-field-radio>
-                    <input
-                      slot="input"
-                      type="radio"
-                      name="time-zone"
-                      value="business-unit"
-                      checked="checked"
-                    />
-                    <label slot="label">Business Unit</label>
-                  </gux-form-field-radio>
+                  <fieldset>
+                    <legend>
+                      Time zone
+                      <div style="margin-left: 5px">
+                        <gux-icon
+                          icon-name="help"
+                          screenreader-text="help-icon"
+                        ></gux-icon
+                        ><gux-tooltip
+                          >Defines if export start / end are relative to
+                          Business Unit or UTC time zone</gux-tooltip
+                        >
+                      </div>
+                    </legend>
+                    <gux-form-field-radio>
+                      <input
+                        slot="input"
+                        type="radio"
+                        name="time-zone"
+                        value="business-unit"
+                        checked="checked"
+                      />
+                      <label slot="label">Business Unit</label>
+                    </gux-form-field-radio>
 
-                  <gux-form-field-radio>
-                    <input
-                      slot="input"
-                      type="radio"
-                      name="time-zone"
-                      value="utc"
-                    />
-                    <label slot="label">UTC</label>
-                  </gux-form-field-radio>
+                    <gux-form-field-radio>
+                      <input
+                        slot="input"
+                        type="radio"
+                        name="time-zone"
+                        value="utc"
+                      />
+                      <label slot="label">UTC</label>
+                    </gux-form-field-radio>
+                  </fieldset>
                 </module>
                 <module
                   style="border: hotpink solid 1px"
                   id="routepaths-module"
                 >
-                  <h5>
-                    Route paths
-                    <div style="margin-left: 5px">
-                      <gux-icon
-                        icon-name="help"
-                        screenreader-text="help-icon"
-                      ></gux-icon
-                      ><gux-tooltip
-                        >Defines if export should extract all route paths by
-                        queue or only route paths specified in Planning
-                        Group(s)</gux-tooltip
-                      >
-                    </div>
-                  </h5>
-                  <gux-form-field-radio>
-                    <input
-                      slot="input"
-                      type="radio"
-                      name="route-paths"
-                      value="pg"
-                      checked="checked"
-                    />
-                    <label slot="label">Planning Group only</label>
-                  </gux-form-field-radio>
-                  <gux-form-field-radio>
-                    <input
-                      slot="input"
-                      type="radio"
-                      name="route-paths"
-                      value="all"
-                    />
-                    <label slot="label">All route paths</label>
-                  </gux-form-field-radio>
+                  <fieldset>
+                    <legend>
+                      Route paths
+                      <div style="margin-left: 5px">
+                        <gux-icon
+                          icon-name="help"
+                          screenreader-text="help-icon"
+                        ></gux-icon
+                        ><gux-tooltip
+                          >Defines if export should extract all route paths by
+                          queue or only route paths specified in Planning
+                          Group(s)</gux-tooltip
+                        >
+                      </div>
+                    </legend>
+                    <gux-form-field-radio>
+                      <input
+                        slot="input"
+                        type="radio"
+                        name="route-paths"
+                        value="pg"
+                        checked="checked"
+                      />
+                      <label slot="label">Planning Group only</label>
+                    </gux-form-field-radio>
+                    <gux-form-field-radio>
+                      <input
+                        slot="input"
+                        type="radio"
+                        name="route-paths"
+                        value="all"
+                      />
+                      <label slot="label">All route paths</label>
+                    </gux-form-field-radio>
+                  </fieldset>
                 </module>
               </div>
-            </div>
-            <div id="buttons-group">
+            </fieldset>
+            <fieldset id="buttons-group" style="border: red solid 1px">
               <h3>3. Click some buttons</h3>
-              <container id="buttons-container">
-                <fieldset id="terminal-buttons">
-                  <legend>Terminal</legend>
-                  <gux-button
-                    id="terminal-download-button"
-                    accent="tertiary"
-                    disabled
-                    ><gux-icon
-                      icon-name="download"
-                      screenreader-text="Download terminal logs"
-                    ></gux-icon
-                    >Download</gux-button
-                  >
-                  <gux-button
-                    id="terminal-reset-button"
-                    accent="secondary"
-                    disabled
-                    ><gux-icon
-                      icon-name="trashcan"
-                      screenreader-text="Reset terminal"
-                    ></gux-icon>
-                    Reset</gux-button
-                  >
-                </fieldset>
+              <div class="modules-wrapper">
+                <module style="border: hotpink solid 1px">
+                  <fieldset id="terminal-buttons">
+                    <legend>Terminal</legend>
+                    <gux-button
+                      id="terminal-download-button"
+                      accent="tertiary"
+                      disabled
+                      ><gux-icon
+                        icon-name="download"
+                        screenreader-text="Download terminal logs"
+                      ></gux-icon
+                      >Download</gux-button
+                    >
+                    <gux-button
+                      id="terminal-reset-button"
+                      accent="secondary"
+                      disabled
+                      ><gux-icon
+                        icon-name="trashcan"
+                        screenreader-text="Reset terminal"
+                      ></gux-icon>
+                      Reset</gux-button
+                    >
+                  </fieldset>
+                </module>
 
-                <fieldset id="tool-buttons">
-                  <!-- Tool download button used to download ignored records etc. -->
-                  <gux-button
-                    id="tool-download-button"
-                    accent="tertiary"
-                    disabled
-                    style="visibility: hidden"
-                    ><gux-icon
-                      icon-name="download"
-                      screenreader-text="Download terminal logs"
-                    ></gux-icon
-                    >Results</gux-button
-                  >
-                  <legend>Tool</legend>
-                  <gux-button id="primary-button" accent="primary" disabled
-                    >Export</gux-button
-                  >
-                </fieldset>
-              </container>
-            </div>
+                <module style="border: hotpink solid 1px">
+                  <fieldset id="tool-buttons">
+                    <!-- Tool download button used to download ignored records etc. -->
+                    <gux-button
+                      id="tool-download-button"
+                      accent="tertiary"
+                      disabled
+                      ><gux-icon
+                        icon-name="download"
+                        screenreader-text="Download terminal logs"
+                      ></gux-icon
+                      >Results</gux-button
+                    >
+                    <legend>Tool</legend>
+                    <gux-button id="primary-button" accent="primary" disabled
+                      >Run</gux-button
+                    >
+                  </fieldset>
+                </module>
+              </div>
+            </fieldset>
           </div>
           <div id="terminal-group">
             <div id="terminal"></div>

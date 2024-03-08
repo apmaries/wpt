@@ -114,10 +114,11 @@ a.active-nav-item {
 
 gux-button {
   width: 125px;
+  padding: 5px;
 }
 
 #disconnect-button {
-  margin-right: 50px;
+  margin-right: 35px;
 }
 
 /* Common styles end */
@@ -143,6 +144,8 @@ h3 {
   font-family: "Urbanist", sans-serif;
   font-size: 20px;
   color: #000000;
+  white-space: nowrap;
+  margin-bottom: 0;
 }
 
 h4 {
@@ -267,6 +270,8 @@ a:active {
 /* Page styles end */
 
 /* Tool pages styles start */
+
+/* Info section start */
 /* Replicates style of index container / accordians */
 #info-section {
   display: flex;
@@ -293,34 +298,45 @@ a:active {
   border-radius: 10px;
   box-shadow: #000000 10px 5px 5px;
 }
+/* Info section end */
+
 /* Tool page header start */
 #tool-header-group {
   display: flex;
   flex-wrap: wrap;
   background-color: var(--gux-off-white);
   border-radius: 10px 10px 0 0;
-  padding-left: 20px;
-  padding-top: 10px;
+  padding: 0 30px;
   overflow: visible;
+  justify-content: space-between;
 
   > div {
     display: flex;
-    padding-left: 10px;
-    padding-bottom: 10px;
+    padding: 10px;
     flex-direction: column;
   }
 }
 
 /* Tool page header groups start */
+
+.modules-wrapper > module {
+  display: flex;
+  flex-direction: column;
+}
+
 #inputs-group {
   flex: 1;
 }
 
 #options-group {
   flex: 1;
-  > div {
+
+  > .modules-wrapper {
     /* modules-wrapper */
     display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
     > module {
       /* evenly space modules in wrapper */
       display: flex;
@@ -330,16 +346,19 @@ a:active {
 }
 
 #buttons-group {
-  flex: 0 0 400px;
-  > h3 {
-    white-space: nowrap;
-  }
-}
+  flex: 0 0 300px;
+  > .modules-wrapper {
+    /* modules-wrapper */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-.modules-wrapper > module {
-  display: flex;
-  flex-direction: column;
-  margin: 10px;
+    > module {
+      /* evenly space modules in wrapper */
+      display: flex;
+      flex: 1;
+    }
+  }
 }
 
 /* Tool page header groups end */
@@ -351,25 +370,43 @@ module {
   padding: 10px;
 }
 
+fieldset {
+  font-family: "Urbanist", sans-serif;
+  font-size: 14px;
+  color: #000000;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+
+  > legend {
+    font-weight: bold;
+    font-style: oblique;
+    display: flex;
+    flex-direction: row;
+  }
+}
+
 #input-dropdown-module {
   > gux-dropdown {
     max-width: 600px;
   }
 }
 
-#dates-input-module {
+#dates-input-module > fieldset {
   display: flex;
   justify-content: flex-start;
   flex-direction: row;
-
-  > div {
-    /* start / end divs */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-right: 50px;
-  }
 }
+
+#dates-input-module > fieldset > div {
+  /* start / end divs */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-right: 50px;
+}
+
+/* Tool page modules end */
 
 #buttons-container {
   display: flex;
@@ -382,15 +419,9 @@ module {
 }
 
 #buttons-container > fieldset {
-  font-family: "Urbanist", sans-serif;
-  font-size: 14px;
-  color: #000000;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center; /* Center buttons horizontally */
   height: 100%;
-  margin-right: 30px;
 }
 
 #buttons-container > fieldset > gux-button {
@@ -404,12 +435,6 @@ module {
 #content-div {
   border: var(--gux-electric-purple-sec) solid 5px;
   border-radius: 15px;
-}
-
-#content-div > h3 {
-  font-family: "Urbanist", sans-serif;
-  font-size: 20px;
-  color: #000000;
 }
 
 #terminal-group {

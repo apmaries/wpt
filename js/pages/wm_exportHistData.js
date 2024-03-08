@@ -149,7 +149,7 @@ async function exportHistoricalData() {
   const timeZoneMethod = getRadioValue(timeZoneRadio);
   const rpMode = getRadioValue(rpRadio);
 
-  let startDate = document.getElementById("export-start-datepicker").value;
+  let startDate = document.getElementById("dates-start-datepicker").value;
   // Append 'Z' to the date string to denote it's in UTC
   startDate = new Date(`${startDate}Z`);
   startDate.setUTCHours(0, 0, 0, 0);
@@ -159,7 +159,7 @@ async function exportHistoricalData() {
   const endDateMode = getRadioValue(endDateRadio);
   let endDate;
   if (endDateMode === "user-defined-value") {
-    endDate = document.getElementById("export-end-datepicker").value;
+    endDate = document.getElementById("dates-end-datepicker").value;
   } else {
     // Get current datetime rounded down to nearest 15-minute interval
     const datetime = new Date();

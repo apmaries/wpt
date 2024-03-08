@@ -293,7 +293,7 @@ a:active {
   border-radius: 10px;
   box-shadow: #000000 10px 5px 5px;
 }
-
+/* Tool page header start */
 #tool-header-group {
   display: flex;
   flex-wrap: wrap;
@@ -302,90 +302,73 @@ a:active {
   padding-left: 20px;
   padding-top: 10px;
   overflow: visible;
+
+  > div {
+    display: flex;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    flex-direction: column;
+  }
 }
 
-#tool-header-group > div:not(#buttons-group) {
-  flex: 1;
-  padding-left: 10px;
-  padding-bottom: 10px;
-}
-
+/* Tool page header groups start */
 #inputs-group {
-  display: flex;
-  flex-direction: column;
-}
-
-#inputs-group > div {
-  display: flex;
-  flex-direction: column;
-  overflow: visible;
-}
-
-#inputs-group > div > div {
-  display: flex;
-}
-
-#inputs-group > div > div > div {
-  margin-right: 10px;
-}
-
-#export-start-div {
-  width: 200px;
-}
-#dates-input-div > div > div {
-  display: flex;
-}
-
-#export-start-div,
-#export-end-div {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-#export-start-div > h5,
-#export-end-div > h5 {
-  align-self: flex-start;
-}
-#export-start-div > div {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-#export-end-div gux-datepicker {
-  margin-left: 15px;
-}
-
-#export-end-div > div {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex: 1;
 }
 
 #options-group {
-  display: flex;
-  flex-direction: column;
-}
-
-#options-group > div {
-  display: flex;
-}
-
-#options-group > div > div {
   flex: 1;
+  > div {
+    /* modules-wrapper */
+    display: flex;
+    > module {
+      /* evenly space modules in wrapper */
+      display: flex;
+      flex: 1;
+    }
+  }
 }
 
 #buttons-group {
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 350px;
-  padding-left: 10px;
-  padding-bottom: 10px;
+  flex: 0 0 400px;
+  > h3 {
+    white-space: nowrap;
+  }
 }
 
-#buttons-group > h3 {
-  white-space: nowrap;
+.modules-wrapper > module {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+/* Tool page header groups end */
+
+/* Tool page modules start */
+module {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+#input-dropdown-module {
+  > gux-dropdown {
+    max-width: 600px;
+  }
+}
+
+#dates-input-module {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+
+  > div {
+    /* start / end divs */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-right: 50px;
+  }
 }
 
 #buttons-container {
@@ -415,6 +398,8 @@ a:active {
   align-self: flex-end;
   padding: 5px;
 }
+
+/* Tool page header end */
 
 #content-div {
   border: var(--gux-electric-purple-sec) solid 5px;

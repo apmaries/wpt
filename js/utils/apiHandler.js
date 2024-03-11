@@ -173,9 +173,6 @@ export async function handleApiCalls(apiFunctionStr, ...args) {
             responseBody.pageCount !== undefined
           ) {
             const pageCount = responseBody.pageCount;
-            console.debug(
-              `WTP: ${apiInstanceName}.${functionName} has more pages to process. Page ${currentPage} of ${pageCount}`
-            );
 
             if (responseBody.entities) {
               allEntities = allEntities.concat(responseBody.entities);
@@ -184,18 +181,25 @@ export async function handleApiCalls(apiFunctionStr, ...args) {
             }
 
             if (currentPage < responseBody.pageCount) {
-              console.debug("WPT: Current page was ", currentPage);
+              console.debug(
+                `WPT: ${apiInstanceName}.${functionName} is paginated - processing page ${currentPage} of ${pageCount}...`
+              );
+
               currentPage += 1; // Increment currentPage directly
-              console.debug("WPT: Current page is now  ", currentPage);
+
               console.debug(
                 "WPT: Requesting next page of results. requestData = ",
                 updatedRequestData
               );
             } else {
+              console.debug("WPT: No more pages to process");
               break;
             }
           } else {
             // Return the response body if it is not paginated
+            console.debug(
+              `WPT: ${apiInstanceName}.${functionName} is not paginated.`
+            );
             return responseBody;
           }
         } else {

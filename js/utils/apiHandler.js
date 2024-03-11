@@ -111,7 +111,7 @@ async function handleApiErrors(error, apiFunctionStr) {
   }
 }
 
-// Make API calls
+// Handle API calls
 export async function handleApiCalls(
   apiFunctionStr, // should be a string e.g. 'usersApi.getUsersMe'
   requestId, // should be a string e.g. '12345'
@@ -193,15 +193,14 @@ export async function handleApiCalls(
               allResults = allResults.concat(responseBody.results);
             }
 
-            if (currentPage >= pageCount) {
+            if (currentPage >= responseBody.pageCount) {
               break;
             }
 
-            currentPage = responseBody.pageNumber;
-            requestData.pageNumber = currentPage + 1;
+            currentPage += 1; // Increment currentPage directly
             console.debug(
               "WPT: Requesting next page of results. requestData = ",
-              requestData
+              updatedRequestData
             );
           } else {
             // Return the response body if it is not paginated

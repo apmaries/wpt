@@ -41,17 +41,17 @@ let qslPromise = getQsl();
 async function getQsl() {
   const queues = handleApiCalls(
     "RoutingApi.getRoutingQueues",
-    null,
+    "",
     globalPageOpts
   ).entities;
   const skills = handleApiCalls(
     "RoutingApi.getRoutingSkills",
-    null,
+    "",
     globalPageOpts
   );
   const languages = handleApiCalls(
     "RoutingApi.getRoutingLanguages",
-    null,
+    "",
     globalPageOpts
   );
 

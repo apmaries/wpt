@@ -124,6 +124,7 @@ export async function handleApiCalls(
   const requestObject = { requestId, requestId, requestData, requestData };
   console.debug(
     `WPT: Making API call to ${apiInstanceName}.${functionName} with data: `,
+    requestId,
     requestObject
   );
 
@@ -164,6 +165,12 @@ export async function handleApiCalls(
         const updatedRequestData = { ...requestData, pageNumber: currentPage };
 
         // Make the API call
+        console.warn(
+          "WPT: Making API call to ",
+          apiFunctionStr,
+          requestId,
+          requestData
+        );
         const response = await apiFunction(requestId, updatedRequestData);
 
         // If the response is blank and the API function is 'deleteTokensMe', return a success message

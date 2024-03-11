@@ -188,11 +188,13 @@ export async function handleApiCalls(apiFunctionStr, ...args) {
               currentPage += 1; // Increment currentPage directly
 
               console.debug(
-                "WPT: Requesting next page of results. requestData = ",
+                `WPT: ${apiInstanceName}.${functionName} Requesting next page of results. requestData = `,
                 updatedRequestData
               );
             } else {
-              console.debug("WPT: No more pages to process");
+              console.debug(
+                `WPT: ${apiInstanceName}.${functionName} - No more pages to process`
+              );
               break;
             }
           } else {

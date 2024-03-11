@@ -112,21 +112,9 @@ async function handleApiErrors(error, apiFunctionStr) {
 }
 
 // Handle API calls
-export async function handleApiCalls(
-  apiFunctionStr, // should be a string e.g. 'usersApi.getUsersMe'
-  requestId, // should be a string e.g. '12345'
-  requestData // should be an object e.g. { 'pageSize': 100, 'pageNumber': 1 }
-) {
+export async function handleApiCalls(apiFunctionStr, ...args) {
   // Split the apiFunctionStr string and get the API instance and function
   const [apiInstanceName, functionName] = apiFunctionStr.split(".");
-
-  // Debug log the API instance and function
-  const requestObject = { requestId, requestId, requestData, requestData };
-  console.debug(
-    `WPT: Making API call to ${apiInstanceName}.${functionName} with data: `,
-    requestId,
-    requestObject
-  );
 
   // If platformClient[apiInstanceName] is not defined, throw an error
   if (!platformClient[apiInstanceName]) {
@@ -156,9 +144,8 @@ export async function handleApiCalls(
   // Start the retry loop
   while (retryCount < maxRetries) {
     try {
-      requestId = requestId || "";
-      requestData = requestData || {};
-      let currentPage = requestData.pageNumber;
+      let currentPage = 1; // Default page number
+      let requestData = args.find((arg) => typeof arg === "object") || {}; // Find the first object in args
 
       while (true) {
         // Create a new object with the updated pageNumber
@@ -166,13 +153,8 @@ export async function handleApiCalls(
         console.log("WPT: updatedRequestData = ", updatedRequestData);
 
         // Make the API call
-        console.warn(
-          "WPT: Making API call to ",
-          apiFunctionStr,
-          requestId,
-          requestData
-        );
-        const response = await apiFunction(requestId, updatedRequestData);
+        console.warn("WPT: Making API call to ", apiFunctionStr, ...args);
+        const response = await apiFunction(updatedRequestData);
 
         // If the response is blank and the API function is 'deleteTokensMe', return a success message
         if (!response && apiFunctionStr === "TokensApi.deleteTokensMe") {

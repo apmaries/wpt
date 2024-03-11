@@ -183,17 +183,17 @@ export async function handleApiCalls(apiFunctionStr, ...args) {
               allResults = allResults.concat(responseBody.results);
             }
 
-            if (currentPage >= responseBody.pageCount) {
+            if (currentPage < responseBody.pageCount) {
+              console.debug("WPT: Current page was ", currentPage);
+              currentPage += 1; // Increment currentPage directly
+              console.debug("WPT: Current page is now  ", currentPage);
+              console.debug(
+                "WPT: Requesting next page of results. requestData = ",
+                updatedRequestData
+              );
+            } else {
               break;
             }
-
-            console.debug("WPT: Current page was ", currentPage);
-            currentPage += 1; // Increment currentPage directly
-            console.debug("WPT: Current page is now  ", currentPage);
-            console.debug(
-              "WPT: Requesting next page of results. requestData = ",
-              updatedRequestData
-            );
           } else {
             // Return the response body if it is not paginated
             return responseBody;

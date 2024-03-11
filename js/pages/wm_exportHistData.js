@@ -85,7 +85,7 @@ async function initiate() {
   const rpRadio = document.getElementsByName("route-paths");
   rpRadio[0].checked = true;
 
-  if (!testMode) {
+  if (testMode) {
     // Production mode - get WFM Business Units and populate bu-listbox on page load
     const businessUnits = await getWfmBusinessUnits();
     populateDropdown(buListbox, businessUnits.entities);

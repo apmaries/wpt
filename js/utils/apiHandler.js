@@ -163,6 +163,7 @@ export async function handleApiCalls(
       while (true) {
         // Create a new object with the updated pageNumber
         const updatedRequestData = { ...requestData, pageNumber: currentPage };
+        console.log("WPT: updatedRequestData = ", updatedRequestData);
 
         // Make the API call
         console.warn(
@@ -191,7 +192,7 @@ export async function handleApiCalls(
           ) {
             const pageCount = responseBody.pageCount;
             console.debug(
-              `WTP: ${apiInstanceName}.${functionName} has multiple pages to process. Page ${currentPage} of ${pageCount}`
+              `WTP: ${apiInstanceName}.${functionName} has more pages to process. Page ${currentPage} of ${pageCount}`
             );
 
             if (responseBody.entities) {
@@ -204,7 +205,9 @@ export async function handleApiCalls(
               break;
             }
 
+            console.debug("WPT: Current page was ", currentPage);
             currentPage += 1; // Increment currentPage directly
+            console.debug("WPT: Current page is now  ", currentPage);
             console.debug(
               "WPT: Requesting next page of results. requestData = ",
               updatedRequestData

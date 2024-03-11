@@ -9,8 +9,8 @@ window.onload = function () {
 
 // Function to enable buttons
 export function enableButtons() {
-  const buttonsContainer = document.getElementById("buttons-container");
-  const buttons = buttonsContainer.getElementsByTagName("gux-button");
+  const buttonsContainer = document.getElementById("buttons-group");
+  const buttons = buttonsContainer.querySelectorAll("gux-button");
   for (let button of buttons) {
     button.removeAttribute("disabled");
   }

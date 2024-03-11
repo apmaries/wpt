@@ -167,19 +167,23 @@ export async function handleApiCalls(apiFunctionStr, ...args) {
           responseBody
         );
 
+        // If the response has a body
         if (responseBody) {
+          // If the response body is paginated, process the pages
           if (
             responseBody.pageNumber !== undefined &&
             responseBody.pageCount !== undefined
           ) {
             const pageCount = responseBody.pageCount;
 
+            // Combine the entities or results
             if (responseBody.entities) {
               allEntities = allEntities.concat(responseBody.entities);
             } else if (responseBody.results) {
               allResults = allResults.concat(responseBody.results);
             }
 
+            // If the current page is less than the pageCount, request the next page
             if (currentPage < responseBody.pageCount) {
               console.debug(
                 `WPT: ${apiInstanceName}.${functionName} is paginated - processing page ${currentPage} of ${pageCount}...`
@@ -191,7 +195,9 @@ export async function handleApiCalls(apiFunctionStr, ...args) {
                 `WPT: ${apiInstanceName}.${functionName} Requesting next page of results. requestData = `,
                 updatedRequestData
               );
-            } else {
+            }
+            // If the current page is equal to the pageCount, break out of the loop
+            else {
               console.debug(
                 `WPT: ${apiInstanceName}.${functionName} - No more pages to process`
               );

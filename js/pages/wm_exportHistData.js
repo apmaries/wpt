@@ -247,14 +247,25 @@ async function exportHistoricalData() {
     `Found ${planningGroups.entities.length} planning groups for export`
   );
   planningGroups.entities.forEach((group) => {
-    terminal("INFO", `Planning group: ${group.name}`);
+    terminal(
+      "INFO",
+      `Planning group: ${group.name} with ${group.routePaths.length} route paths`
+    );
+    terminal("DEBUG", `Route paths = `, group.routePaths);
   });
 
   // Get queue ids from planning groups
   const queueIds = planningGroups.entities.flatMap((group) =>
     group.routePaths.map((routePath) => routePath.queue.id)
   );
-  terminal("DEBUG", `Found ${queueIds.length} queue ids`);
+
+  // Remove duplicates
+  const uniqueQueueIds = [...new Set(queueIds)];
+
+  terminal(
+    "INFO",
+    `Found ${uniqueQueueIds.length} unique queue ids for export`
+  );
 
   const queryClause = await buildQueryClause(queueIds);
   const dateBlocks = calculateDateBlocks(startDate, endDate);

@@ -144,24 +144,30 @@ export async function handleApiCalls(apiFunctionStr, ...args) {
   // Start the retry loop
   while (retryCount < maxRetries) {
     try {
-      let currentPage = 1; // Default page number
-      let requestData = args.find((arg) => typeof arg === "object") || {}; // Find the first object in args
+      let requestBody = args.find((arg) => typeof arg === "object") || {}; // Find the first object in args
+      // Default page number to 1 if pageNumber exists in requestBody
+      let currentPage = requestBody.hasOwnProperty("pageNumber")
+        ? 1
+        : requestBody.pageNumber;
+
+      // Find any strings in args
+      let stringArgs = args.filter((arg) => typeof arg === "string");
 
       while (true) {
         // Create a new object with the updated pageNumber
-        const updatedRequestData = {
-          ...requestData,
+        const updatedRequestBody = {
+          ...requestBody,
           pageNumber: currentPage,
         };
-        console.log("WPT: updatedRequestData = ", updatedRequestData);
+        console.log("WPT: updatedRequestBody = ", updatedRequestBody);
 
         // Make the API call
         console.warn(
           "WPT: Making API call to ",
           apiFunctionStr,
-          updatedRequestData
+          updatedRequestBody
         );
-        const response = await apiFunction(updatedRequestData);
+        const response = await apiFunction(...stringArgs, updatedRequestBody);
 
         // If the response is blank and the API function is 'deleteTokensMe', return a success message
         if (!response && apiFunctionStr === "TokensApi.deleteTokensMe") {
@@ -199,8 +205,8 @@ export async function handleApiCalls(apiFunctionStr, ...args) {
               currentPage += 1; // Increment currentPage directly
 
               console.debug(
-                `WPT: ${apiInstanceName}.${functionName} Requesting next page of results. requestData = `,
-                updatedRequestData
+                `WPT: ${apiInstanceName}.${functionName} Requesting next page of results. requestBody = `,
+                updatedRequestBody
               );
             }
             // If the current page is equal to the pageCount, break out of the loop

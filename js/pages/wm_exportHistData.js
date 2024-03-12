@@ -210,7 +210,7 @@ async function exportHistoricalData() {
       );
 
       // If response is not empty, process it
-      if (response) {
+      if (response && Array.isArray(response)) {
         //terminal("DEBUG", `Query ${i} returned ${response.length} results`);
 
         response.forEach((responseResult) => {
@@ -398,7 +398,10 @@ async function exportHistoricalData() {
   );
 
   const dateBlocks = calculateDateBlocks(startDate, endDate);
-  terminal("INFO", `Generated ${dateBlocks.length} 7 day blocks for export`);
+  terminal(
+    "INFO",
+    `Generated ${dateBlocks.length} blocks of 7 days for export`
+  );
 
   // Make query for each date block
   const results = await runQueryForDateBlocks(

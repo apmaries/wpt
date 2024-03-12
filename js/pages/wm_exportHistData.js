@@ -45,83 +45,6 @@ async function getWfmBusinessUnits() {
   return businessUnits;
 }
 
-// Function to get QSL objects
-async function getQsl() {
-  const queuesPromise = handleApiCalls(
-    "RoutingApi.getRoutingQueues",
-    globalPageOpts
-  );
-  const skillsPromise = handleApiCalls(
-    "RoutingApi.getRoutingSkills",
-    globalPageOpts
-  );
-  const languagesPromise = handleApiCalls(
-    "RoutingApi.getRoutingLanguages",
-    globalPageOpts
-  );
-
-  const qsl = await Promise.all([
-    queuesPromise,
-    skillsPromise,
-    languagesPromise,
-  ]);
-  console.debug("WPT: getQsl() = ", qsl);
-  return qsl;
-}
-
-// Function to get planning groups for a business unit
-async function getWfmPlanningGroups(buId) {
-  const planningGroups = await handleApiCalls(
-    "WorkforceManagementApi.getWorkforcemanagementBusinessunitPlanninggroups",
-    buId
-  );
-  console.debug(`WPT: getWfmPlanningGroups(${buId}) = `, planningGroups);
-  return planningGroups;
-}
-
-// Function to build query predicates from planning groups
-async function buildQueryClause(queueIds) {
-  let predicatesArray = [];
-  let queryClause = [{ type: "or", predicates: predicatesArray }];
-
-  queueIds.forEach((queueId) => {
-    const predicate = {
-      type: "dimension",
-      dimension: "queueId",
-      operator: "matches",
-      value: queueId,
-    };
-    predicatesArray.push(predicate);
-  });
-
-  console.debug("WPT: queryClause = ", queryClause);
-  return queryClause;
-}
-
-// Function to calculate 7 day interval blocks from given date range
-function calculateDateBlocks(startDate, endDate) {
-  const dateBlocks = [];
-  let start = new Date(startDate);
-  const end = new Date(endDate);
-
-  while (start < end) {
-    let intervalEnd = new Date(start);
-    intervalEnd.setDate(intervalEnd.getDate() + 7);
-    if (intervalEnd > end) {
-      intervalEnd = end;
-    }
-
-    const intervalString = `${start.toISOString().split("T")[0]}/${
-      intervalEnd.toISOString().split("T")[0]
-    }`;
-    dateBlocks.push(intervalString);
-
-    start = intervalEnd;
-  }
-
-  return dateBlocks;
-}
-
 // Initialisation function
 async function initiate() {
   terminal("INFO", `Initiating program - ${toolName}`);
@@ -162,6 +85,83 @@ async function initiate() {
 
 // Main function to export historical data
 async function exportHistoricalData() {
+  // Function to get planning groups for a business unit
+  async function getWfmPlanningGroups(buId) {
+    const planningGroups = await handleApiCalls(
+      "WorkforceManagementApi.getWorkforcemanagementBusinessunitPlanninggroups",
+      buId
+    );
+    console.debug(`WPT: getWfmPlanningGroups(${buId}) = `, planningGroups);
+    return planningGroups;
+  }
+
+  // Function to get QSL objects
+  async function getQsl() {
+    const queuesPromise = handleApiCalls(
+      "RoutingApi.getRoutingQueues",
+      globalPageOpts
+    );
+    const skillsPromise = handleApiCalls(
+      "RoutingApi.getRoutingSkills",
+      globalPageOpts
+    );
+    const languagesPromise = handleApiCalls(
+      "RoutingApi.getRoutingLanguages",
+      globalPageOpts
+    );
+
+    const qsl = await Promise.all([
+      queuesPromise,
+      skillsPromise,
+      languagesPromise,
+    ]);
+    console.debug("WPT: getQsl() = ", qsl);
+    return qsl;
+  }
+
+  // Function to build query predicates from planning groups
+  async function buildQueryClause(queueIds) {
+    let predicatesArray = [];
+    let queryClause = [{ type: "or", predicates: predicatesArray }];
+
+    queueIds.forEach((queueId) => {
+      const predicate = {
+        type: "dimension",
+        dimension: "queueId",
+        operator: "matches",
+        value: queueId,
+      };
+      predicatesArray.push(predicate);
+    });
+
+    console.debug("WPT: queryClause = ", queryClause);
+    return queryClause;
+  }
+
+  // Function to calculate 7 day interval blocks from given date range
+  function calculateDateBlocks(startDate, endDate) {
+    const dateBlocks = [];
+    let start = new Date(startDate);
+    const end = new Date(endDate);
+
+    while (start < end) {
+      let intervalEnd = new Date(start);
+      intervalEnd.setDate(intervalEnd.getDate() + 7);
+      if (intervalEnd > end) {
+        intervalEnd = end;
+      }
+
+      const intervalString = `${start.toISOString().split("T")[0]}/${
+        intervalEnd.toISOString().split("T")[0]
+      }`;
+      dateBlocks.push(intervalString);
+
+      start = intervalEnd;
+    }
+
+    return dateBlocks;
+  }
+
   // Update runTime
   runTime = new Date()
     .toISOString()

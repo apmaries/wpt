@@ -164,6 +164,14 @@ async function exportHistoricalData() {
 
   // Function to run query for each date block
   async function runQueryForDateBlocks(dateBlocks, queryClause, timeZone) {
+    function compareWithoutData(obj1, obj2) {
+      const { data: _, ...obj1WithoutData } = obj1;
+      const { data: __, ...obj2WithoutData } = obj2;
+      return (
+        JSON.stringify(obj1WithoutData) === JSON.stringify(obj2WithoutData)
+      );
+    }
+
     const nBlocks = dateBlocks.length;
     const results = [];
 
@@ -192,23 +200,55 @@ async function exportHistoricalData() {
       };
 
       console.log("WPT: runQueryForDateBlocks() requestBody = ", requestBody);
-      const result = await handleApiCalls(
+      const response = await handleApiCalls(
         "ConversationsApi.postAnalyticsConversationsAggregatesQuery",
         requestBody
       );
       console.log(
-        `WPT: runQueryForDateBlocks() [Run ${i} of ${nBlocks}] results = `,
-        results
+        `WPT: runQueryForDateBlocks() [Run ${i} of ${nBlocks}] response = `,
+        response
       );
 
-      // If result is not empty, push to results array
-      if (result) {
-        terminal("DEBUG", `Query ${i} returned ${result.length} results`);
-        results.push(result);
+      // If response is not empty, process it
+      if (response) {
+        terminal("DEBUG", `Query ${i} data returned`);
+
+        response.forEach((responseResult) => {
+          // Check if the item is an object and if it's not empty
+          if (
+            typeof responseResult === "object" &&
+            Object.keys(responseResult).length !== 0
+          ) {
+            responseResult.forEach((resultGrouping) => {
+              const resultGroup = resultGrouping.group;
+              const resultData = resultGrouping.data;
+
+              // Check if the resultGroup is already in the results array
+              let exists = results.some((item) =>
+                compareWithoutData(item, resultGroup)
+              );
+
+              // If it doesn't exist, add resultData object to resultGroup and push to results array
+              if (!exists) {
+                resultGroup.data = resultData;
+                results.push(resultGroup);
+              }
+              // If it does exist, find the resultGroup in the results array and add resultData object to it
+              else {
+                results.forEach((item) => {
+                  if (compareWithoutData(item, resultGroup)) {
+                    item.data = item.data.concat(resultData);
+                  }
+                });
+              }
+            });
+          }
+        });
       }
-      // If result is empty, log it and continue
+
+      // If response is empty, log it and continue
       else {
-        terminal("WARNING", `Query ${i} returned no results`);
+        terminal("WARNING", `Query ${i} returned no response`);
       }
 
       i++;
@@ -216,6 +256,7 @@ async function exportHistoricalData() {
 
     terminal("INFO", `Query completed for ${nBlocks} date blocks`);
 
+    console.log("WPT: runQueryForDateBlocks() results = ", results);
     return results;
   }
 

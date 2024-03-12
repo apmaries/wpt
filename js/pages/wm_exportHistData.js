@@ -38,17 +38,11 @@ let runTime = new Date()
 async function getQsl() {
   const queues = handleApiCalls(
     "RoutingApi.getRoutingQueues",
-    "",
     globalPageOpts
   ).entities;
-  const skills = handleApiCalls(
-    "RoutingApi.getRoutingSkills",
-    "",
-    globalPageOpts
-  );
+  const skills = handleApiCalls("RoutingApi.getRoutingSkills", globalPageOpts);
   const languages = handleApiCalls(
     "RoutingApi.getRoutingLanguages",
-    "",
     globalPageOpts
   );
 
@@ -92,7 +86,7 @@ async function initiate() {
     );
 
     // Don't await here, let qsl promise run in the background
-    qslPromise = getQsl();
+    let qslPromise = getQsl();
   } else {
     console.log(`WPT: ${toolName} in test mode...`);
 

@@ -31,6 +31,7 @@ let runTime = new Date()
   .replace("T", "_")
   .split(".")[0];
 
+const RP_MODE = { "1": "exact-match", "2": "queue-media", "3": "queue-only" };
 // Constants end here
 
 // Functions start here
@@ -141,10 +142,7 @@ async function initiate() {
     // Production mode - get WFM Business Units and populate bu-listbox on page load
     const businessUnits = await getWfmBusinessUnits();
     populateDropdown(buListbox, businessUnits.entities);
-    terminal(
-      "INFO",
-      `${businessUnits.entities.length} business units loaded... `
-    );
+    terminal("INFO", `${businessUnits.length} business units loaded... `);
   } else {
     console.log(`WPT: ${toolName} in test mode...`);
 
@@ -187,6 +185,9 @@ async function exportHistoricalData() {
   const timeZoneMethod = getRadioValue(timeZoneRadio);
   const rpMode = getRadioValue(rpRadio);
 
+  // Get RP_MODE value from rpMode
+  const rpModeValue = RP_MODE[rpMode];
+
   let startDate = document.getElementById("dates-start-datepicker").value;
   // Append 'Z' to the date string to denote it's in UTC
   startDate = new Date(`${startDate}Z`);
@@ -212,7 +213,7 @@ async function exportHistoricalData() {
   terminal("DEBUG", `Start date = ${startDate}`);
   terminal("DEBUG", `End date mode = ${endDateMode}`);
   terminal("DEBUG", `End date = ${endDate}`);
-  terminal("DEBUG", `Route paths mode = ${rpMode}`);
+  terminal("DEBUG", `Route paths matching method = ${rpModeValue}`);
 
   let timeZone = "UTC"; // Default for testing
   if (timeZoneMethod === "business-unit") {
@@ -241,12 +242,9 @@ async function exportHistoricalData() {
 
   const planningGroups = await getWfmPlanningGroups(selectedBuId);
 
-  console.log("WPT: Planning Groups = ", planningGroups.entities);
-  terminal(
-    "INFO",
-    `Found ${planningGroups.entities.length} planning groups for export`
-  );
-  planningGroups.entities.forEach((group) => {
+  console.log("WPT: Planning Groups = ", planningGroups);
+  terminal("INFO", `Found ${planningGroups.length} planning groups for export`);
+  planningGroups.forEach((group) => {
     terminal(
       "INFO",
       `Planning group: ${group.name} with ${group.routePaths.length} route paths`
@@ -255,7 +253,7 @@ async function exportHistoricalData() {
   });
 
   // Get queue ids from planning groups
-  const queueIds = planningGroups.entities.flatMap((group) =>
+  const queueIds = planningGroups.flatMap((group) =>
     group.routePaths.map((routePath) => routePath.queue.id)
   );
 

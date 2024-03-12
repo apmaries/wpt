@@ -158,10 +158,52 @@ async function exportHistoricalData() {
 
       start = intervalEnd;
     }
-
+    console.debug("WPT: calculateDateBlocks = ", dateBlocks);
     return dateBlocks;
   }
 
+  // Function to run query for each date block
+  async function runQueryForDateBlocks(dateBlocks, queryClause, timeZone) {
+    const nBlocks = dateBlocks.length;
+    const results = [];
+    for (const block of dateBlocks) {
+      let i = 1;
+      terminal(
+        "INFO",
+        `Running query ${i} of ${nBlocks} for date block: ${block}`
+      );
+      const requestBody = {
+        filter: {
+          type: "and",
+          clauses: queryClause,
+        },
+        metrics: ["nOffered", "tHandle"],
+        groupBy: [
+          "queueId",
+          "requestedRoutingSkillId",
+          "requestedLanguageId",
+          "direction",
+        ],
+        "granularity": "PT15M",
+        "interval": block,
+        "flattenMultivaluedDimensions": true,
+        "timeZone": timeZone,
+      };
+
+      console.debug("WPT: runQueryForDateBlocks() requestBody = ", requestBody);
+      const result = await handleApiCalls(
+        "ConversationsApi.postAnalyticsConversationsAggregatesQuery",
+        requestBody
+      );
+      terminal("DEBUG", `Query ${i} returned ${result.length} results`);
+      results.push(result);
+      i++;
+    }
+
+    return results;
+  }
+
+  // Main starts here
   // Update runTime
   runTime = new Date()
     .toISOString()
@@ -239,20 +281,34 @@ async function exportHistoricalData() {
   terminal("DEBUG", `Time zone = ${timeZone}`);
 
   // Get planning groups for the selected business unit
-
   const planningGroups = await getWfmPlanningGroups(selectedBuId);
 
-  console.log("WPT: Planning Groups = ", planningGroups);
+  // Build array of route paths from planning groups for later reference in results
+  let routePaths = [];
   terminal("INFO", `Found ${planningGroups.length} planning groups for export`);
   planningGroups.forEach((group) => {
+    let g = 1;
     terminal(
       "INFO",
-      `Planning group: ${group.name} with ${group.routePaths.length} route paths`
+      `PG${g}: '${group.name}' has ${group.routePaths.length} route paths`
     );
-    terminal("DEBUG", `Route paths = `, group.routePaths);
+    group.routePaths.forEach((rp) => {
+      let r = 1;
+      const q = rp.queue.id;
+      const m = rp.mediaType;
+
+      // language is optional
+      const l = rp.language ? rp.language.id : "";
+
+      // skills are optional
+      const s = rp.skills ? rp.skills.map((skill) => skill.id).join(",") : "";
+      let routePath = { queue: q, mediaType: m, language: l, skills: s };
+      routePaths.push(routePath);
+      terminal("DEBUG", `RP${r} =  ${routePath}`);
+    });
   });
 
-  // Get queue ids from planning groups
+  // Get queue ids from planning groups for generating query clause
   const queueIds = planningGroups.flatMap((group) =>
     group.routePaths.map((routePath) => routePath.queue.id)
   );
@@ -260,14 +316,22 @@ async function exportHistoricalData() {
   // Remove duplicates
   const uniqueQueueIds = [...new Set(queueIds)];
 
+  // Prep for making queries
+  const queryClause = await buildQueryClause(uniqueQueueIds);
   terminal(
     "INFO",
-    `Found ${uniqueQueueIds.length} unique queue ids for export`
+    `${uniqueQueueIds.length} unique queue ids targeted for export`
   );
 
-  const queryClause = await buildQueryClause(queueIds);
   const dateBlocks = calculateDateBlocks(startDate, endDate);
-  console.log("WPT: Date blocks = ", dateBlocks);
+  terminal("INFO", `Generated ${dateBlocks.length} 7 day blocks for export`);
+
+  // Make query for each date block
+  const results = await runQueryForDateBlocks(
+    dateBlocks,
+    queryClause,
+    timeZone
+  );
 
   // Get queues, skills and languages
   const qsl = await getQsl();
@@ -288,6 +352,8 @@ async function exportHistoricalData() {
   endP.className = "error";
   endP.style.margin = "1em 0"; // Add a top and bottom margin
   terminalDiv.appendChild(endP);
+
+  // Main ends here
 }
 
 // Functions end here

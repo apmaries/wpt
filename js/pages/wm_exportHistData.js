@@ -242,7 +242,7 @@ async function exportHistoricalData() {
 
   // Get planning groups for the selected business unit
   try {
-    const planningGroups = await getWfmPlanningGroups(selectedBuId);
+    const planningGroups = await getWfmPlanningGroups(selectedBuId).entities;
 
     console.log("WPT: Planning Groups = ", planningGroups);
     terminal(
@@ -251,7 +251,7 @@ async function exportHistoricalData() {
     );
 
     // Get queue ids from planning groups
-    const queueIds = planningGroups.entities.flatMap((group) =>
+    const queueIds = planningGroups.flatMap((group) =>
       group.routePaths.map((routePath) => routePath.queue)
     );
     terminal("DEBUG", `Found ${queueIds.length} queue ids`);

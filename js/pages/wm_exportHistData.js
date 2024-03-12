@@ -166,8 +166,9 @@ async function exportHistoricalData() {
   async function runQueryForDateBlocks(dateBlocks, queryClause, timeZone) {
     const nBlocks = dateBlocks.length;
     const results = [];
+
+    let i = 1;
     for (const block of dateBlocks) {
-      let i = 1;
       terminal(
         "INFO",
         `Running query ${i} of ${nBlocks} for date block: ${block}`
@@ -199,6 +200,8 @@ async function exportHistoricalData() {
       results.push(result);
       i++;
     }
+    console.log("WPT: runQueryForDateBlocks() results = ", results);
+    terminal("INFO", `Query completed for ${nBlocks} date blocks`);
 
     return results;
   }
@@ -286,14 +289,16 @@ async function exportHistoricalData() {
   // Build array of route paths from planning groups for later reference in results
   let routePaths = [];
   terminal("INFO", `Found ${planningGroups.length} planning groups for export`);
+
+  let g = 1;
   planningGroups.forEach((group) => {
-    let g = 1;
     terminal(
       "INFO",
       `PG${g}: '${group.name}' has ${group.routePaths.length} route paths`
     );
+
+    let r = 1;
     group.routePaths.forEach((rp) => {
-      let r = 1;
       const q = rp.queue.id;
       const m = rp.mediaType;
 
@@ -304,8 +309,12 @@ async function exportHistoricalData() {
       const s = rp.skills ? rp.skills.map((skill) => skill.id).join(",") : "";
       let routePath = { queue: q, mediaType: m, language: l, skills: s };
       routePaths.push(routePath);
-      terminal("DEBUG", `RP${r} =  ${routePath}`);
+      terminal("DEBUG", `RP${r} =  ${JSON.stringify(routePath)}`);
+
+      r++;
     });
+
+    g++;
   });
 
   // Get queue ids from planning groups for generating query clause

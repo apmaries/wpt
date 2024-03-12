@@ -54,7 +54,7 @@ async function initiate() {
   logRadio[1].checked = true;
 
   // Reset export-end to now
-  const endDateRadio = document.getElementsByName("export-end");
+  const endDateRadio = document.getElementsByName("end-date");
   endDateRadio[0].checked = true;
 
   // Reset route to now

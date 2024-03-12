@@ -79,80 +79,49 @@ async function getWfmPlanningGroups(buId) {
 }
 
 // Function to build query predicates from planning groups
-async function buildQueryPredicates(planningGroups, mode) {
+async function buildQueryClause(queueIds) {
   const routePaths = planningGroups.entities.map((group) => group.routePaths);
   console.debug("WPT: extracted routePaths = ", routePaths);
 
-  terminal("INFO", `Processing ${routePaths.length} route paths`);
-
-  if (mode === "pg") {
-    terminal(
-      "INFO",
-      "Building predicates with route paths as defined in planning groups"
-    );
-  } else {
-    terminal("INFO", "Building predicates with queue & media type only");
-  }
-
-  // Build predicates
   let predicatesArray = [];
-  routePaths.forEach((rp) => {
-    try {
-      var predicate = [
-        {
-          "dimension": "queueId",
-          "value": rp.queue,
-        },
-        {
-          "dimension": "mediaType",
-          "value": rp.mediaType,
-        },
-      ];
+  let queryClause = [{ type: "or", predicates: predicatesArray }];
 
-      // limit to inbound direction if media type is voice
-      if (rp.mediaType === "voice") {
-        predicate.push({ "dimension": "direction", "value": "inbound" });
-      }
-
-      // If mode is "all", no need to add any more predicates
-      if (mode === "pg") {
-        // language is optional
-        if ("language" in rp) {
-          predicate.push({
-            "dimension": "requestedLanguageId",
-            "value": rp.language,
-          });
-        }
-
-        // skills are optional
-        if ("skills" in rp) {
-          let skills = rp.skills;
-          for (let s = 0; s < skills.length; s++) {
-            let skill = skills[s];
-            predicate.push({
-              "dimension": "requestedRoutingSkillId",
-              "value": skill,
-            });
-          }
-        }
-      }
-
-      predicatesArray.push(predicate);
-      terminal(
-        "DEBUG",
-        `Adding predicate to query: ${JSON.stringify(predicate)}`
-      );
-    } catch (error) {
-      terminal("ERROR", `Error building predicates: ${error}`);
-    }
+  queueIds.forEach((queueId) => {
+    const predicate = {
+      type: "dimension",
+      dimension: "queueId",
+      operator: "matches",
+      value: queueId,
+    };
+    predicatesArray.push(predicate);
   });
 
-  // Remove any duplicates in predicatesArray
-  predicatesArray = [
-    ...new Set(predicatesArray.map((p) => JSON.stringify(p))),
-  ].map((p) => JSON.parse(p));
+  console.debug("WPT: queryClause = ", queryClause);
+  return queryClause;
+}
 
-  return predicatesArray;
+// Function to calculate 7 day interval blocks from given date range
+function calculateDateBlocks(startDate, endDate) {
+  const dateBlocks = [];
+  let start = new Date(startDate);
+  const end = new Date(endDate);
+
+  while (start < end) {
+    let intervalEnd = new Date(start);
+    intervalEnd.setDate(intervalEnd.getDate() + 7);
+    if (intervalEnd > end) {
+      intervalEnd = end;
+    }
+
+    const intervalString = `${start.toISOString().split("T")[0]}/${
+      intervalEnd.toISOString().split("T")[0]
+    }`;
+    dateBlocks.push(intervalString);
+
+    start = intervalEnd;
+  }
+
+  return dateBlocks;
 }
 
 // Initialisation function
@@ -233,13 +202,10 @@ async function exportHistoricalData() {
   if (endDateMode === "user-defined-value") {
     endDate = document.getElementById("dates-end-datepicker").value;
   } else {
-    // Get current datetime rounded down to nearest 15-minute interval
-    const datetime = new Date();
-    const minutes = datetime.getMinutes();
-    datetime.setMinutes(minutes - (minutes % 15));
-    datetime.setSeconds(0);
-    datetime.setMilliseconds(0);
-    endDate = datetime.toISOString().split(".")[0];
+    // Get current date
+    let now = new Date();
+    now.setUTCHours(0, 0, 0, 0);
+    endDate = now.toISOString().split(".")[0];
   }
 
   // Debug log tool variables
@@ -275,46 +241,48 @@ async function exportHistoricalData() {
   terminal("DEBUG", `Time zone = ${timeZone}`);
 
   // Get planning groups for the selected business unit
-  const planningGroups = await getWfmPlanningGroups(selectedBuId);
+  try {
+    const planningGroups = await getWfmPlanningGroups(selectedBuId);
 
-  console.log("WPT: Planning Groups = ", planningGroups);
-  terminal("INFO", `Found ${planningGroups.length} planning groups for export`);
-
-  const queryPredicates = await buildQueryPredicates(planningGroups, rpMode);
-
-  // Get queus, skill & language id's from the planning groups
-  const queueIds = planningGroups.entities.map(
-    (group) => group.routePaths.queue.id
-  );
-  terminal("DEBUG", `Queue IDs = ${queueIds}`);
-
-  // Get queues, skills and languages
-  const qsl = await getQsl();
-  const queues = qsl[0];
-  const skills = qsl[1];
-  const languages = qsl[2];
-
-  // Debug log qsl
-  terminal("DEBUG", `Found ${queues.length} queues`);
-  terminal("DEBUG", `Found ${skills.length} skills`);
-  terminal("DEBUG", `Found ${languages.length} languages`);
-
-  // Export results to csv file
-
-  // End in error if no planning groups are found
-  if (planningGroupsPromise.length === 0) {
+    console.log("WPT: Planning Groups = ", planningGroups);
     terminal(
-      "ERROR",
-      "No planning groups found for the selected business unit!"
+      "INFO",
+      `Found ${planningGroups.length} planning groups for export`
     );
-  }
 
-  // Add Execution end message to terminal
-  const endP = document.createElement("p");
-  endP.innerHTML = `---- Execution completed ----`;
-  endP.className = "error";
-  endP.style.margin = "1em 0"; // Add a top and bottom margin
-  terminalDiv.appendChild(endP);
+    // Get queue ids from planning groups
+    const queueIds = planningGroups.entities.flatMap((group) =>
+      group.routePaths.map((routePath) => routePath.queue)
+    );
+    terminal("DEBUG", `Found ${queueIds.length} queue ids`);
+
+    const queryClause = await buildQueryClause(queueIds);
+    const dateBlocks = calculateDateBlocks(startDate, endDate);
+
+    // Get queues, skills and languages
+    const qsl = await getQsl();
+    const queues = qsl[0];
+    const skills = qsl[1];
+    const languages = qsl[2];
+
+    // Debug log qsl
+    terminal("DEBUG", `Found ${queues.length} queues`);
+    terminal("DEBUG", `Found ${skills.length} skills`);
+    terminal("DEBUG", `Found ${languages.length} languages`);
+
+    // Export results to csv file
+  } catch (error) {
+    // End in error if no planning groups are found
+
+    terminal("ERROR", error);
+  } finally {
+    // Add Execution end message to terminal
+    const endP = document.createElement("p");
+    endP.innerHTML = `---- Execution completed ----`;
+    endP.className = "error";
+    endP.style.margin = "1em 0"; // Add a top and bottom margin
+    terminalDiv.appendChild(endP);
+  }
 }
 
 // Functions end here

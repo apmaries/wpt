@@ -39,7 +39,7 @@ async function getQsl() {
   const queuesPromise = handleApiCalls(
     "RoutingApi.getRoutingQueues",
     globalPageOpts
-  ).entities;
+  );
   const skillsPromise = handleApiCalls(
     "RoutingApi.getRoutingSkills",
     globalPageOpts

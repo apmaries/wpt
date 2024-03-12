@@ -26,6 +26,10 @@ if (!window.origin.includes("127.0.0.1")) {
 
     // Get the logged in user
     const user = await handleApiCalls("UsersApi.getUsersMe");
+
+    // temp logging
+    console.log("WPT: User details: ", user);
+
     // check if internal user
     internalUserCheck(user.email);
 

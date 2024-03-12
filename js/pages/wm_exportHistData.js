@@ -31,8 +31,6 @@ let runTime = new Date()
   .replace("T", "_")
   .split(".")[0];
 
-let qslPromise = getQsl();
-
 // Constants end here
 
 // Functions start here
@@ -83,12 +81,6 @@ async function initiate() {
       "INFO",
       `${businessUnits.entities.length} business units loaded... `
     );
-
-    // Don't await here, let qsl promise run in the background
-    qslPromise.then((qsl) => {
-      console.log("WPT: qsl = ", qsl);
-      terminal("INFO", "Queue, skill & language data loaded...");
-    });
   } else {
     console.log(`WPT: ${toolName} in test mode...`);
 
@@ -203,8 +195,8 @@ async function exportHistoricalData() {
       `Exporting historical data for ${planningGroupIds.length} planning groups...`
     );
 
-    // Await the QSL data here - need it to resolve prior to mapping returned id's to names for export file
-    const qsl = await qslPromise;
+    // Get queues, skills and languages
+    const qsl = await getQsl();
     console.log("WPT: qsl = ", qsl);
 
     // Export results to csv file

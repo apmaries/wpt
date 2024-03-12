@@ -120,7 +120,7 @@ if (!window.origin.includes("127.0.0.1")) {
   }
   */
   } else {
-    console.debug("WPT: Home page loaded with active session");
+    console.debug("WPT: Page loading with active session");
 
     let user = sessionStorage.getItem("user_name");
     let org = sessionStorage.getItem("org_name");

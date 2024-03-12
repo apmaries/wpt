@@ -79,7 +79,7 @@ async function getWfmPlanningGroups(buId) {
 }
 
 // Function to build query predicates from planning groups
-function extractRoutePaths(planningGroups) {
+async function buildQueryPredicates(planningGroups) {
   const routePaths = planningGroups.entities.map((group) => group.routePaths);
   console.debug("WPT: extracted routePaths = ", routePaths);
 
@@ -262,8 +262,10 @@ async function exportHistoricalData() {
     const planningGroupIds = planningGroups.entities.map((group) => group.id);
     terminal(
       "INFO",
-      `Exporting historical data for ${planningGroupIds.length} planning groups...`
+      `Found ${planningGroupIds.length} planning groups for export`
     );
+
+    const queryPredicates = await buildQueryPredicates(planningGroups);
 
     // Get queus, skill & language id's from the planning groups
     const queueIds = planningGroups.entities.map(

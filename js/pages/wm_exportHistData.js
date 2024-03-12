@@ -386,10 +386,10 @@ buListbox.addEventListener("change", (event) => {
 });
 
 // Event listener for end date radio buttons
-const endDateRadio = document.getElementsByName("export-end");
+const endDateRadio = document.getElementsByName("end-date");
 endDateRadio.forEach((radio, index) => {
   radio.addEventListener("click", (event) => {
-    const datePicker = document.getElementById("export-end-datepicker");
+    const datePicker = document.getElementById("dates-end-datepicker");
     const radioValue = getRadioValue(endDateRadio);
     if (radioValue === radio.value) {
       if (index === 0) {

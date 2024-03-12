@@ -80,9 +80,6 @@ async function getWfmPlanningGroups(buId) {
 
 // Function to build query predicates from planning groups
 async function buildQueryClause(queueIds) {
-  const routePaths = planningGroups.entities.map((group) => group.routePaths);
-  console.debug("WPT: extracted routePaths = ", routePaths);
-
   let predicatesArray = [];
   let queryClause = [{ type: "or", predicates: predicatesArray }];
 

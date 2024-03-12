@@ -36,14 +36,24 @@ let runTime = new Date()
 // Functions start here
 // Function to get QSL objects
 async function getQsl() {
-  const queues = handleApiCalls(
+  const queuesPromise = handleApiCalls(
     "RoutingApi.getRoutingQueues",
     globalPageOpts
   ).entities;
-  //const skills = handleApiCalls("RoutingApi.getRoutingSkills", globalPageOpts);
-  //const languages = handleApiCalls("RoutingApi.getRoutingLanguages", globalPageOpts);
+  const skillsPromise = handleApiCalls(
+    "RoutingApi.getRoutingSkills",
+    globalPageOpts
+  );
+  const languagesPromise = handleApiCalls(
+    "RoutingApi.getRoutingLanguages",
+    globalPageOpts
+  );
 
-  const qsl = await Promise.all([queues /*, skills, languages*/]);
+  const qsl = await Promise.all([
+    queuesPromise,
+    skillsPromise,
+    languagesPromise,
+  ]);
   console.debug("WPT: qsl = ", qsl);
   return qsl;
 }
@@ -95,6 +105,7 @@ async function initiate() {
   }
   terminal("INFO", "Please select a business unit to export historical data");
   enableButtons();
+  console.log("WPT: Export historical data page initiated...");
 }
 
 // Function to get planning groups for a business unit

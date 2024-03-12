@@ -181,6 +181,8 @@ export async function handleApiCalls(apiFunctionStr, ...args) {
           return { message: "Token deletion successful" };
         }
         const responseBody = response.body;
+        console.debug("WPT: response = ", response);
+        console.debug("WPT: responseBody = ", responseBody);
 
         console.debug(
           `WPT: ${apiInstanceName}.${functionName} response body: `,

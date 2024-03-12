@@ -196,8 +196,17 @@ async function exportHistoricalData() {
         "ConversationsApi.postAnalyticsConversationsAggregatesQuery",
         requestBody
       );
-      terminal("DEBUG", `Query ${i} returned ${result.length} results`);
-      results.push(result);
+
+      // If result is not empty, push to results array
+      if (result) {
+        terminal("DEBUG", `Query ${i} returned ${result.length} results`);
+        results.push(result);
+      }
+      // If result is empty, log it and continue
+      else {
+        terminal("WARNING", `Query ${i} returned no results`);
+      }
+
       i++;
     }
     console.log("WPT: runQueryForDateBlocks() results = ", results);

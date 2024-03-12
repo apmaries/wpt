@@ -210,17 +210,26 @@ async function exportHistoricalData() {
 
     // Get queues, skills and languages
     const qsl = await getQsl();
-    console.log("WPT: qsl = ", qsl);
+    const queues = qsl[0];
+    const skills = qsl[1];
+    const languages = qsl[2];
 
     // Export results to csv file
-
-    // Add Execution end message to terminal
-    const endP = document.createElement("p");
-    endP.innerHTML = `---- Execution completed ----`;
-    endP.className = "error";
-    endP.style.margin = "1em 0"; // Add a top and bottom margin
-    terminalDiv.appendChild(endP);
   });
+  // End in error if no planning groups are found
+  if (planningGroupsPromise.length === 0) {
+    terminal(
+      "ERROR",
+      "No planning groups found for the selected business unit!"
+    );
+  }
+
+  // Add Execution end message to terminal
+  const endP = document.createElement("p");
+  endP.innerHTML = `---- Execution completed ----`;
+  endP.className = "error";
+  endP.style.margin = "1em 0"; // Add a top and bottom margin
+  terminalDiv.appendChild(endP);
 }
 
 // Functions end here

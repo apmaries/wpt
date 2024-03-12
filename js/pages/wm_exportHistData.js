@@ -64,7 +64,7 @@ async function initiate() {
   if (testMode) {
     // Production mode - get WFM Business Units and populate bu-listbox on page load
     const businessUnits = await getWfmBusinessUnits();
-    populateDropdown(buListbox, businessUnits.entities);
+    populateDropdown(buListbox, businessUnits);
     terminal("INFO", `${businessUnits.length} business units loaded... `);
   } else {
     console.log(`WPT: ${toolName} in test mode...`);

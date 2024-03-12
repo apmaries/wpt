@@ -211,7 +211,7 @@ async function exportHistoricalData() {
 
       // If response is not empty, process it
       if (response) {
-        terminal("DEBUG", `Query ${i} data returned`);
+        //terminal("DEBUG", `Query ${i} returned ${response.length} results`);
 
         response.forEach((responseResult) => {
           // Check if the item is an object and if it's not empty
@@ -219,9 +219,20 @@ async function exportHistoricalData() {
             typeof responseResult === "object" &&
             Object.keys(responseResult).length !== 0
           ) {
-            responseResult.forEach((resultGrouping) => {
-              const resultGroup = resultGrouping.group;
-              const resultData = resultGrouping.data;
+            // If responseResult is an array
+            if (Array.isArray(responseResult)) {
+              responseResult.forEach(processResultGrouping);
+            }
+            // If responseResult is an object
+            else {
+              responseResult.data.forEach(processResultGrouping);
+            }
+
+            function processResultGrouping(resultGrouping) {
+              const resultGroup = Array.isArray(responseResult)
+                ? resultGrouping.group
+                : responseResult.group;
+              const resultData = resultGrouping;
 
               // Check if the resultGroup is already in the results array
               let exists = results.some((item) =>
@@ -230,7 +241,7 @@ async function exportHistoricalData() {
 
               // If it doesn't exist, add resultData object to resultGroup and push to results array
               if (!exists) {
-                resultGroup.data = resultData;
+                resultGroup.data = [resultData]; // Wrap resultData in an array
                 results.push(resultGroup);
               }
               // If it does exist, find the resultGroup in the results array and add resultData object to it
@@ -241,7 +252,7 @@ async function exportHistoricalData() {
                   }
                 });
               }
-            });
+            }
           }
         });
       }

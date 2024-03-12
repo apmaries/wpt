@@ -41,7 +41,7 @@ async function getWfmBusinessUnits() {
   const businessUnits = await handleApiCalls(
     "WorkforceManagementApi.getWorkforcemanagementBusinessunits"
   );
-  console.debug("WPT: getWfmBusinessUnits() = ", businessUnits);
+  console.log("WPT: getWfmBusinessUnits() = ", businessUnits);
   return businessUnits;
 }
 
@@ -91,7 +91,7 @@ async function exportHistoricalData() {
       "WorkforceManagementApi.getWorkforcemanagementBusinessunitPlanninggroups",
       buId
     );
-    console.debug(`WPT: getWfmPlanningGroups(${buId}) = `, planningGroups);
+    console.log(`WPT: getWfmPlanningGroups(${buId}) = `, planningGroups);
     return planningGroups;
   }
 
@@ -115,7 +115,7 @@ async function exportHistoricalData() {
       skillsPromise,
       languagesPromise,
     ]);
-    console.debug("WPT: getQsl() = ", qsl);
+    console.log("WPT: getQsl() = ", qsl);
     return qsl;
   }
 
@@ -134,7 +134,7 @@ async function exportHistoricalData() {
       predicatesArray.push(predicate);
     });
 
-    console.debug("WPT: queryClause = ", queryClause);
+    console.log("WPT: queryClause = ", queryClause);
     return queryClause;
   }
 
@@ -158,7 +158,7 @@ async function exportHistoricalData() {
 
       start = intervalEnd;
     }
-    console.debug("WPT: calculateDateBlocks = ", dateBlocks);
+    console.log("WPT: calculateDateBlocks = ", dateBlocks);
     return dateBlocks;
   }
 
@@ -190,7 +190,7 @@ async function exportHistoricalData() {
         "timeZone": timeZone,
       };
 
-      console.debug("WPT: runQueryForDateBlocks() requestBody = ", requestBody);
+      console.log("WPT: runQueryForDateBlocks() requestBody = ", requestBody);
       const result = await handleApiCalls(
         "ConversationsApi.postAnalyticsConversationsAggregatesQuery",
         requestBody

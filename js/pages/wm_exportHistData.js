@@ -78,6 +78,63 @@ async function getWfmPlanningGroups(buId) {
   return planningGroups;
 }
 
+// Function to build query predicates from planning groups
+function extractRoutePaths(planningGroups) {
+  const routePaths = planningGroups.entities.map((group) => group.routePaths);
+  console.debug("WPT: extracted routePaths = ", routePaths);
+
+  terminal("INFO", `Processing ${routePaths.length} route paths`);
+
+  // Build predicates
+  let predicatesArray = [];
+  routePaths.forEach((rp) => {
+    try {
+      var predicate = [
+        {
+          "dimension": "queueId",
+          "value": rp.queue,
+        },
+        {
+          "dimension": "mediaType",
+          "value": rp.mediaType,
+        },
+      ];
+
+      // limit to inbound direction if media type is voice
+      if (rp.mediaType === "voice") {
+        predicate.push({ "dimension": "direction", "value": "inbound" });
+      }
+
+      // language is optional
+      if ("language" in rp) {
+        predicate.push({
+          "dimension": "requestedLanguageId",
+          "value": rp.language,
+        });
+      }
+
+      // skills are optional
+      if ("skills" in rp) {
+        let skills = rp.skills;
+        for (let s = 0; s < skills.length; s++) {
+          let skill = skills[s];
+          predicate.push({
+            "dimension": "requestedRoutingSkillId",
+            "value": skill,
+          });
+        }
+      }
+
+      predicatesArray.push(predicate);
+      terminal("DEBUG", `Built predicate: ${JSON.stringify(predicate)}`);
+    } catch (error) {
+      terminal("ERROR", `Error building predicates: ${error}`);
+    }
+  });
+
+  return predicatesArray;
+}
+
 // Initialisation function
 async function initiate() {
   terminal("INFO", `Initiating program - ${toolName}`);
@@ -208,6 +265,12 @@ async function exportHistoricalData() {
       `Exporting historical data for ${planningGroupIds.length} planning groups...`
     );
 
+    // Get queus, skill & language id's from the planning groups
+    const queueIds = planningGroups.entities.map(
+      (group) => group.routePaths.queue.id
+    );
+    terminal("DEBUG", `Queue IDs = ${queueIds}`);
+
     // Get queues, skills and languages
     const qsl = await getQsl();
     const queues = qsl[0];
@@ -220,6 +283,13 @@ async function exportHistoricalData() {
     terminal("DEBUG", `Found ${languages.length} languages`);
 
     // Export results to csv file
+
+    // Add Execution end message to terminal
+    const endP = document.createElement("p");
+    endP.innerHTML = `---- Execution completed ----`;
+    endP.className = "error";
+    endP.style.margin = "1em 0"; // Add a top and bottom margin
+    terminalDiv.appendChild(endP);
   });
   // End in error if no planning groups are found
   if (planningGroupsPromise.length === 0) {
@@ -228,13 +298,6 @@ async function exportHistoricalData() {
       "No planning groups found for the selected business unit!"
     );
   }
-
-  // Add Execution end message to terminal
-  const endP = document.createElement("p");
-  endP.innerHTML = `---- Execution completed ----`;
-  endP.className = "error";
-  endP.style.margin = "1em 0"; // Add a top and bottom margin
-  terminalDiv.appendChild(endP);
 }
 
 // Functions end here

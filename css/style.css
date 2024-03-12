@@ -181,6 +181,13 @@ gux-option {
   color: #000000;
 }
 
+gux-tooltip {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  color: #000000;
+}
+
 /* Font specific styles end */
 
 /* Index page styles start */

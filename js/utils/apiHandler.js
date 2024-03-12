@@ -159,21 +159,19 @@ export async function handleApiCalls(apiFunctionStr, ...args) {
           ...requestBody,
           pageNumber: currentPage,
         };
-        console.log("WPT: updatedRequestBody = ", updatedRequestBody);
 
         // Make the API call
-        console.warn(
-          "WPT: Making API call to ",
-          apiFunctionStr,
-          updatedRequestBody
-        );
 
         // Create an array of arguments
         let apiFunctionArgs = [...stringArgs];
         if (Object.keys(updatedRequestBody).length > 0) {
           apiFunctionArgs.push(updatedRequestBody);
         }
+        console.debug(
+          `WPT: Making API call to ${apiFunctionStr} with function args: `,
 
+          apiFunctionArgs
+        );
         const response = await apiFunction(...apiFunctionArgs);
 
         // If the response is blank and the API function is 'deleteTokensMe', return a success message

@@ -34,6 +34,16 @@ let runTime = new Date()
 // Constants end here
 
 // Functions start here
+
+// Function to get all WFM Business Units
+async function getWfmBusinessUnits() {
+  const businessUnits = await handleApiCalls(
+    "WorkforceManagementApi.getWorkforcemanagementBusinessunits"
+  );
+  console.debug("WPT: getWfmBusinessUnits() = ", businessUnits);
+  return businessUnits;
+}
+
 // Function to get QSL objects
 async function getQsl() {
   const queuesPromise = handleApiCalls(
@@ -54,17 +64,18 @@ async function getQsl() {
     skillsPromise,
     languagesPromise,
   ]);
-  console.debug("WPT: qsl = ", qsl);
+  console.debug("WPT: getQsl() = ", qsl);
   return qsl;
 }
 
-// Function to get all WFM Business Units
-async function getWfmBusinessUnits() {
-  const businessUnits = await handleApiCalls(
-    "WorkforceManagementApi.getWorkforcemanagementBusinessunits"
+// Function to get planning groups for a business unit
+async function getWfmPlanningGroups(buId) {
+  const planningGroups = await handleApiCalls(
+    "WorkforceManagementApi.getWorkforcemanagementBusinessunitPlanninggroups",
+    buId
   );
-  console.debug("WPT: getWfmBusinessUnits: businessUnits: ", businessUnits);
-  return businessUnits;
+  console.debug(`WPT: getWfmPlanningGroups(${buId}) = `, planningGroups);
+  return planningGroups;
 }
 
 // Initialisation function
@@ -106,15 +117,6 @@ async function initiate() {
   terminal("INFO", "Please select a business unit to export historical data");
   enableButtons();
   console.log("WPT: Export historical data page initiated...");
-}
-
-// Function to get planning groups for a business unit
-async function getWfmPlanningGroups(buId) {
-  const planningGroups = await handleApiCalls(
-    "WorkforceManagementApi.getWorkforcemanagementBusinessunitPlanninggroups",
-    buId
-  );
-  return planningGroups;
 }
 
 // Main function to export historical data

@@ -258,6 +258,7 @@ async function exportHistoricalData() {
 
     const queryClause = await buildQueryClause(queueIds);
     const dateBlocks = calculateDateBlocks(startDate, endDate);
+    console.log("WPT: Date blocks = ", dateBlocks);
 
     // Get queues, skills and languages
     const qsl = await getQsl();

@@ -142,123 +142,129 @@ export async function handleApiCalls(apiFunctionStr, ...args) {
   let allResults = [];
 
   // Start the retry loop
-  while (retryCount < maxRetries) {
-    try {
-      let currentPage = 1; // Default page number
-      let requestData = args.find((arg) => typeof arg === "object") || {}; // Find the first object in args
+  return new Promise(async (resolve, reject) => {
+    while (retryCount < maxRetries) {
+      try {
+        let currentPage = 1; // Default page number
+        let requestData = args.find((arg) => typeof arg === "object") || {}; // Find the first object in args
 
-      while (true) {
-        // Create a new object with the updated pageNumber
-        const updatedRequestData = { ...requestData, pageNumber: currentPage };
-        console.log("WPT: updatedRequestData = ", updatedRequestData);
+        while (true) {
+          // Create a new object with the updated pageNumber
+          const updatedRequestData = {
+            ...requestData,
+            pageNumber: currentPage,
+          };
+          console.log("WPT: updatedRequestData = ", updatedRequestData);
 
-        // Make the API call
-        console.warn(
-          "WPT: Making API call to ",
-          apiFunctionStr,
-          updatedRequestData
-        );
-        const response = await apiFunction(updatedRequestData);
+          // Make the API call
+          console.warn(
+            "WPT: Making API call to ",
+            apiFunctionStr,
+            updatedRequestData
+          );
+          const response = await apiFunction(updatedRequestData);
 
-        // If the response is blank and the API function is 'deleteTokensMe', return a success message
-        if (!response && apiFunctionStr === "TokensApi.deleteTokensMe") {
-          return { message: "Token deletion successful" };
-        }
-        const responseBody = response.body;
+          // If the response is blank and the API function is 'deleteTokensMe', return a success message
+          if (!response && apiFunctionStr === "TokensApi.deleteTokensMe") {
+            return { message: "Token deletion successful" };
+          }
+          const responseBody = response.body;
 
-        console.debug(
-          `WPT: ${apiInstanceName}.${functionName} response body: `,
-          responseBody
-        );
+          console.debug(
+            `WPT: ${apiInstanceName}.${functionName} response body: `,
+            responseBody
+          );
 
-        // If the response has a body
-        if (responseBody) {
-          // If the response body is paginated, process the pages
-          if (
-            responseBody.pageNumber !== undefined &&
-            responseBody.pageCount !== undefined
-          ) {
-            const pageCount = responseBody.pageCount;
+          // If the response has a body
+          if (responseBody) {
+            // If the response body is paginated, process the pages
+            if (
+              responseBody.pageNumber !== undefined &&
+              responseBody.pageCount !== undefined
+            ) {
+              const pageCount = responseBody.pageCount;
 
-            // Combine the entities or results
-            if (responseBody.entities) {
-              allEntities = allEntities.concat(responseBody.entities);
-            } else if (responseBody.results) {
-              allResults = allResults.concat(responseBody.results);
-            }
+              // Combine the entities or results
+              if (responseBody.entities) {
+                allEntities = allEntities.concat(responseBody.entities);
+              } else if (responseBody.results) {
+                allResults = allResults.concat(responseBody.results);
+              }
 
-            // If the current page is less than the pageCount, request the next page
-            if (currentPage < responseBody.pageCount) {
+              // If the current page is less than the pageCount, request the next page
+              if (currentPage < responseBody.pageCount) {
+                console.debug(
+                  `WPT: ${apiInstanceName}.${functionName} is paginated - processing page ${currentPage} of ${pageCount}...`
+                );
+
+                currentPage += 1; // Increment currentPage directly
+
+                console.debug(
+                  `WPT: ${apiInstanceName}.${functionName} Requesting next page of results. requestData = `,
+                  updatedRequestData
+                );
+              }
+              // If the current page is equal to the pageCount, break out of the loop
+              else {
+                console.debug(
+                  `WPT: ${apiInstanceName}.${functionName} - No more pages to process`
+                );
+                break;
+              }
+            } else {
+              // Return the response body if it is not paginated
               console.debug(
-                `WPT: ${apiInstanceName}.${functionName} is paginated - processing page ${currentPage} of ${pageCount}...`
+                `WPT: ${apiInstanceName}.${functionName} is not paginated.`
               );
-
-              currentPage += 1; // Increment currentPage directly
-
-              console.debug(
-                `WPT: ${apiInstanceName}.${functionName} Requesting next page of results. requestData = `,
-                updatedRequestData
-              );
-            }
-            // If the current page is equal to the pageCount, break out of the loop
-            else {
-              console.debug(
-                `WPT: ${apiInstanceName}.${functionName} - No more pages to process`
-              );
-              break;
+              return responseBody;
             }
           } else {
-            // Return the response body if it is not paginated
-            console.debug(
-              `WPT: ${apiInstanceName}.${functionName} is not paginated.`
-            );
-            return responseBody;
+            // Return an empty object if the response body is blank
+            console.warn(`WPT: Response body is blank for ${apiFunctionStr}!`);
+            return {};
           }
-        } else {
-          // Return an empty object if the response body is blank
-          console.warn(`WPT: Response body is blank for ${apiFunctionStr}!`);
-          return {};
-        }
-      }
-
-      // Return the entities or results
-      if (allEntities.length > 0) {
-        return allEntities;
-      } else if (allResults.length > 0) {
-        return allResults;
-      }
-    } catch (error) {
-      console.error(`WPT: Error making API call to ${apiFunctionStr}!`);
-
-      // Check error using handleApiErrors function
-      const { isRetryable, retryAfter } = await handleApiErrors(
-        error,
-        apiFunctionStr
-      );
-
-      // Set the retry delay for retryable errors
-      if (isRetryable) {
-        if (error.status !== 429) {
-          let backoffRetry = retryAfter * 1000 * 3 ** retryCount;
-          console.warn(`WPT: Retrying after ${backoffRetry} seconds`);
-          setTimeout(
-            () => handleApiCalls(apiFunctionStr, requestData),
-            backoffRetry
-          );
-        } else {
-          console.warn(`WPT: Retrying after ${retryAfter} seconds`);
-          setTimeout(
-            () => handleApiCalls(apiFunctionStr, requestData),
-            retryAfter * 1000
-          );
         }
 
-        // Increment the retry count
-        retryCount++;
-      } else {
-        // Break out of the loop if the error is not retryable
-        break;
+        // Return the entities or results
+        if (allEntities.length > 0) {
+          resolve(allEntities);
+        } else if (allResults.length > 0) {
+          resolve(allResults);
+        }
+      } catch (error) {
+        console.error(`WPT: Error making API call to ${apiFunctionStr}!`);
+
+        // Check error using handleApiErrors function
+        const { isRetryable, retryAfter } = await handleApiErrors(
+          error,
+          apiFunctionStr
+        );
+
+        // Set the retry delay for retryable errors
+        if (isRetryable) {
+          if (error.status !== 429) {
+            let backoffRetry = retryAfter * 1000 * 3 ** retryCount;
+            console.warn(`WPT: Retrying after ${backoffRetry} seconds`);
+            setTimeout(
+              () => resolve(handleApiCalls(apiFunctionStr, requestData)),
+              backoffRetry
+            );
+          } else {
+            console.warn(`WPT: Retrying after ${retryAfter} seconds`);
+            setTimeout(
+              () => resolve(handleApiCalls(apiFunctionStr, requestData)),
+              retryAfter * 1000
+            );
+          }
+
+          // Increment the retry count
+          retryCount++;
+        } else {
+          // Break out of the loop if the error is not retryable
+          reject(error);
+          break;
+        }
       }
     }
-  }
+  });
 }

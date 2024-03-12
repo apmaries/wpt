@@ -79,7 +79,7 @@ async function getWfmPlanningGroups(buId) {
 }
 
 // Function to build query predicates from planning groups
-async function buildQueryPredicates(planningGroups) {
+async function buildQueryPredicates(planningGroups, mode) {
   const routePaths = planningGroups.entities.map((group) => group.routePaths);
   console.debug("WPT: extracted routePaths = ", routePaths);
 
@@ -105,28 +105,34 @@ async function buildQueryPredicates(planningGroups) {
         predicate.push({ "dimension": "direction", "value": "inbound" });
       }
 
-      // language is optional
-      if ("language" in rp) {
-        predicate.push({
-          "dimension": "requestedLanguageId",
-          "value": rp.language,
-        });
-      }
-
-      // skills are optional
-      if ("skills" in rp) {
-        let skills = rp.skills;
-        for (let s = 0; s < skills.length; s++) {
-          let skill = skills[s];
+      // If mode is "all", no need to add any more predicates
+      if (mode === "pg") {
+        // language is optional
+        if ("language" in rp) {
           predicate.push({
-            "dimension": "requestedRoutingSkillId",
-            "value": skill,
+            "dimension": "requestedLanguageId",
+            "value": rp.language,
           });
+        }
+
+        // skills are optional
+        if ("skills" in rp) {
+          let skills = rp.skills;
+          for (let s = 0; s < skills.length; s++) {
+            let skill = skills[s];
+            predicate.push({
+              "dimension": "requestedRoutingSkillId",
+              "value": skill,
+            });
+          }
         }
       }
 
       predicatesArray.push(predicate);
-      terminal("DEBUG", `Built predicate: ${JSON.stringify(predicate)}`);
+      terminal(
+        "DEBUG",
+        `Adding predicate to query: ${JSON.stringify(predicate)}`
+      );
     } catch (error) {
       terminal("ERROR", `Error building predicates: ${error}`);
     }
@@ -259,13 +265,12 @@ async function exportHistoricalData() {
 
   // Continue with the export once planningGroups is resolved
   planningGroupsPromise.then(async (planningGroups) => {
-    const planningGroupIds = planningGroups.entities.map((group) => group.id);
     terminal(
       "INFO",
-      `Found ${planningGroupIds.length} planning groups for export`
+      `Found ${planningGroups.length} planning groups for export`
     );
 
-    const queryPredicates = await buildQueryPredicates(planningGroups);
+    const queryPredicates = await buildQueryPredicates(planningGroups, rpMode);
 
     // Get queus, skill & language id's from the planning groups
     const queueIds = planningGroups.entities.map(

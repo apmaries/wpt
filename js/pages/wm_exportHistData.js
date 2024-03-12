@@ -214,6 +214,11 @@ async function exportHistoricalData() {
     const skills = qsl[1];
     const languages = qsl[2];
 
+    // Debug log qsl
+    terminal("DEBUG", `Found ${queues.length} queues`);
+    terminal("DEBUG", `Found ${skills.length} skills`);
+    terminal("DEBUG", `Found ${languages.length} languages`);
+
     // Export results to csv file
   });
   // End in error if no planning groups are found

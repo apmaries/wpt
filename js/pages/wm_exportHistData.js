@@ -196,6 +196,10 @@ async function exportHistoricalData() {
         "ConversationsApi.postAnalyticsConversationsAggregatesQuery",
         requestBody
       );
+      console.log(
+        `WPT: runQueryForDateBlocks() [Run ${i} of ${nBlocks}] results = `,
+        results
+      );
 
       // If result is not empty, push to results array
       if (result) {
@@ -209,7 +213,7 @@ async function exportHistoricalData() {
 
       i++;
     }
-    console.log("WPT: runQueryForDateBlocks() results = ", results);
+
     terminal("INFO", `Query completed for ${nBlocks} date blocks`);
 
     return results;

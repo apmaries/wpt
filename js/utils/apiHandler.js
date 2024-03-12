@@ -226,7 +226,14 @@ export async function handleApiCalls(apiFunctionStr, ...args) {
             console.debug(
               `WPT: ${apiInstanceName}.${functionName} is not paginated.`
             );
-            return responseBody;
+            // Return the entities if in responseBody
+            if (responseBody.entities) {
+              return responseBody.entities;
+            } else if (responseBody.results) {
+              return responseBody.results;
+            } else {
+              return responseBody;
+            }
           }
         } else {
           // Return an empty object if the response body is blank

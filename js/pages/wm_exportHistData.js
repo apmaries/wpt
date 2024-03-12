@@ -246,6 +246,9 @@ async function exportHistoricalData() {
     "INFO",
     `Found ${planningGroups.entities.length} planning groups for export`
   );
+  planningGroups.entities.forEach((group) => {
+    terminal("INFO", `Planning group: ${group.name}`);
+  });
 
   // Get queue ids from planning groups
   const queueIds = planningGroups.entities.flatMap((group) =>

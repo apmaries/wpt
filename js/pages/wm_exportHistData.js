@@ -265,6 +265,7 @@ async function exportHistoricalData() {
 
   // Continue with the export once planningGroups is resolved
   planningGroupsPromise.then(async (planningGroups) => {
+    console.log("WPT: Planning Groups = ", planningGroups);
     terminal(
       "INFO",
       `Found ${planningGroups.length} planning groups for export`

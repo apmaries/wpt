@@ -39,6 +39,12 @@ function setLogLevel() {
   return logLevel;
 }
 
+// Function to smooth scroll to the bottom of the terminal
+export function scrollToBottom() {
+  const terminalWindow = document.getElementById("terminal");
+  terminalWindow.scrollTop = terminalWindow.scrollHeight;
+}
+
 // function to populate terminal window
 export function terminal(type, message) {
   const terminalWindow = document.getElementById("terminal");
@@ -60,6 +66,7 @@ export function terminal(type, message) {
   }
 
   terminalWindow.appendChild(p);
+  scrollToBottom();
 }
 
 // function to clear terminal window

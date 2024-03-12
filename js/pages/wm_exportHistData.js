@@ -40,13 +40,10 @@ async function getQsl() {
     "RoutingApi.getRoutingQueues",
     globalPageOpts
   ).entities;
-  const skills = handleApiCalls("RoutingApi.getRoutingSkills", globalPageOpts);
-  const languages = handleApiCalls(
-    "RoutingApi.getRoutingLanguages",
-    globalPageOpts
-  );
+  //const skills = handleApiCalls("RoutingApi.getRoutingSkills", globalPageOpts);
+  //const languages = handleApiCalls("RoutingApi.getRoutingLanguages", globalPageOpts);
 
-  const qsl = await Promise.all([queues, skills, languages]);
+  const qsl = await Promise.all([queues /*, skills, languages*/]);
   console.debug("WPT: qsl = ", qsl);
   return qsl;
 }

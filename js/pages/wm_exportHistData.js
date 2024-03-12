@@ -31,6 +31,8 @@ let runTime = new Date()
   .replace("T", "_")
   .split(".")[0];
 
+let qslPromise = getQsl();
+
 // Constants end here
 
 // Functions start here
@@ -83,7 +85,10 @@ async function initiate() {
     );
 
     // Don't await here, let qsl promise run in the background
-    let qslPromise = getQsl();
+    qslPromise.then((qsl) => {
+      console.log("WPT: qsl = ", qsl);
+      terminal("INFO", "Queue, skill & language data loaded...");
+    });
   } else {
     console.log(`WPT: ${toolName} in test mode...`);
 

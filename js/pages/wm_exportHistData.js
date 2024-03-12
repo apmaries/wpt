@@ -221,7 +221,7 @@ async function exportHistoricalData() {
 
   // Get tool page variables
   const timeZoneRadio = document.getElementsByName("time-zone");
-  const endDateRadio = document.getElementsByName("export-end");
+  const endDateRadio = document.getElementsByName("end-date");
   const rpRadio = document.getElementsByName("route-paths");
 
   const timeZoneMethod = getRadioValue(timeZoneRadio);

@@ -1,49 +1,41 @@
 import { getRadioValue } from "/wpt/js/utils/jsHelper.js";
 
+// Function to get log level
+function getLogLevel() {
+  let logRadio = document.getElementsByName("log-level");
+  return getRadioValue(logRadio);
+}
+
 // Function to set log level
 function setLogLevel() {
-  var logRadio = document.getElementsByName("log-level");
-  let logLevel;
-
-  // Get value of selected radio button
-  logLevel = getRadioValue(logRadio);
-
-  // Hide lower level logs based on selected log level
+  const logLevel = getLogLevel();
   const allLogs = document.querySelectorAll("#terminal p");
 
-  if (logLevel === "DEBUG") {
-    allLogs.forEach((log) => {
-      log.style.display = "block";
-    });
-  } else if (logLevel === "INFO") {
-    allLogs.forEach((log) => {
-      if (log.className === "debug") {
-        log.style.display = "none";
-      } else {
+  allLogs.forEach((log) => {
+    switch (logLevel) {
+      case "DEBUG":
         log.style.display = "block";
-      }
-    });
-  } else if (logLevel === "WARNING") {
-    allLogs.forEach((log) => {
-      if (log.className === "debug" || log.className === "info") {
-        log.style.display = "none";
-      } else {
-        log.style.display = "block";
-      }
-    });
-  } else if (logLevel === "ERROR") {
-    allLogs.forEach((log) => {
-      if (
-        log.className === "debug" ||
-        log.className === "info" ||
-        log.className === "warning"
-      ) {
-        log.style.display = "none";
-      } else {
-        log.style.display = "block";
-      }
-    });
-  }
+        break;
+      case "INFO":
+        log.style.display = log.classList.contains("debug") ? "none" : "block";
+        break;
+      case "WARNING":
+        log.style.display =
+          log.classList.contains("debug") || log.classList.contains("info")
+            ? "none"
+            : "block";
+        break;
+      case "ERROR":
+        log.style.display =
+          log.classList.contains("debug") ||
+          log.classList.contains("info") ||
+          log.classList.contains("warning")
+            ? "none"
+            : "block";
+        break;
+    }
+  });
+
   return logLevel;
 }
 
@@ -51,12 +43,22 @@ function setLogLevel() {
 export function terminal(type, message) {
   const terminalWindow = document.getElementById("terminal");
   const d = new Date();
-  let nowISO8601 = d.toISOString();
+  const nowISO8601 = d.toISOString();
 
-  // Create a new p element
   const p = document.createElement("p");
-  p.innerHTML = `${nowISO8601} [${type}] ${message}`;
+  p.textContent = `${nowISO8601} [${type}] ${message}`;
   p.className = type.toLowerCase();
+
+  const logLevel = getLogLevel();
+
+  if (
+    (logLevel === "ERROR" && type !== "ERROR") ||
+    (logLevel === "WARNING" && (type === "DEBUG" || type === "INFO")) ||
+    (logLevel === "INFO" && type === "DEBUG")
+  ) {
+    p.style.display = "none";
+  }
+
   terminalWindow.appendChild(p);
 }
 

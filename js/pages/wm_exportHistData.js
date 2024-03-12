@@ -31,9 +31,6 @@ let runTime = new Date()
   .replace("T", "_")
   .split(".")[0];
 
-// Start loading the QSL data on page load
-let qslPromise = getQsl();
-
 // Constants end here
 
 // Functions start here

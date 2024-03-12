@@ -184,9 +184,6 @@ async function initiate() {
 
 // Main function to export historical data
 async function exportHistoricalData() {
-  // Get Planning Groups concurrently
-  const planningGroupsPromise = getWfmPlanningGroups(selectedBuId);
-
   // Update runTime
   runTime = new Date()
     .toISOString()
@@ -263,42 +260,33 @@ async function exportHistoricalData() {
   }
   terminal("DEBUG", `Time zone = ${timeZone}`);
 
-  // Continue with the export once planningGroups is resolved
-  planningGroupsPromise.then(async (planningGroups) => {
-    console.log("WPT: Planning Groups = ", planningGroups);
-    terminal(
-      "INFO",
-      `Found ${planningGroups.length} planning groups for export`
-    );
+  // Get planning groups for the selected business unit
+  const planningGroups = await getWfmPlanningGroups(selectedBuId);
 
-    const queryPredicates = await buildQueryPredicates(planningGroups, rpMode);
+  console.log("WPT: Planning Groups = ", planningGroups);
+  terminal("INFO", `Found ${planningGroups.length} planning groups for export`);
 
-    // Get queus, skill & language id's from the planning groups
-    const queueIds = planningGroups.entities.map(
-      (group) => group.routePaths.queue.id
-    );
-    terminal("DEBUG", `Queue IDs = ${queueIds}`);
+  const queryPredicates = await buildQueryPredicates(planningGroups, rpMode);
 
-    // Get queues, skills and languages
-    const qsl = await getQsl();
-    const queues = qsl[0];
-    const skills = qsl[1];
-    const languages = qsl[2];
+  // Get queus, skill & language id's from the planning groups
+  const queueIds = planningGroups.entities.map(
+    (group) => group.routePaths.queue.id
+  );
+  terminal("DEBUG", `Queue IDs = ${queueIds}`);
 
-    // Debug log qsl
-    terminal("DEBUG", `Found ${queues.length} queues`);
-    terminal("DEBUG", `Found ${skills.length} skills`);
-    terminal("DEBUG", `Found ${languages.length} languages`);
+  // Get queues, skills and languages
+  const qsl = await getQsl();
+  const queues = qsl[0];
+  const skills = qsl[1];
+  const languages = qsl[2];
 
-    // Export results to csv file
+  // Debug log qsl
+  terminal("DEBUG", `Found ${queues.length} queues`);
+  terminal("DEBUG", `Found ${skills.length} skills`);
+  terminal("DEBUG", `Found ${languages.length} languages`);
 
-    // Add Execution end message to terminal
-    const endP = document.createElement("p");
-    endP.innerHTML = `---- Execution completed ----`;
-    endP.className = "error";
-    endP.style.margin = "1em 0"; // Add a top and bottom margin
-    terminalDiv.appendChild(endP);
-  });
+  // Export results to csv file
+
   // End in error if no planning groups are found
   if (planningGroupsPromise.length === 0) {
     terminal(
@@ -306,6 +294,13 @@ async function exportHistoricalData() {
       "No planning groups found for the selected business unit!"
     );
   }
+
+  // Add Execution end message to terminal
+  const endP = document.createElement("p");
+  endP.innerHTML = `---- Execution completed ----`;
+  endP.className = "error";
+  endP.style.margin = "1em 0"; // Add a top and bottom margin
+  terminalDiv.appendChild(endP);
 }
 
 // Functions end here

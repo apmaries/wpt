@@ -87,6 +87,7 @@ async function initiate() {
 async function exportHistoricalData() {
   // Function to get planning groups for a business unit
   async function getWfmPlanningGroups(buId) {
+    terminal("INFO", `Getting planning groups for business unit ${buId}...`);
     const planningGroups = await handleApiCalls(
       "WorkforceManagementApi.getWorkforcemanagementBusinessunitPlanninggroups",
       buId
@@ -97,6 +98,7 @@ async function exportHistoricalData() {
 
   // Function to get QSL objects
   async function getQsl() {
+    terminal("INFO", `Getting queues, skills and languages...`);
     const queuesPromise = handleApiCalls(
       "RoutingApi.getRoutingQueues",
       globalPageOpts
@@ -121,6 +123,7 @@ async function exportHistoricalData() {
 
   // Function to build query predicates from planning groups
   async function buildQueryClause(queueIds) {
+    terminal("INFO", `Building query clause...`);
     let predicatesArray = [];
     let queryClause = [{ type: "or", predicates: predicatesArray }];
 
@@ -140,6 +143,7 @@ async function exportHistoricalData() {
 
   // Function to calculate 7 day interval blocks from given date range
   function calculateDateBlocks(startDate, endDate) {
+    terminal("INFO", `Calculating date blocks...`);
     const dateBlocks = [];
     let start = new Date(startDate);
     const end = new Date(endDate);
@@ -164,6 +168,9 @@ async function exportHistoricalData() {
 
   // Function to run query for each date block
   async function runQueryForDateBlocks(dateBlocks, queryClause, timeZone) {
+    terminal("INFO", `Running queries...`);
+
+    // Function to compare two objects without their data properties
     function compareWithoutData(obj1, obj2) {
       const { data: _, ...obj1WithoutData } = obj1;
       const { data: __, ...obj2WithoutData } = obj2;
@@ -269,6 +276,18 @@ async function exportHistoricalData() {
 
     console.log("WPT: runQueryForDateBlocks() results = ", results);
     return results;
+  }
+
+  // Function to process results ready for export
+  function processResults(
+    results,
+    routePaths,
+    rpModeValue,
+    queues,
+    skills,
+    languages
+  ) {
+    terminal("INFO", `Processing results for export...`);
   }
 
   // Main starts here
@@ -420,6 +439,16 @@ async function exportHistoricalData() {
   terminal("DEBUG", `Found ${queues.length} queues`);
   terminal("DEBUG", `Found ${skills.length} skills`);
   terminal("DEBUG", `Found ${languages.length} languages`);
+
+  // Process results
+  const exportData = processResults(
+    results,
+    routePaths,
+    rpModeValue,
+    queues,
+    skills,
+    languages
+  );
 
   // Export results to csv file
 

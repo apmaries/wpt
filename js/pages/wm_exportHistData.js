@@ -85,6 +85,15 @@ async function buildQueryPredicates(planningGroups, mode) {
 
   terminal("INFO", `Processing ${routePaths.length} route paths`);
 
+  if (mode === "pg") {
+    terminal(
+      "INFO",
+      "Building predicates with route paths as defined in planning groups"
+    );
+  } else {
+    terminal("INFO", "Building predicates with queue & media type only");
+  }
+
   // Build predicates
   let predicatesArray = [];
   routePaths.forEach((rp) => {
@@ -137,6 +146,11 @@ async function buildQueryPredicates(planningGroups, mode) {
       terminal("ERROR", `Error building predicates: ${error}`);
     }
   });
+
+  // Remove any duplicates in predicatesArray
+  predicatesArray = [
+    ...new Set(predicatesArray.map((p) => JSON.stringify(p))),
+  ].map((p) => JSON.parse(p));
 
   return predicatesArray;
 }

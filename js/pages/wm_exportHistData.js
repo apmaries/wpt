@@ -374,17 +374,20 @@ async function exportHistoricalData() {
           }
         });
 
-        // Push results to exportData
+        // Push result to exportData
         exportData.push({
           date: interval,
           queue: queues.find((q) => q.id === queueId).name,
           mediaType: mediaType.toUpperCase(),
           direction: direction,
-          skills: skills
-            .filter((s) => skillIds.split(",").includes(s.id))
-            .map((s) => s.name)
-            .join("|||"),
-          language: languages.find((l) => l.id === languageId).name,
+          skills: skillIds
+            ? skills
+                .filter((s) => skillIds.split(",").includes(s.id))
+                .map((s) => s.name)
+                .join("|||")
+            : "",
+          language: (languages.find((l) => l.id === languageId) || { name: "" })
+            .name,
           nOffered: nOffered,
           nHandled: nHandled,
           tAverHandleTime: tAverHandleTime,

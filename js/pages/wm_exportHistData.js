@@ -381,9 +381,9 @@ async function exportHistoricalData() {
 
         // Push result to exportData
         exportData.push({
-          date: interval,
+          interval_start: interval,
           queue: queues.find((q) => q.id === queueId).name,
-          mediaType: mediaType.toUpperCase(),
+          media_type: mediaType.toUpperCase(),
           direction: direction,
           skills: skillIds
             ? skills
@@ -393,9 +393,9 @@ async function exportHistoricalData() {
             : "",
           language: (languages.find((l) => l.id === languageId) || { name: "" })
             .name,
-          nOffered: nOffered,
-          nHandled: nHandled,
-          tAverHandleTime: tAverHandleTime,
+          n_offered: nOffered,
+          n_handled: nHandled,
+          t_aht: tAverHandleTime,
         });
       });
     });
@@ -412,7 +412,7 @@ async function exportHistoricalData() {
     .replace(/[-:]/g, "")
     .replace("T", "_")
     .split(".")[0];
-  const fileName = `${toolShortName}_${selectedBuName}_${runTime}.csv`;
+  const fileName = `${toolShortName}_${selectedBuName}_${runTime}`;
 
   // Add Execution start message to terminal
   const startP = document.createElement("p");

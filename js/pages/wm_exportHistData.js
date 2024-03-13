@@ -320,7 +320,9 @@ async function exportHistoricalData() {
           terminal("DEBUG", `Match found for ${JSON.stringify(match)}`);
           filteredData.push(result);
         } else {
-          terminal("WARN", `No match found for ${JSON.stringify(result)}`);
+          // drop data that doesn't match
+
+          terminal("WARNING", `No match found for ${JSON.stringify(result)}`);
         }
       } else if (rpModeValue === "queue-media") {
         // Check if queue and media type match to a route path

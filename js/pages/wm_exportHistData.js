@@ -342,7 +342,53 @@ async function exportHistoricalData() {
     });
 
     // Process filtered data
-    filteredData.forEach((result) => {});
+    filteredData.forEach((resultGrouping) => {
+      const queueId = resultGrouping.queueId;
+      const mediaType = resultGrouping.mediaType;
+      const direction = resultGrouping.direction;
+
+      // Skill and language are optional
+      const languageId = resultGrouping.requestedLanguageId || "";
+      const skillIds = resultGrouping.requestedRoutingSkillId || "";
+
+      const resultData = resultGrouping.data;
+
+      let nOffered;
+      let nHandled;
+      let tAverHandleTime;
+      resultData.forEach((item) => {
+        const interval = item.interval.split("/")[0];
+
+        item.metrics.forEach((metric) => {
+          // Get offered count
+          if (metric.metric === "nOffered") {
+            nOffered = metric.stats.count;
+          }
+
+          // Get average handle time
+          if (metric.metric === "tHandle") {
+            nHandled = metric.stats.count;
+            tAverHandleTime = metric.stats.sum / metric.stats.count / 1000;
+          }
+        });
+
+        // Push results to exportData
+        exportData.push({
+          date: interval,
+          queue: queues.find((q) => q.id === queueId).name,
+          mediaType: mediaType.toUpperCase(),
+          direction: direction,
+          skills: skills
+            .filter((s) => skillIds.split(",").includes(s.id))
+            .map((s) => s.name)
+            .join("|||"),
+          language: languages.find((l) => l.id === languageId).name,
+          nOffered: nOffered,
+          nHandled: nHandled,
+          tAverHandleTime: tAverHandleTime,
+        });
+      });
+    });
 
     console.log("WPT: processResults() exportData = ", exportData);
     terminal("INFO", `Processing completed for export`);

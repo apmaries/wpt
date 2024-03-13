@@ -436,7 +436,7 @@ async function exportHistoricalData() {
     let r = 1;
     group.routePaths.forEach((rp) => {
       const q = rp.queue.id;
-      const m = rp.mediaType.toLowwerCase();
+      const m = rp.mediaType.toLowerCase();
       // language is optional
       const l = rp.language ? rp.language.id : "";
 

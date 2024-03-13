@@ -309,9 +309,10 @@ async function exportHistoricalData() {
         const match = routePaths.find(
           (rp) =>
             rp.queue === queueId &&
-            rp.mediaType === mediaType &&
-            rp.language === languageId &&
-            rp.skills === skillIds
+            rp.mediaType.toLowerCase() === mediaType.toLowerCase() &&
+            (rp.language === languageId ||
+              (rp.language === "" && !languageId)) &&
+            (rp.skills === skillIds || (rp.skills === "" && !skillIds))
         );
         if (match) {
           terminal("DEBUG", `Match found for ${JSON.stringify(match)}`);

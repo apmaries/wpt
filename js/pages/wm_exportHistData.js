@@ -3,7 +3,7 @@ import { populateDropdown } from "/wpt/js/utils/dropdownHandler.js";
 import { terminal, resetTerminal } from "/wpt/js/utils/terminalHandler.js";
 import { enableButtons } from "/wpt/js/utils/pageHandler.js";
 import { getRadioValue } from "/wpt/js/utils/jsHelper.js";
-import { exportLogs } from "/wpt/js/utils/exportHandler.js";
+import { exportLogs, exportCsv } from "/wpt/js/utils/exportHandler.js";
 
 let testMode = false;
 if (!window.origin.includes("127.0.0.1")) {
@@ -320,9 +320,14 @@ async function exportHistoricalData() {
           terminal("DEBUG", `Match found for ${JSON.stringify(match)}`);
           filteredData.push(result);
         } else {
-          // drop data that doesn't match
-
-          terminal("WARNING", `No match found for ${JSON.stringify(result)}`);
+          // drop data attribute and log a warning
+          delete result.data;
+          terminal(
+            "WARNING",
+            `No matching route path found for ${JSON.stringify(
+              result
+            )}. These records will be ignored.`
+          );
         }
       } else if (rpModeValue === "queue-media") {
         // Check if queue and media type match to a route path
@@ -561,6 +566,8 @@ async function exportHistoricalData() {
   );
 
   // Export results to csv file
+  terminal("INFO", `Exporting data...`);
+  exportCsv(exportData, fileName);
 
   // Add Execution end message to terminal
   const endP = document.createElement("p");

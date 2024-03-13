@@ -288,6 +288,24 @@ async function exportHistoricalData() {
     languages
   ) {
     terminal("INFO", `Processing results for export...`);
+    const exportData = [];
+
+    results.forEach((result) => {
+      const queueId = result.queueId;
+      const mediaType = result.mediaType;
+      const direction = result.direction;
+
+      // Skill and language are optional
+      const languageId = result.requestedLanguageId || "";
+      const skillIds = result.requestedRoutingSkillId
+        ? result.requestedRoutingSkillId.split(",")
+        : []; // Split string into array
+
+      console.log("WPT: processResults() result = ", result);
+      console.log(
+        `WPT: processResults() result ${queueId}, ${mediaType}, ${direction}, ${languageId}, ${skillIds}`
+      );
+    });
   }
 
   // Main starts here

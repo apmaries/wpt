@@ -291,7 +291,7 @@ async function exportHistoricalData() {
     const exportData = [];
 
     results.forEach((result) => {
-      const queueId = result.queueId;
+      const queueId = result.queue;
       const mediaType = result.mediaType;
       const direction = result.direction;
 
@@ -309,7 +309,7 @@ async function exportHistoricalData() {
         const match = routePaths.find(
           (rp) =>
             rp.queue === queueId &&
-            rp.mediaType.toLowerCase() === mediaType.toLowerCase() &&
+            rp.mediaType === mediaType &&
             (rp.language === languageId ||
               (rp.language === "" && !languageId)) &&
             (rp.skills === skillIds || (rp.skills === "" && !skillIds))
@@ -336,6 +336,10 @@ async function exportHistoricalData() {
         }
       }
     });
+
+    console.log("WPT: processResults() exportData = ", exportData);
+    terminal("INFO", `Processing completed for export`);
+    return exportData;
   }
 
   // Main starts here
@@ -432,8 +436,7 @@ async function exportHistoricalData() {
     let r = 1;
     group.routePaths.forEach((rp) => {
       const q = rp.queue.id;
-      const m = rp.mediaType;
-
+      const m = rp.mediaType.toLowwerCase();
       // language is optional
       const l = rp.language ? rp.language.id : "";
 

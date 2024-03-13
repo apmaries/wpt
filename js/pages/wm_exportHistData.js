@@ -297,14 +297,43 @@ async function exportHistoricalData() {
 
       // Skill and language are optional
       const languageId = result.requestedLanguageId || "";
-      const skillIds = result.requestedRoutingSkillId
-        ? result.requestedRoutingSkillId.split(",")
-        : []; // Split string into array
+      const skillIds = result.requestedRoutingSkillId || "";
 
       console.log("WPT: processResults() result = ", result);
       console.log(
         `WPT: processResults() result ${queueId}, ${mediaType}, ${direction}, ${languageId}, ${skillIds}`
       );
+
+      if (rpModeValue === "exact-match") {
+        // Check if queue, language and skills match exactly to a route path
+        const match = routePaths.find(
+          (rp) =>
+            rp.queue === queueId &&
+            rp.mediaType === mediaType &&
+            rp.language === languageId &&
+            rp.skills === skillIds
+        );
+        if (match) {
+          terminal("DEBUG", `Match found for ${JSON.stringify(match)}`);
+          exportData.push(result);
+        }
+      } else if (rpModeValue === "queue-media") {
+        // Check if queue and media type match to a route path
+        const match = routePaths.find(
+          (rp) => rp.queue === queueId && rp.mediaType === mediaType
+        );
+        if (match) {
+          terminal("DEBUG", `Match found for ${JSON.stringify(match)}`);
+          exportData.push(result);
+        }
+      } else if (rpModeValue === "queue-only") {
+        // Check if queue matches to a route path
+        const match = routePaths.find((rp) => rp.queue === queueId);
+        if (match) {
+          terminal("DEBUG", `Match found for ${JSON.stringify(match)}`);
+          exportData.push(result);
+        }
+      }
     });
   }
 
@@ -418,6 +447,7 @@ async function exportHistoricalData() {
 
     g++;
   });
+  console.log("WPT: routePaths = ", routePaths);
 
   // Get queue ids from planning groups for generating query clause
   const queueIds = planningGroups.flatMap((group) =>

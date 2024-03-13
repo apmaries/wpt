@@ -288,10 +288,11 @@ async function exportHistoricalData() {
     languages
   ) {
     terminal("INFO", `Processing results for export...`);
+    const filteredData = [];
     const exportData = [];
 
     results.forEach((result) => {
-      const queueId = result.queue;
+      const queueId = result.queueId;
       const mediaType = result.mediaType;
       const direction = result.direction;
 
@@ -304,6 +305,7 @@ async function exportHistoricalData() {
         `WPT: processResults() result ${queueId}, ${mediaType}, ${direction}, ${languageId}, ${skillIds}`
       );
 
+      // Filter results to match route paths
       if (rpModeValue === "exact-match") {
         // Check if queue, language and skills match exactly to a route path
         const match = routePaths.find(
@@ -316,7 +318,9 @@ async function exportHistoricalData() {
         );
         if (match) {
           terminal("DEBUG", `Match found for ${JSON.stringify(match)}`);
-          exportData.push(result);
+          filteredData.push(result);
+        } else {
+          terminal("WARN", `No match found for ${JSON.stringify(result)}`);
         }
       } else if (rpModeValue === "queue-media") {
         // Check if queue and media type match to a route path
@@ -325,17 +329,20 @@ async function exportHistoricalData() {
         );
         if (match) {
           terminal("DEBUG", `Match found for ${JSON.stringify(match)}`);
-          exportData.push(result);
+          filteredData.push(result);
         }
       } else if (rpModeValue === "queue-only") {
         // Check if queue matches to a route path
         const match = routePaths.find((rp) => rp.queue === queueId);
         if (match) {
           terminal("DEBUG", `Match found for ${JSON.stringify(match)}`);
-          exportData.push(result);
+          filteredData.push(result);
         }
       }
     });
+
+    // Process filtered data
+    filteredData.forEach((result) => {});
 
     console.log("WPT: processResults() exportData = ", exportData);
     terminal("INFO", `Processing completed for export`);

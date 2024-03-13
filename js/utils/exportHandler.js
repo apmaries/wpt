@@ -80,3 +80,27 @@ export function exportLogs(data, name) {
   // Downloading the log file
   download(logFile, file, "text/plain");
 }
+
+// Function to export data as a .csv file
+export function exportCsv(data, name) {
+  console.debug(`exportCsv was called with name: ${name}`);
+  const file = `${name}.csv`;
+  terminal("INFO", `Exporting data as ${file}...`);
+
+  // Ensure data is an array
+  if (!Array.isArray(data)) {
+    if (NodeList.prototype.isPrototypeOf(data)) {
+      // Convert NodeList to array
+      data = Array.from(data);
+    } else {
+      // Convert single element to array
+      data = [data];
+    }
+  }
+
+  // Making the CSV file
+  const csvFile = csvMaker(data);
+
+  // Downloading the CSV file
+  download(csvFile, file, "text/csv");
+}

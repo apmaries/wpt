@@ -567,6 +567,9 @@ async function exportHistoricalData() {
 
   // Export results to csv file
   terminal("INFO", `Exporting data...`);
+
+  sessionStorage.setItem("expHistData", JSON.stringify(exportData));
+
   exportCsv(exportData, fileName);
 
   // Add Execution end message to terminal
@@ -644,14 +647,26 @@ terminalDownloadButton.addEventListener("click", (event) => {
   exportLogs(consoleLogs, fileName);
 });
 
-// Event listener for export button
-const exportButton = document.getElementById("primary-button");
-exportButton.addEventListener("click", (event) => {
+// Event listener for run button
+const runButton = document.getElementById("primary-button");
+runButton.addEventListener("click", (event) => {
   if (selectedBuId) {
     exportHistoricalData(selectedBuId);
   } else {
     terminal("ERROR", "No business unit selected!");
   }
+});
+
+// Event listener for download results button
+const resultsButton = document.getElementById("tool-results-button");
+resultsButton.addEventListener("click", (event) => {
+  const exportData = JSON.parse(sessionStorage.getItem("expHistData"));
+  if (!exportData) {
+    terminal("ERROR", "No export data found! Please run the export first...");
+    return;
+  }
+  const fileName = `${toolShortName}_${selectedBuName}_${runTime}`;
+  exportCsv(exportData, fileName);
 });
 
 // Event listeners end here

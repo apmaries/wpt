@@ -99,14 +99,13 @@
         </p>
       </div>
     </header>
+    <!-- Loading section -->
     <section id="loading-section" class="primary-section">
       <gux-page-loading-spinner
         screenreader-text="Loading..."
       ></gux-page-loading-spinner>
     </section>
     <main style="display: none">
-      <!-- Loading section -->
-
       <!-- Info section -->
       <section id="info-section" class="primary-section">
         <div id="tool-info-div" class="sub-section-035">
@@ -143,7 +142,7 @@
                   ><fieldset>
                     <legend>Select dates</legend>
                     <div id="dates-start-div">
-                      <h5>Export start:</h5>
+                      <h5>Start date:</h5>
                       <div>
                         <gux-datepicker
                           id="dates-start-datepicker"
@@ -152,7 +151,7 @@
                       </div>
                     </div>
                     <div id="dates-end-div">
-                      <h5>Export end</h5>
+                      <h5>End date:</h5>
                       <div>
                         <gux-form-field-radio>
                           <input
@@ -413,72 +412,11 @@
     <!-- Load the main tool module -->
     <script type="module" src="/wpt/js/pages/wm_exportHistData.js"></script>
 
-    <!-- Add end date picker -->
     <script>
-      // get value of radio with name "export-end", if value is "not-now" remove disabled attrinute from end date picker
-      const exportEndRadio = document.getElementsByName("export-end");
-      for (let i = 0; i < exportEndRadio.length; i++) {
-        exportEndRadio[i].addEventListener("click", function () {
-          if (exportEndRadio[i].value === "not-now") {
-            document
-              .getElementById("export-end-datepicker")
-              .removeAttribute("disabled");
-          } else {
-            document
-              .getElementById("export-end-datepicker")
-              .setAttribute("disabled", "");
-          }
-        });
-      }
-    </script>
-
-    <!-- Button event listeners -->
-    <script></script>
-
-    <!--Clear terminal & reset-->
-    <script>
-      /*
-      function reset() {
-        clearTerminal();
-        terminal(`Export Historical Data`, "INFO");
-        terminal("Previous terminal data cleared", "DEBUG");
-        let buCount = JSON.parse(sessionStorage.getItem("wfmBuList"));
-        terminal(`${buCount.length} Business Units already in memory`, "INFO");
-        terminal(`Ready!`, "INFO");
-        document
-          .getElementById("export-log-button")
-          .removeAttribute("disabled");
-        document
-          .getElementById("export-data-button")
-          .removeAttribute("disabled");
-      }*/
-    </script>
-
-    <script>
-      // export all logs
-      /*const exportLogs = function () {
-            terminal(`Export logs`, "INFO");
-            logs = document.getElementsByClassName("log-entry");
-            logEntries = [];
-            for (let l = 0; l < logs.length; l++) {
-              logEntry = logs[l].innerHTML;
-              logEntries.push(logEntry);
-            }
-            const logData = logMaker(logEntries);
-            download(logData, "exportHistData.log", "text/plain");
-          };*/
-
-      // export ignored data
-      /*function exportIgnoredRecords() {
-            terminal(`Exporting ignored records`, "INFO");
-            let exportData = sessionStorage.getItem("wmImpTorIgnored");
-            if (exportData) {
-              const csvdata = csvMaker(JSON.parse(exportData));
-              download(csvdata, "importTimeOff_ignored.csv", "text/csv");
-            } else {
-              terminal(`No ignored records to export`, "WARNING");
-            }
-          }*/
+      // Return home if title clicked
+      document.getElementById("title").addEventListener("click", () => {
+        window.location.href = "/wpt/wpt-home.html";
+      });
     </script>
   </body>
 </html>

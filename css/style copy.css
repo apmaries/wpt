@@ -6,10 +6,8 @@ ul {
 
 /* Common styles start */
 body {
-  font-family: "Noto Sans", sans-serif;
-  font-size: 14px;
-  color: var(--gux-off-white);
-  background-color: var(--gux-black-30);
+  color: var(--gse-core-color-white);
+  background-color: var(--gse-core-color-cornflower-900);
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -27,6 +25,12 @@ footer {
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
+}
+
+body > header,
+body > main {
+  display: flex;
+  flex-direction: column;
 }
 
 .primary-section {
@@ -47,20 +51,18 @@ footer {
 }
 
 #title {
-  font-family: "Urbanist", sans-serif;
   font-weight: 700;
   font-size: 60px;
   font-style: oblique;
-  color: var(--gux-warm-red);
+  color: var(--gse-core-color-tomato-600);
   margin-bottom: 0px;
 }
 
 #header {
-  font-family: "Urbanist", sans-serif;
   color: #000000;
   font-size: 20px;
-  font-weight: 300;
-  background-color: var(--gux-off-white);
+  font-weight: 200;
+  background-color: var(--gse-core-color-white);
   box-sizing: border-box;
   position: relative;
   top: 0;
@@ -78,12 +80,12 @@ footer {
 }
 
 nav ul li {
+  font-weight: bolder;
+  text-transform: lowercase;
+  letter-spacing: 2px;
   display: inline-block;
   margin: 0;
   padding: 0px 18px 10px 0px;
-  text-transform: lowercase;
-  font-weight: bolder;
-  letter-spacing: 2px;
 }
 
 nav ul li a,
@@ -95,14 +97,14 @@ a:visited {
 nav ul li a:hover,
 a:active {
   text-decoration: none;
-  color: var(--gux-warm-red);
+  color: var(--gse-core-color-tomato-600);
 }
 
 a.active-nav-item {
   font-weight: bolder;
   letter-spacing: 2px;
   font-style: oblique;
-  color: var(--gux-warm-red);
+  color: var(--gse-core-color-tomato-600);
   text-transform: uppercase;
 }
 
@@ -125,39 +127,28 @@ gux-button {
 
 /* Text specific styles start */
 h1 {
-  font-size: 2em;
-  font-weight: bold;
 }
 
 h2 {
-  font-family: "Urbanist", sans-serif;
-  font-size: 22px;
-  font-weight: bolder;
   letter-spacing: 2px;
   text-transform: lowercase;
-  text-shadow: black 1px 1px 1px;
+
+  text-decoration-color: var(--gse-core-color-tomato-600);
 }
 
 h3 {
-  font-family: "Urbanist", sans-serif;
-  font-size: 20px;
   color: #000000;
   white-space: nowrap;
   margin-bottom: 0;
 }
 
 h4 {
-  font-family: "Urbanist", sans-serif;
-  font-size: 18px;
-  font-weight: bold;
   font-style: oblique;
   text-decoration: underline;
   color: #0a9ca7;
 }
 
 h5 {
-  font-family: "Urbanist", sans-serif;
-  font-size: 14px;
   color: #000000;
   margin-top: 10px;
   margin-right: 5px;
@@ -174,13 +165,11 @@ h5 {
 }
 
 gux-option {
-  font-family: "Noto Sans", sans-serif;
   font-size: 14px;
   color: #000000;
 }
 
 gux-tooltip {
-  font-family: "Noto Sans", sans-serif;
   font-style: normal;
   font-size: 12px;
   font-weight: normal;
@@ -201,17 +190,17 @@ gux-tooltip {
 }
 
 #index-section div a {
-  color: var(--gux-off-white);
+  color: var(--gse-core-color-white);
   text-decoration: none;
 }
 
 #index-section gux-icon {
   padding-right: 0;
-  color: var(--gux-warm-red);
+  color: var(--gse-core-color-tomato-600);
 }
 
 #index-section > div > container {
-  background-color: var(--gux-off-white);
+  background-color: var(--gse-core-color-white);
   color: #000000;
   padding: 10px;
   margin-left: 25px;
@@ -242,7 +231,7 @@ gux-tooltip {
 
 gux-card-beta.primary-card {
   background-color: var(--gux-black-60);
-  color: var(--gux-off-white);
+  color: var(--gse-core-color-white);
   margin: 24px;
   border-radius: 10px;
   box-shadow: #000000 10px 5px 5px, inset var(--gux-alert-yellow-100) 2px 2px;
@@ -250,7 +239,7 @@ gux-card-beta.primary-card {
 
 gux-card-beta.secondary-card {
   color: var(--gux-black-80);
-  background-color: var(--gux-off-white);
+  background-color: var(--gse-core-color-white);
   margin: 24px;
   border-radius: 10px;
   box-shadow: var(--gux-grey-30) 3px 3px 1px,
@@ -294,7 +283,7 @@ a:active {
 }
 
 #info-section > div > container {
-  background-color: var(--gux-off-white);
+  background-color: var(--gse-core-color-white);
   color: #000000;
   padding: 10px;
   margin-left: 25px;
@@ -310,7 +299,7 @@ a:active {
 #tool-header-group {
   display: flex;
   flex-wrap: wrap;
-  background-color: var(--gux-off-white);
+  background-color: var(--gse-core-color-white);
   border-radius: 10px 10px 0 0;
   padding: 0 30px;
   overflow: visible;
@@ -377,7 +366,6 @@ module {
 }
 
 fieldset {
-  font-family: "Urbanist", sans-serif;
   font-size: 14px;
   color: #000000;
   display: flex;
@@ -385,8 +373,6 @@ fieldset {
   margin: 10px;
 
   > legend {
-    font-weight: bold;
-    font-style: oblique;
     display: flex;
     flex-direction: row;
   }
@@ -444,7 +430,7 @@ fieldset {
 }
 
 #terminal-group {
-  background-color: var(--gux-off-white);
+  background-color: var(--gse-core-color-white);
   padding: 20px 30px 30px 30px;
   border-radius: 0 0 10px 10px;
 }

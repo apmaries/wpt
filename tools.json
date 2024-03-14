@@ -143,9 +143,11 @@
         "tools": [
           {
             "tool": "Export sentiment phrases",
-            "status": "",
-            "description": "",
-            "scopes": ""
+            "status": "active",
+            "description": "Export a list of sentiment phrases.",
+            "scopes": ["speech-and-text-analytics"],
+            "href": "/wpt/pages/st/export-sentiment-phrases.html",
+            "info": "Exports list of sentiment phrases. Can be filtered by type and dialect. Can be used later to import to another environment."
           },
           {
             "tool": "Import sentiment phrases",

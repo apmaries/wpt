@@ -104,8 +104,20 @@ async function exportSentimentPhrases() {
 
   console.log("WPT: exportSentimentPhrases() = ", exportData);
   if (exportData) {
+    // Function to filter exportData based on feedbackTypes and dialectTypes
+    const filteredData = exportData.filter((item) => {
+      const feedbackTypeMatch =
+        feedbackTypes.length > 0
+          ? feedbackTypes.includes(item.feedbackValue)
+          : true;
+      const dialectTypeMatch =
+        dialectTypes.length > 0 ? dialectTypes.includes(item.dialect) : true;
+
+      return feedbackTypeMatch && dialectTypeMatch;
+    });
+
     terminal("INFO", "Export completed successfully!");
-    sessionStorage.setItem("expSentPhra", JSON.stringify(exportData));
+    sessionStorage.setItem("expSentPhra", JSON.stringify(filteredData));
   } else {
     terminal("ERROR", "Export failed! Please try again...");
   }

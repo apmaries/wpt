@@ -98,7 +98,13 @@
         </p>
       </div>
     </header>
-    <main>
+    <!-- Loading section -->
+    <section id="loading-section" class="primary-section">
+      <gux-page-loading-spinner
+        screenreader-text="Loading..."
+      ></gux-page-loading-spinner>
+    </section>
+    <main style="display: none">
       <section id="info-section" class="primary-section">
         <div id="tool-info-div" class="sub-section-035">
           <!-- Tool info is dynamically added by tools.js -->
@@ -112,62 +118,49 @@
             <fieldset id="inputs-group">
               <h3>1. Select some things</h3>
               <div class="modules-wrapper">
-                <module id="input-dropdown-module"
+                <module id="input-multidropdown-module-2"
                   ><fieldset>
-                    <legend>Select a single thing</legend>
-
-                    <gux-dropdown
-                      id="input-dropdown"
-                      filter-type="starts-with"
-                      placeholder="Select a thing"
-                    >
-                      <gux-listbox id="dropdown-listbox" aria-label="UpdateMe">
-                      </gux-listbox>
-                    </gux-dropdown>
-                  </fieldset>
-                </module>
-
-                <module id="dates-input-module"
-                  ><fieldset>
-                    <legend>Select dates</legend>
-                    <div id="dates-start-div">
-                      <h5>Start date:</h5>
-                      <div>
-                        <gux-datepicker
-                          id="dates-start-datepicker"
-                          format="dd/mm/yyyy"
-                        ></gux-datepicker>
+                    <legend>
+                      Apply export filters
+                      <div style="margin-left: 5px">
+                        <gux-icon
+                          icon-name="help"
+                          screenreader-text="help-icon"
+                        ></gux-icon
+                        ><gux-tooltip
+                          >Leave the filters blank to export all</gux-tooltip
+                        >
                       </div>
-                    </div>
-                    <div id="dates-end-div">
-                      <h5>End date:</h5>
-                      <div>
-                        <gux-form-field-radio>
-                          <input
-                            slot="input"
-                            type="radio"
-                            name="end-date"
-                            value="today"
-                            checked="checked"
-                          />
-                          <label slot="label">Today</label>
-                        </gux-form-field-radio>
+                    </legend>
 
-                        <gux-form-field-radio>
-                          <input
-                            slot="input"
-                            type="radio"
-                            name="end-date"
-                            value="user-defined-value"
-                          />
-                          <label slot="label">Set end date</label>
-                        </gux-form-field-radio>
-                        <gux-datepicker
-                          id="dates-end-datepicker"
-                          format="dd/mm/yyyy"
-                          disabled
-                        ></gux-datepicker>
-                      </div>
+                    <div>
+                      <gux-dropdown-multi-beta
+                        id="feedback-type-dropdown"
+                        placeholder="Filter by feedback type"
+                      >
+                        <gux-listbox-multi aria-label="FeedbackType">
+                          <gux-option-multi value="positive"
+                            >Positive</gux-option-multi
+                          >
+                          <gux-option-multi value="neutral"
+                            >Neutral</gux-option-multi
+                          >
+                          <gux-option-multi value="negative"
+                            >Negative</gux-option-multi
+                          >
+                        </gux-listbox-multi>
+                      </gux-dropdown-multi-beta>
+
+                      <gux-dropdown-multi-beta
+                        id="feedback-dialect-dropdown"
+                        placeholder="Filter by dialect type"
+                      >
+                        <gux-listbox-multi
+                          id="dropdown-listbox-multi2"
+                          aria-label="FeedbackDialect"
+                        >
+                        </gux-listbox-multi>
+                      </gux-dropdown-multi-beta>
                     </div>
                   </fieldset>
                 </module>
@@ -208,89 +201,6 @@
                         value="WARNING"
                       />
                       <label slot="label">WARNING</label>
-                    </gux-form-field-radio>
-                  </fieldset>
-                </module>
-                <module id="timezone-module">
-                  <fieldset>
-                    <legend>
-                      Time zone
-                      <div style="margin-left: 5px">
-                        <gux-icon
-                          icon-name="help"
-                          screenreader-text="help-icon"
-                        ></gux-icon
-                        ><gux-tooltip
-                          >Defines if export start / end are relative to
-                          Business Unit or UTC time zone</gux-tooltip
-                        >
-                      </div>
-                    </legend>
-                    <gux-form-field-radio>
-                      <input
-                        slot="input"
-                        type="radio"
-                        name="time-zone"
-                        value="business-unit"
-                        checked="checked"
-                      />
-                      <label slot="label">Business Unit</label>
-                    </gux-form-field-radio>
-
-                    <gux-form-field-radio>
-                      <input
-                        slot="input"
-                        type="radio"
-                        name="time-zone"
-                        value="utc"
-                      />
-                      <label slot="label">UTC</label>
-                    </gux-form-field-radio>
-                  </fieldset>
-                </module>
-                <module id="routepaths-module">
-                  <fieldset>
-                    <legend>
-                      Route path matching
-                      <div style="margin-left: 5px">
-                        <gux-icon
-                          icon-name="help"
-                          screenreader-text="help-icon"
-                        ></gux-icon
-                        ><gux-tooltip
-                          >Defines if export should extract all route paths by
-                          queue, queu & media type or exact match paths as
-                          specified in Planning Group(s)</gux-tooltip
-                        >
-                      </div>
-                    </legend>
-                    <gux-form-field-radio>
-                      <input
-                        slot="input"
-                        type="radio"
-                        name="route-paths"
-                        value="1"
-                        checked="checked"
-                      />
-                      <label slot="label">Exact match</label>
-                    </gux-form-field-radio>
-                    <gux-form-field-radio>
-                      <input
-                        slot="input"
-                        type="radio"
-                        name="route-paths"
-                        value="2"
-                      />
-                      <label slot="label">Queue & media type</label>
-                    </gux-form-field-radio>
-                    <gux-form-field-radio>
-                      <input
-                        slot="input"
-                        type="radio"
-                        name="route-paths"
-                        value="3"
-                      />
-                      <label slot="label">Queue only</label>
                     </gux-form-field-radio>
                   </fieldset>
                 </module>
@@ -384,6 +294,21 @@
       src="/wpt/js/utils/disconnectHandler.js"
       defer
     ></script>
+
+    <!-- Load the terminalHandler.js module -->
+    <script type="module" src="/wpt/js/utils/terminalHandler.js" defer></script>
+
+    <!-- Load the pageHandler.js module -->
+    <script type="module" src="/wpt/js/utils/pageHandler.js" defer></script>
+
+    <!-- Load the exportHandler.js module -->
+    <script type="module" src="/wpt/js/utils/exportHandler.js" defer></script>
+
+    <!-- Load the jsHelper.js module -->
+    <script type="module" src="/wpt/js/utils/jsHelper.js" defer></script>
+
+    <!-- Load the main tool module -->
+    <script type="module" src="/wpt/js/pages/st_exportSentiment.js"></script>
 
     <script>
       // Return home if title clicked

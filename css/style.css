@@ -398,6 +398,17 @@ fieldset {
   }
 }
 
+#input-multidropdown-module-2 {
+  > fieldset > div {
+    display: flex;
+    justify-content: space-around;
+    > gux-dropdown-multi-beta {
+      width: 50%;
+      margin: 0 5px;
+    }
+  }
+}
+
 #dates-input-module > fieldset {
   display: flex;
   justify-content: flex-start;

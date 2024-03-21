@@ -98,12 +98,13 @@
         </p>
       </div>
     </header>
+    <!-- Loading section -->
     <section id="loading-section" class="primary-section">
       <gux-page-loading-spinner
         screenreader-text="Loading..."
       ></gux-page-loading-spinner>
     </section>
-    <main display="none">
+    <main style="display: none">
       <section id="info-section" class="primary-section">
         <div id="tool-info-div" class="sub-section-035">
           <!-- Tool info is dynamically added by tools.js -->
@@ -139,7 +140,7 @@
                   ><fieldset>
                     <legend>Select many things</legend>
 
-                    <gux-dropdown-multi value="b,f">
+                    <gux-dropdown-multi-beta value="b,f">
                       <gux-listbox-multi aria-label="Animals">
                         <gux-option-multi value="a">Ant</gux-option-multi>
                         <gux-option-multi value="b">Bat</gux-option-multi>
@@ -151,7 +152,7 @@
                         <gux-option-multi value="h">Horse</gux-option-multi>
                         <gux-option-multi value="i">Ibis</gux-option-multi>
                       </gux-listbox-multi>
-                    </gux-dropdown-multi>
+                    </gux-dropdown-multi-beta>
                   </fieldset>
                 </module>
 

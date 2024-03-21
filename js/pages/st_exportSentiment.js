@@ -55,7 +55,7 @@ async function initiate() {
   logRadio[1].checked = true;
 
   if (testMode) {
-    // Production mode - get WFM Business Units and populate bu-listbox on page load
+    // Production mode - get supported dialects and populate listbox on page load
     const dialects = await getDialects();
     populateMultiDropdown(dialectTypesListbox, dialects);
     terminal("INFO", `${dialects.length} dialects loaded... `);
@@ -81,6 +81,21 @@ async function initiate() {
 
 // Function to export sentiment phrases
 async function exportSentimentPhrases() {
+  // Main starts here
+  // Update runTime
+  runTime = new Date()
+    .toISOString()
+    .replace(/[-:]/g, "")
+    .replace("T", "_")
+    .split(".")[0];
+  const fileName = `${toolShortName}_${runTime}`;
+
+  // Add Execution start message to terminal
+  const startP = document.createElement("p");
+  startP.innerHTML = `---- Execution started at ${runTime} ----`;
+  startP.className = "error";
+  startP.style.margin = "1em 0"; // Add a top and bottom margin
+  terminalDiv.appendChild(startP);
   terminal("INFO", `Exporting sentiment phrases...`);
 
   // Get value of feedback type multi-select dropdown
@@ -97,18 +112,26 @@ async function exportSentimentPhrases() {
   terminal("DEBUG", `dialects = ${dialectTypes}`);
 
   // API only allows for single dialect. API call will be made for all dialects and then results will be filtered later
-
-  const exportData = await handleApiCalls(
-    "SpeechTextAnalyticsApi.getSpeechandtextanalyticsSentimentfeedback"
-  );
+  let exportData;
+  if (!testMode) {
+    // Get data from /wpt/.test/data/sentimentPhrases.json
+    const response = await fetch("/wpt/.test/data/sentimentPhrases.json");
+    exportData = await response.json();
+    exportData = exportData.entities;
+  } else {
+    exportData = await handleApiCalls(
+      "SpeechTextAnalyticsApi.getSpeechandtextanalyticsSentimentfeedback"
+    );
+  }
 
   console.log("WPT: exportSentimentPhrases() = ", exportData);
   if (exportData) {
+    terminal("DEBUG", `exportData = ${exportData}`);
     // Function to filter exportData based on feedbackTypes and dialectTypes
     const filteredData = exportData.filter((item) => {
       const feedbackTypeMatch =
         feedbackTypes.length > 0
-          ? feedbackTypes.includes(item.feedbackValue)
+          ? feedbackTypes.includes(item.feedbackValue.toLowerCase())
           : true;
       const dialectTypeMatch =
         dialectTypes.length > 0 ? dialectTypes.includes(item.dialect) : true;
@@ -116,8 +139,28 @@ async function exportSentimentPhrases() {
       return feedbackTypeMatch && dialectTypeMatch;
     });
 
-    terminal("INFO", "Export completed successfully!");
-    sessionStorage.setItem("expSentPhra", JSON.stringify(filteredData));
+    if (filteredData.length === 0) {
+      terminal(
+        "ERROR",
+        "No data found for selected filters... Please try again..."
+      );
+    } else {
+      terminal("INFO", `Found ${filteredData.length} phrases to export`);
+
+      // Export results to csv file
+      terminal("INFO", `Exporting data...`);
+
+      sessionStorage.setItem("expSentPhrs", JSON.stringify(filteredData));
+
+      exportCsv(filteredData, fileName);
+    }
+
+    // Add Execution end message to terminal
+    const endP = document.createElement("p");
+    endP.innerHTML = `---- Execution completed ----`;
+    endP.className = "error";
+    endP.style.margin = "1em 0"; // Add a top and bottom margin
+    terminalDiv.appendChild(endP);
   } else {
     terminal("ERROR", "Export failed! Please try again...");
   }
@@ -156,12 +199,12 @@ runButton.addEventListener("click", (event) => {
 // Event listener for download results button
 const resultsButton = document.getElementById("tool-results-button");
 resultsButton.addEventListener("click", (event) => {
-  const exportData = JSON.parse(sessionStorage.getItem("expHistData"));
+  const exportData = JSON.parse(sessionStorage.getItem("expSentPhrs"));
   if (!exportData) {
     terminal("ERROR", "No export data found! Please run the export first...");
     return;
   }
-  const fileName = `${toolShortName}_${selectedBuName}_${runTime}`;
+  const fileName = `${toolShortName}_${runTime}`;
   exportCsv(exportData, fileName);
 });
 

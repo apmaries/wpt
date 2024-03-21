@@ -404,6 +404,7 @@ async function exportHistoricalData() {
     terminal("INFO", `Processing completed for export`);
     return exportData;
   }
+  // Functions end here
 
   // Main starts here
   // Update runTime

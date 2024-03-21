@@ -1,8 +1,0 @@
-BU Name,Agent Name,Time Off Name,Start Date,End Date,Full Day,Start Time (Part Day),Hours,Is Paid,Notes
-amBluthCo,Andy Maries,Planned,2023-09-22,2023-09-22,Y,,8:00,Y,this is full day
-BU1,amagent01,Planned,2023-09-23,2023-09-23,N,9:00,4:00,Y,this is part day
-amBluthCo,amagent02,Planned,2023-09-22,2023-09-22,Y,,8:00,Y,this is full day
-Another BU,,,,,,,,,this contains nulls
-amBluthCo,Andy Maries,Planned,2023-10-10,2023-10-09,Y,,8:00,Y,this is invalid date range
-amBluthCo,Andy Maries,Planned,2023-11-01,2023-11-01,1,,8:00,b,this is invalid flag
-amBluthCo,Andy Maries,Planned,2023-12-14,2023-12-15,Y,10:00,8.1,Y,this is invalid time format

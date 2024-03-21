@@ -29,7 +29,9 @@ let runTime = new Date()
   .replace(/[-:]/g, "")
   .replace("T", "_")
   .split(".")[0];
-const dialectsListbox = document.getElementById("dropdown-listbox-multi");
+
+const feedbackTypesListbox = document.getElementById("feedback-type-listbox");
+const dialectTypesListbox = document.getElementById("dialect-type-listbox");
 
 // Constants end here
 
@@ -55,7 +57,7 @@ async function initiate() {
   if (testMode) {
     // Production mode - get WFM Business Units and populate bu-listbox on page load
     const dialects = await getDialects();
-    populateMultiDropdown(dialectsListbox, dialects);
+    populateMultiDropdown(dialectTypesListbox, dialects);
     terminal("INFO", `${dialects.length} dialects loaded... `);
   } else {
     console.log(`WPT: ${toolName} in test mode...`);
@@ -63,7 +65,7 @@ async function initiate() {
     // Test mode - populate listbox with dummy data from /.test/data/dialects.json
     const response = await fetch("/wpt/.test/data/dialects.json");
     const dialects = await response.json();
-    populateMultiDropdown(dialectsListbox, dialects.entities);
+    populateMultiDropdown(dialectTypesListbox, dialects.entities);
     terminal(
       "INFO",
       `${dialects.entities.length} dialects loaded in test mode...`
@@ -79,23 +81,25 @@ async function initiate() {
 
 // Function to export sentiment phrases
 async function exportSentimentPhrases() {
-  // Log dialects selected to console
-
   terminal("INFO", `Exporting sentiment phrases...`);
-  const dialects = Array.from(dialectsListbox.selectedOptions).map(
-    (option) => option.value
-  );
-  console.log("WPT: dialects = ", dialects);
 
-  let params = {};
+  // Get value of feedback type multi-select dropdown
+  const feedbackTypes = feedbackTypesListbox.value
+    ? feedbackTypesListbox.value.split(",")
+    : [];
 
-  if (dialects.length > 0) {
-    params.dialects = dialects;
-  }
+  // Get value of dialects multi-select dropdown
+  const dialectTypes = dialectTypesListbox.value
+    ? dialectTypesListbox.value.split(",")
+    : [];
+
+  terminal("DEBUG", `feedbackTypes = ${feedbackTypes}`);
+  terminal("DEBUG", `dialects = ${dialectTypes}`);
+
+  // API only allows for single dialect. API call will be made for all dialects and then results will be filtered later
 
   const exportData = await handleApiCalls(
-    "SpeechTextAnalyticsApi.getSpeechandtextanalyticsSentimentfeedback",
-    params
+    "SpeechTextAnalyticsApi.getSpeechandtextanalyticsSentimentfeedback"
   );
 
   console.log("WPT: exportSentimentPhrases() = ", exportData);

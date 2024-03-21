@@ -1,6 +1,6 @@
 // Debug unhandled promise rejections
 window.onunhandledrejection = function (event) {
-  console.log(
+  console.warn(
     "Unhandled Rejection at:",
     event.promise,
     "reason:",

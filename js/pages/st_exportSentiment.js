@@ -29,6 +29,7 @@ let runTime = new Date()
   .replace(/[-:]/g, "")
   .replace("T", "_")
   .split(".")[0];
+const dialectsListbox = document.getElementById("dropdown-listbox-multi");
 
 // Constants end here
 
@@ -76,10 +77,40 @@ async function initiate() {
   console.log(`WPT: ${toolName} page initiated...`);
 }
 
+// Function to export sentiment phrases
+async function exportSentimentPhrases() {
+  // Log dialects selected to console
+
+  terminal("INFO", `Exporting sentiment phrases...`);
+  const dialects = Array.from(dialectsListbox.selectedOptions).map(
+    (option) => option.value
+  );
+  console.log("WPT: dialects = ", dialects);
+
+  let params = {};
+
+  if (dialects.length > 0) {
+    params.dialects = dialects;
+  }
+
+  const exportData = await handleApiCalls(
+    "SpeechTextAnalyticsApi.getSpeechandtextanalyticsSentimentfeedback",
+    params
+  );
+
+  console.log("WPT: exportSentimentPhrases() = ", exportData);
+  if (exportData) {
+    terminal("INFO", "Export completed successfully!");
+    sessionStorage.setItem("expSentPhra", JSON.stringify(exportData));
+  } else {
+    terminal("ERROR", "Export failed! Please try again...");
+  }
+}
+
 // Functions end here
 
 // Main
-const dialectsListbox = document.getElementById("dropdown-listbox-multi2");
+
 initiate();
 
 // Event listener for terminal reset button
@@ -95,9 +126,7 @@ const terminalDownloadButton = document.getElementById(
 );
 terminalDownloadButton.addEventListener("click", (event) => {
   const consoleLogs = document.getElementById("terminal").querySelectorAll("p");
-  const fileName = `${toolShortName}_${
-    selectedBuName ? selectedBuName + "_" : ""
-  }${runTime}`;
+  const fileName = `${toolShortName}_${runTime}`;
 
   exportLogs(consoleLogs, fileName);
 });
@@ -105,11 +134,7 @@ terminalDownloadButton.addEventListener("click", (event) => {
 // Event listener for run button
 const runButton = document.getElementById("primary-button");
 runButton.addEventListener("click", (event) => {
-  if (selectedBuId) {
-    exportHistoricalData(selectedBuId);
-  } else {
-    terminal("ERROR", "No business unit selected!");
-  }
+  exportSentimentPhrases();
 });
 
 // Event listener for download results button

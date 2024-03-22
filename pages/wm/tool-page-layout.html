@@ -424,7 +424,11 @@
     <script>
       window.onload = function () {
         document.getElementById("loading-section").style.display = "none";
-        document.getElementsByTagName("main").style.display = "block";
+
+        const mainElements = document.getElementsByTagName("main");
+        for (let i = 0; i < mainElements.length; i++) {
+          mainElements[i].style.display = "block";
+        }
       };
     </script>
   </body>

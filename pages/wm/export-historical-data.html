@@ -418,5 +418,16 @@
         window.location.href = "/wpt/wpt-home.html";
       });
     </script>
+
+    <script>
+      window.onload = function () {
+        document.getElementById("loading-section").style.display = "none";
+
+        const mainElements = document.getElementsByTagName("main");
+        for (let i = 0; i < mainElements.length; i++) {
+          mainElements[i].style.display = "block";
+        }
+      };
+    </script>
   </body>
 </html>

@@ -207,6 +207,44 @@
                     </gux-form-field-radio>
                   </fieldset>
                 </module>
+                <module id="output-type-module">
+                  <fieldset>
+                    <legend>
+                      Output type
+                      <div style="margin-left: 5px">
+                        <gux-icon
+                          icon-name="help"
+                          screenreader-text="help-icon"
+                        ></gux-icon
+                        ><gux-tooltip
+                          >Defines file type for output.<br />CSV is used for
+                          review / documentation.<br />JSON is used for
+                          recreating / import.</gux-tooltip
+                        >
+                      </div>
+                    </legend>
+                    <gux-form-field-radio>
+                      <input
+                        slot="input"
+                        type="radio"
+                        name="output-type"
+                        value="csv"
+                        checked="checked"
+                      />
+                      <label slot="label">CSV</label>
+                    </gux-form-field-radio>
+
+                    <gux-form-field-radio>
+                      <input
+                        slot="input"
+                        type="radio"
+                        name="output-type"
+                        value="json"
+                      />
+                      <label slot="label">JSON</label>
+                    </gux-form-field-radio>
+                  </fieldset>
+                </module>
               </div>
             </fieldset>
             <fieldset id="buttons-group">

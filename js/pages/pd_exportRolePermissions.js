@@ -1,7 +1,10 @@
 import { globalPageOpts, handleApiCalls } from "/wpt/js/utils/apiHandler.js";
 import { populateMultiDropdown } from "/wpt/js/utils/dropdownHandler.js";
 import { terminal, resetTerminal } from "/wpt/js/utils/terminalHandler.js";
-import { enableButtons } from "/wpt/js/utils/pageHandler.js";
+import {
+  enableButtons,
+  hidePreviousElement,
+} from "/wpt/js/utils/pageHandler.js";
 import { getRadioValue } from "/wpt/js/utils/jsHelper.js";
 import { exportLogs, exportCsv } from "/wpt/js/utils/exportHandler.js";
 
@@ -86,9 +89,11 @@ async function initiate() {
 
     // Populate dropdowns
     populateMultiDropdown(rolesListbox, roles);
+    hidePreviousElement("roles-dropdown");
     terminal("INFO", `${roles.length} roles loaded... `);
 
     populateMultiDropdown(domainsListbox, distinctDomains);
+    hidePreviousElement("domains-dropdown");
     terminal("INFO", `${distinctDomains.length} permission domains loaded... `);
   } else {
     console.log(`WPT: ${toolName} in test mode...`);
@@ -108,9 +113,11 @@ async function initiate() {
 
     // Populate dropdowns
     populateMultiDropdown(rolesListbox, roles.entities);
+    hidePreviousElement("roles-dropdown");
     terminal("INFO", `${roles.entities.length} roles loaded in test mode... `);
 
     populateMultiDropdown(domainsListbox, distinctDomains);
+    hidePreviousElement("domains-dropdown");
     terminal(
       "INFO",
       `${distinctDomains.length} permission domains loaded in test mode... `

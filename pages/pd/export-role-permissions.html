@@ -118,7 +118,7 @@
             <fieldset id="inputs-group">
               <h3>1. Select some things</h3>
               <div class="modules-wrapper">
-                <module id="input-multidropdown-module-2"
+                <module id="input-multidropdown-module-2wLoading"
                   ><fieldset>
                     <legend>
                       Apply export filters
@@ -134,34 +134,39 @@
                     </legend>
 
                     <div>
+                      <section name="loading-section" class="primary-section">
+                        <gux-page-loading-spinner
+                          screenreader-text="Loading..."
+                        ></gux-page-loading-spinner>
+                      </section>
                       <gux-dropdown-multi-beta
                         id="roles-dropdown"
                         placeholder="Filter by Role name"
+                        style="display: none"
                       >
                         <gux-listbox-multi
                           id="roles-listbox"
                           aria-label="RolesFilter"
                         >
-                          <gux-option-multi value="positive"
-                            >Positive</gux-option-multi
-                          >
-                          <gux-option-multi value="neutral"
-                            >Neutral</gux-option-multi
-                          >
-                          <gux-option-multi value="negative"
-                            >Negative</gux-option-multi
-                          >
+                          <!-- Listbox items are dynamically added -->
                         </gux-listbox-multi>
                       </gux-dropdown-multi-beta>
 
+                      <section name="loading-section" class="primary-section">
+                        <gux-page-loading-spinner
+                          screenreader-text="Loading..."
+                        ></gux-page-loading-spinner>
+                      </section>
                       <gux-dropdown-multi-beta
                         id="domains-dropdown"
                         placeholder="Filter by permission domain"
+                        style="display: none"
                       >
                         <gux-listbox-multi
                           id="domains-listbox"
                           aria-label="DomainsFilter"
                         >
+                          <!-- Listbox items are dynamically added -->
                         </gux-listbox-multi>
                       </gux-dropdown-multi-beta>
                     </div>
@@ -352,6 +357,7 @@
     <script
       type="module"
       src="/wpt/js/pages/pd_exportRolePermissions.js"
+      defer
     ></script>
 
     <script>

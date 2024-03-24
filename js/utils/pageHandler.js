@@ -15,3 +15,24 @@ export function enableButtons() {
     button.removeAttribute("disabled");
   }
 }
+
+// Function to hide additional loading spinners - send the element id to unhide and function will hide the previous sibling element
+export function hidePreviousElement(id) {
+  const element = document.getElementById(id);
+  if (element && element.previousElementSibling) {
+    // Make sure the previous element is a loading spinner
+    if (
+      element.previousElementSibling.getAttribute("name") == "loading-section"
+    ) {
+      // Hide the previous loading spinner
+      element.previousElementSibling.style.display = "none";
+
+      // Unhide the element
+      element.style.display = "block";
+    }
+  } else {
+    console.log(
+      `WPT: Ateempting to hide previous loading-spinner element failed for ${id}`
+    );
+  }
+}

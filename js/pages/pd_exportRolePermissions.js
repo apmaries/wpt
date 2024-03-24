@@ -58,7 +58,7 @@ async function getRoles() {
   };
 
   const response = await handleApiCalls(
-    "AuthorizationApi.getAuthorizationPermissions",
+    "AuthorizationApi.getAuthorizationRoles",
     newOptions
   );
   console.log("WPT: getRoles() = ", response);

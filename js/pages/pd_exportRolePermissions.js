@@ -6,7 +6,7 @@ import { getRadioValue } from "/wpt/js/utils/jsHelper.js";
 import { exportLogs, exportCsv } from "/wpt/js/utils/exportHandler.js";
 
 let testMode = false;
-if (!window.origin.includes("127.0.0.1")) {
+if (window.origin.includes("127.0.0.1")) {
   testMode = true;
 }
 // Function to catch any error and log to terminal
@@ -74,30 +74,46 @@ async function initiate() {
   const logRadio = document.getElementsByName("log-level");
   logRadio[1].checked = true;
 
-  if (testMode) {
+  if (!testMode) {
     // Production mode - get supported dialects and populate listbox on page load
 
     const roles = await getRoles();
     permissions = await getPermissions(); // Permissions is initiated at global scope for later use
 
-    populateMultiDropdown(rolesListbox, roles);
-    terminal("INFO", `${roles.length} roles loaded... `);
-
+    // Get distinct domains from permissions
     const allDomains = permissions.map((entity) => entity.domain);
     const distinctDomains = [...new Set(allDomains)];
+
+    // Populate dropdowns
+    populateMultiDropdown(rolesListbox, roles);
+    terminal("INFO", `${roles.length} roles loaded... `);
 
     populateMultiDropdown(domainsListbox, distinctDomains);
     terminal("INFO", `${distinctDomains.length} permission domains loaded... `);
   } else {
     console.log(`WPT: ${toolName} in test mode...`);
 
-    // Test mode - populate listbox with dummy data from /.test/data/dialects.json
-    const response = await fetch("/wpt/.test/data/permissions.json");
-    const dialects = await response.json();
-    populateMultiDropdown(dialectTypesListbox, dialects.entities);
+    // Test mode - populate listbox with dummy data
+    const rolesResponse = await fetch("/wpt/.test/data/roles.json");
+    const permissionsResponse = await fetch("/wpt/.test/data/permissions.json");
+
+    const roles = await rolesResponse.json();
+    permissions = await permissionsResponse.json();
+
+    console.log("WPT: initiate() permissions = ", permissions);
+
+    // Get distinct domains from permissions
+    const allDomains = permissions.entities.map((entity) => entity.domain);
+    const distinctDomains = [...new Set(allDomains)];
+
+    // Populate dropdowns
+    populateMultiDropdown(rolesListbox, roles.entities);
+    terminal("INFO", `${roles.entities.length} roles loaded in test mode... `);
+
+    populateMultiDropdown(domainsListbox, distinctDomains);
     terminal(
       "INFO",
-      `${dialects.entities.length} dialects loaded in test mode...`
+      `${distinctDomains.length} permission domains loaded in test mode... `
     );
   }
   terminal(

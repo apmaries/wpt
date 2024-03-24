@@ -6,7 +6,7 @@ import { getRadioValue } from "/wpt/js/utils/jsHelper.js";
 import { exportLogs, exportCsv } from "/wpt/js/utils/exportHandler.js";
 
 let testMode = false;
-if (!window.origin.includes("127.0.0.1")) {
+if (window.origin.includes("127.0.0.1")) {
   testMode = true;
 }
 // Function to catch any error and log to terminal
@@ -54,7 +54,7 @@ async function initiate() {
   const logRadio = document.getElementsByName("log-level");
   logRadio[1].checked = true;
 
-  if (testMode) {
+  if (!testMode) {
     // Production mode - get supported dialects and populate listbox on page load
     const dialects = await getDialects();
     populateMultiDropdown(dialectTypesListbox, dialects);

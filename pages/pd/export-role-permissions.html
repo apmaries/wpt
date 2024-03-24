@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
-    <title>WEM Power Tools - Test Page Layout</title>
+    <title>WEM Power Tools - Export Roles & Permissions</title>
 
     <!-- Genesys stuff https://spark.genesys.com/ -->
     <link
@@ -118,44 +118,6 @@
             <fieldset id="inputs-group">
               <h3>1. Select some things</h3>
               <div class="modules-wrapper">
-                <module id="input-dropdown-module"
-                  ><fieldset>
-                    <legend>Select a single thing</legend>
-
-                    <gux-dropdown
-                      id="input-dropdown"
-                      filter-type="starts-with"
-                      placeholder="Select a thing"
-                    >
-                      <gux-listbox id="dropdown-listbox" aria-label="UpdateMe">
-                        <gux-option value="a">Ant</gux-option>
-                        <gux-option value="b">Bat</gux-option>
-                        <gux-option value="c">Cat</gux-option>
-                      </gux-listbox>
-                    </gux-dropdown>
-                  </fieldset>
-                </module>
-
-                <module id="input-multidropdown-module"
-                  ><fieldset>
-                    <legend>Select many things</legend>
-
-                    <gux-dropdown-multi-beta value="b,f">
-                      <gux-listbox-multi aria-label="Animals">
-                        <gux-option-multi value="a">Ant</gux-option-multi>
-                        <gux-option-multi value="b">Bat</gux-option-multi>
-                        <gux-option-multi value="c">Cat</gux-option-multi>
-                        <gux-option-multi value="d">Dog</gux-option-multi>
-                        <gux-option-multi value="e">Eel</gux-option-multi>
-                        <gux-option-multi value="f">Frog</gux-option-multi>
-                        <gux-option-multi value="g">Goat</gux-option-multi>
-                        <gux-option-multi value="h">Horse</gux-option-multi>
-                        <gux-option-multi value="i">Ibis</gux-option-multi>
-                      </gux-listbox-multi>
-                    </gux-dropdown-multi-beta>
-                  </fieldset>
-                </module>
-
                 <module id="input-multidropdown-module-2"
                   ><fieldset>
                     <legend>
@@ -173,12 +135,12 @@
 
                     <div>
                       <gux-dropdown-multi-beta
-                        id="feedback-type-dropdown"
-                        placeholder="Filter by feedback type"
+                        id="roles-dropdown"
+                        placeholder="Filter by Role name"
                       >
                         <gux-listbox-multi
-                          id="feedback-type-listbox"
-                          aria-label="FeedbackType"
+                          id="roles-listbox"
+                          aria-label="RolesFilter"
                         >
                           <gux-option-multi value="positive"
                             >Positive</gux-option-multi
@@ -193,60 +155,15 @@
                       </gux-dropdown-multi-beta>
 
                       <gux-dropdown-multi-beta
-                        id="feedback-dialect-dropdown"
-                        placeholder="Filter by dialect type"
+                        id="domains-dropdown"
+                        placeholder="Filter by permission domain"
                       >
                         <gux-listbox-multi
-                          id="dialect-type-listbox"
-                          aria-label="FeedbackDialect"
+                          id="domains-listbox"
+                          aria-label="DomainsFilter"
                         >
                         </gux-listbox-multi>
                       </gux-dropdown-multi-beta>
-                    </div>
-                  </fieldset>
-                </module>
-
-                <module id="dates-input-module"
-                  ><fieldset>
-                    <legend>Select dates</legend>
-                    <div id="dates-start-div">
-                      <h5>Start date:</h5>
-                      <div>
-                        <gux-datepicker
-                          id="dates-start-datepicker"
-                          format="dd/mm/yyyy"
-                        ></gux-datepicker>
-                      </div>
-                    </div>
-                    <div id="dates-end-div">
-                      <h5>End date:</h5>
-                      <div>
-                        <gux-form-field-radio>
-                          <input
-                            slot="input"
-                            type="radio"
-                            name="end-date"
-                            value="today"
-                            checked="checked"
-                          />
-                          <label slot="label">Today</label>
-                        </gux-form-field-radio>
-
-                        <gux-form-field-radio>
-                          <input
-                            slot="input"
-                            type="radio"
-                            name="end-date"
-                            value="user-defined-value"
-                          />
-                          <label slot="label">Set end date</label>
-                        </gux-form-field-radio>
-                        <gux-datepicker
-                          id="dates-end-datepicker"
-                          format="dd/mm/yyyy"
-                          disabled
-                        ></gux-datepicker>
-                      </div>
                     </div>
                   </fieldset>
                 </module>
@@ -287,89 +204,6 @@
                         value="WARNING"
                       />
                       <label slot="label">WARNING</label>
-                    </gux-form-field-radio>
-                  </fieldset>
-                </module>
-                <module id="timezone-module">
-                  <fieldset>
-                    <legend>
-                      Time zone
-                      <div style="margin-left: 5px">
-                        <gux-icon
-                          icon-name="help"
-                          screenreader-text="help-icon"
-                        ></gux-icon
-                        ><gux-tooltip
-                          >Defines if export start / end are relative to
-                          Business Unit or UTC time zone</gux-tooltip
-                        >
-                      </div>
-                    </legend>
-                    <gux-form-field-radio>
-                      <input
-                        slot="input"
-                        type="radio"
-                        name="time-zone"
-                        value="business-unit"
-                        checked="checked"
-                      />
-                      <label slot="label">Business Unit</label>
-                    </gux-form-field-radio>
-
-                    <gux-form-field-radio>
-                      <input
-                        slot="input"
-                        type="radio"
-                        name="time-zone"
-                        value="utc"
-                      />
-                      <label slot="label">UTC</label>
-                    </gux-form-field-radio>
-                  </fieldset>
-                </module>
-                <module id="routepaths-module">
-                  <fieldset>
-                    <legend>
-                      Route path matching
-                      <div style="margin-left: 5px">
-                        <gux-icon
-                          icon-name="help"
-                          screenreader-text="help-icon"
-                        ></gux-icon
-                        ><gux-tooltip
-                          >Defines if export should extract all route paths by
-                          queue, queu & media type or exact match paths as
-                          specified in Planning Group(s)</gux-tooltip
-                        >
-                      </div>
-                    </legend>
-                    <gux-form-field-radio>
-                      <input
-                        slot="input"
-                        type="radio"
-                        name="route-paths"
-                        value="1"
-                        checked="checked"
-                      />
-                      <label slot="label">Exact match</label>
-                    </gux-form-field-radio>
-                    <gux-form-field-radio>
-                      <input
-                        slot="input"
-                        type="radio"
-                        name="route-paths"
-                        value="2"
-                      />
-                      <label slot="label">Queue & media type</label>
-                    </gux-form-field-radio>
-                    <gux-form-field-radio>
-                      <input
-                        slot="input"
-                        type="radio"
-                        name="route-paths"
-                        value="3"
-                      />
-                      <label slot="label">Queue only</label>
                     </gux-form-field-radio>
                   </fieldset>
                 </module>
@@ -464,22 +298,26 @@
       defer
     ></script>
 
+    <!-- Load the terminalHandler.js module -->
+    <script type="module" src="/wpt/js/utils/terminalHandler.js" defer></script>
+
+    <!-- Load the pageHandler.js module -->
+    <script type="module" src="/wpt/js/utils/pageHandler.js" defer></script>
+
+    <!-- Load the exportHandler.js module -->
+    <script type="module" src="/wpt/js/utils/exportHandler.js" defer></script>
+
+    <!-- Load the jsHelper.js module -->
+    <script type="module" src="/wpt/js/utils/jsHelper.js" defer></script>
+
+    <!-- Load the main tool module -->
+    <script type="module" src="/wpt/js/pages/st_exportSentiment.js"></script>
+
     <script>
       // Return home if title clicked
       document.getElementById("title").addEventListener("click", () => {
         window.location.href = "/wpt/wpt-home.html";
       });
-    </script>
-
-    <script>
-      window.onload = function () {
-        document.getElementById("loading-section").style.display = "none";
-
-        const mainElements = document.getElementsByTagName("main");
-        for (let i = 0; i < mainElements.length; i++) {
-          mainElements[i].style.display = "block";
-        }
-      };
     </script>
   </body>
 </html>

@@ -30,6 +30,7 @@ let runTime = new Date()
   .replace("T", "_")
   .split(".")[0];
 
+let permissions = [];
 const rolesListbox = document.getElementById("roles-listbox");
 const domainsListbox = document.getElementById("domains-listbox");
 
@@ -39,24 +40,30 @@ const domainsListbox = document.getElementById("domains-listbox");
 
 // Function to get all permissions
 async function getPermissions() {
-  const permissions = await handleApiCalls(
+  const response = await handleApiCalls(
     "AuthorizationApi.getAuthorizationPermissions",
     globalPageOpts
   );
-  console.log("WPT: getPermissions() = ", permissions);
+  console.log("WPT: getPermissions() = ", response);
 
-  return permissions;
+  return response;
 }
 
 // Function to get all roles
 async function getRoles() {
-  const permissions = await handleApiCalls(
-    "AuthorizationApi.getAuthorizationPermissions",
-    globalPageOpts
-  );
-  console.log("WPT: getPermissions() = ", permissions);
+  const newOptions = {
+    ...globalPageOpts,
+    sortBy: "name",
+    sortOrder: "asc",
+  };
 
-  return permissions;
+  const response = await handleApiCalls(
+    "AuthorizationApi.getAuthorizationPermissions",
+    newOptions
+  );
+  console.log("WPT: getRoles() = ", response);
+
+  return response;
 }
 
 // Initialisation function
@@ -69,15 +76,23 @@ async function initiate() {
 
   if (testMode) {
     // Production mode - get supported dialects and populate listbox on page load
-    const permissions = await getPermissions();
 
-    populateMultiDropdown(dialectTypesListbox, dialects);
-    terminal("INFO", `${dialects.length} dialects loaded... `);
+    const roles = await getRoles();
+    permissions = await getPermissions(); // Permissions is initiated at global scope for later use
+
+    populateMultiDropdown(rolesListbox, roles);
+    terminal("INFO", `${roles.length} roles loaded... `);
+
+    const allDomains = permissions.map((entity) => entity.domain);
+    const distinctDomains = [...new Set(allDomains)];
+
+    populateMultiDropdown(domainsListbox, distinctDomains);
+    terminal("INFO", `${distinctDomains.length} permission domains loaded... `);
   } else {
     console.log(`WPT: ${toolName} in test mode...`);
 
     // Test mode - populate listbox with dummy data from /.test/data/dialects.json
-    const response = await fetch("/wpt/.test/data/dialects.json");
+    const response = await fetch("/wpt/.test/data/permissions.json");
     const dialects = await response.json();
     populateMultiDropdown(dialectTypesListbox, dialects.entities);
     terminal(

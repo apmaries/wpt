@@ -6,7 +6,7 @@ import { getRadioValue } from "/wpt/js/utils/jsHelper.js";
 import { exportLogs, exportCsv } from "/wpt/js/utils/exportHandler.js";
 
 let testMode = false;
-if (!window.origin.includes("127.0.0.1")) {
+if (window.origin.includes("127.0.0.1")) {
   testMode = true;
 }
 
@@ -61,7 +61,7 @@ async function initiate() {
   const rpRadio = document.getElementsByName("route-paths");
   rpRadio[0].checked = true;
 
-  if (testMode) {
+  if (!testMode) {
     // Production mode - get WFM Business Units and populate bu-listbox on page load
     const businessUnits = await getWfmBusinessUnits();
     populateDropdown(buListbox, businessUnits);

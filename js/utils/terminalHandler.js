@@ -3,11 +3,14 @@ import { getRadioValue } from "/wpt/js/utils/jsHelper.js";
 // Debug unhandled promise rejections
 window.onunhandledrejection = function (event) {
   terminal(
-    "WARN",
+    "ERROR",
     "Unhandled Rejection! Please send this back to the WPT team via email link in footer..."
   );
   terminal("ERROR", `Promise: ${event.promise}`);
   terminal("ERROR", `Reason: ${event.reason}`);
+  if (event.reason && event.reason.stack) {
+    terminal("ERROR", `Stack trace: ${event.reason.stack}`);
+  }
 };
 
 // Function to catch any error and log to terminal

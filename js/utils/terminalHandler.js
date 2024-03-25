@@ -4,7 +4,7 @@ import { getRadioValue } from "/wpt/js/utils/jsHelper.js";
 window.onunhandledrejection = function (event) {
   terminal(
     "ERROR",
-    "Unhandled Rejection! Please send this back to the WPT team via email link in footer..."
+    "Uh oh... something went wrong! Please send this back to the WPT team via email link in footer..."
   );
   terminal("ERROR", `Promise: ${event.promise}`);
   terminal("ERROR", `Reason: ${event.reason}`);
@@ -17,7 +17,7 @@ window.onunhandledrejection = function (event) {
 window.onerror = function (message, source, lineno, colno, error) {
   terminal(
     "ERROR",
-    `Page Error! Please send this back to the WPT team via email link in footer...`
+    "Uh oh... something went wrong! Please send this back to the WPT team via email link in footer..."
   );
   terminal("ERROR", `Message: ${message}`);
   terminal("ERROR", `Source: ${source}`);

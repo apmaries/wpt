@@ -118,58 +118,69 @@
             <fieldset id="inputs-group">
               <h3>1. Select some things</h3>
               <div class="modules-wrapper">
-                <module id="input-multidropdown-module-2wLoading"
-                  ><fieldset>
+                <module id="object-context-module">
+                  <fieldset>
                     <legend>
-                      Apply export filters
+                      Export object context
                       <div style="margin-left: 5px">
                         <gux-icon
                           icon-name="help"
                           screenreader-text="help-icon"
                         ></gux-icon
                         ><gux-tooltip
-                          >Leave the filters blank to export all</gux-tooltip
+                          >Select 'Role' to export a list of roles and their
+                          permissions<br />Select 'Permissions' to export a list
+                          of permissions and the roles they're assigned
+                          to</gux-tooltip
                         >
                       </div>
                     </legend>
+                    <gux-form-field-radio>
+                      <input
+                        slot="input"
+                        type="radio"
+                        name="object-context"
+                        value="roles"
+                        checked="checked"
+                      />
+                      <label slot="label">Roles</label>
+                    </gux-form-field-radio>
 
-                    <div>
-                      <section name="loading-section" class="primary-section">
-                        <gux-page-loading-spinner
-                          screenreader-text="Loading..."
-                        ></gux-page-loading-spinner>
-                      </section>
-                      <gux-dropdown-multi-beta
-                        id="roles-dropdown"
-                        placeholder="Filter by Role name"
-                        style="display: none"
-                      >
-                        <gux-listbox-multi
-                          id="roles-listbox"
-                          aria-label="RolesFilter"
+                    <gux-form-field-radio>
+                      <input
+                        slot="input"
+                        type="radio"
+                        name="object-context"
+                        value="permissions"
+                      />
+                      <label slot="label">Permissions</label>
+                    </gux-form-field-radio>
+                  </fieldset>
+                </module>
+                <module id="input-multidropdown-module"
+                  ><fieldset>
+                    <legend>
+                      Apply export filter
+                      <div style="margin-left: 5px">
+                        <gux-icon
+                          icon-name="help"
+                          screenreader-text="help-icon"
+                        ></gux-icon
+                        ><gux-tooltip
+                          >Leave the filter blank to export all</gux-tooltip
                         >
-                          <!-- Listbox items are dynamically added -->
-                        </gux-listbox-multi>
-                      </gux-dropdown-multi-beta>
-
-                      <section name="loading-section" class="primary-section">
-                        <gux-page-loading-spinner
-                          screenreader-text="Loading..."
-                        ></gux-page-loading-spinner>
-                      </section>
-                      <gux-dropdown-multi-beta
-                        id="domains-dropdown"
-                        placeholder="Filter by permission domain"
-                        style="display: none"
-                      >
-                        <gux-listbox-multi
-                          id="domains-listbox"
-                          aria-label="DomainsFilter"
-                        >
-                          <!-- Listbox items are dynamically added -->
-                        </gux-listbox-multi>
-                      </gux-dropdown-multi-beta>
-                    </div>
+                      </div>
+                    </legend>
+                    <section name="loading-section" class="primary-section">
+                      <gux-page-loading-spinner
+                        screenreader-text="Loading..."
+                      ></gux-page-loading-spinner>
+                    </section>
+                    <gux-dropdown-multi-beta id="filters-dropdown">
+                      <gux-listbox-multi id="filters-listbox">
+                        <!-- Listbox items are dynamically added -->
+                      </gux-listbox-multi>
+                    </gux-dropdown-multi-beta>
                   </fieldset>
                 </module>
               </div>
@@ -224,7 +235,7 @@
                         ><gux-tooltip
                           >Defines file type for output.<br />CSV is used for
                           review / documentation.<br />JSON is used for
-                          recreating / import.</gux-tooltip
+                          recreating / importing Roles</gux-tooltip
                         >
                       </div>
                     </legend>

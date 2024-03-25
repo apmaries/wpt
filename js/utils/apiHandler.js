@@ -1,13 +1,3 @@
-// Debug unhandled promise rejections
-window.onunhandledrejection = function (event) {
-  console.warn(
-    "Unhandled Rejection at:",
-    event.promise,
-    "reason:",
-    event.reason
-  );
-};
-
 // Set up the client
 var platformClient = window.require("platformClient");
 var client = platformClient.ApiClient.instance;

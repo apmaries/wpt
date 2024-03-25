@@ -1,5 +1,26 @@
 import { getRadioValue } from "/wpt/js/utils/jsHelper.js";
 
+// Debug unhandled promise rejections
+window.onunhandledrejection = function (event) {
+  terminal(
+    "WARN",
+    "Unhandled Rejection! Please send this back to the WPT team via email link in footer..."
+  );
+  terminal("ERROR", `Promise: ${event.promise}`);
+  terminal("ERROR", `Reason: ${event.reason}`);
+};
+
+// Function to catch any error and log to terminal
+window.onerror = function (message, source, lineno, colno, error) {
+  terminal(
+    "ERROR",
+    `Page Error! Please send this back to the WPT team via email link in footer...`
+  );
+  terminal("ERROR", `Message: ${message}`);
+  terminal("ERROR", `Source: ${source}`);
+  terminal("ERROR", `Line: ${lineno}`);
+};
+
 // Function to get log level
 function getLogLevel() {
   let logRadio = document.getElementsByName("log-level");

@@ -16,16 +16,6 @@ let testMode = false;
 if (window.origin.includes("127.0.0.1")) {
   testMode = true;
 }
-// Function to catch any error and log to terminal
-window.onerror = function (message, source, lineno, colno, error) {
-  terminal(
-    "ERROR",
-    `Page Error! Please send this back to the WPT team via email link in footer...`
-  );
-  terminal("ERROR", `Message: ${message}`);
-  terminal("ERROR", `Source: ${source}`);
-  terminal("ERROR", `Line: ${lineno}`);
-};
 
 // Constants start here
 const toolName = "Export Roles / Permissions";

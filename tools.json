@@ -60,12 +60,12 @@
             "scopes": ""
           },
           {
-            "tool": "Export roles & permissions",
+            "tool": "Export roles / permissions",
             "status": "active",
-            "description": "Export a list of permissions by role or permission type.",
+            "description": "Export a list of roles or permissions",
             "scopes": ["authorization:role:view"],
             "href": "/wpt/pages/pd/export-role-permissions.html",
-            "info": "Exports list of permissions. Can be filtered by role and permission type. Can be exported to csv or json which could be used later to import to another environment."
+            "info": "Exports list of roles or permissions. Can be optionally filtered. Can be exported to csv or json which could be used later to import to another environment."
           }
         ]
       },

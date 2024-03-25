@@ -104,3 +104,27 @@ export function exportCsv(data, name) {
   // Downloading the CSV file
   download(csvFile, file, "text/csv");
 }
+
+// Function to export data as a .json file
+export function exportJson(data, name) {
+  console.debug(`exportJson was called with name: ${name}`);
+  const file = `${name}.json`;
+  terminal("INFO", `Exporting data as ${file}...`);
+
+  // Ensure data is an array
+  if (!Array.isArray(data)) {
+    if (NodeList.prototype.isPrototypeOf(data)) {
+      // Convert NodeList to array
+      data = Array.from(data);
+    } else {
+      // Convert single element to array
+      data = [data];
+    }
+  }
+
+  // Making the JSON file
+  const jsonFile = JSON.stringify(data, null, 2);
+
+  // Downloading the JSON file
+  download(jsonFile, file, "application/json");
+}

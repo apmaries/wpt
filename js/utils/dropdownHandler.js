@@ -49,10 +49,6 @@ export async function populateMultiDropdown(
   }
 
   if (typeof data[0] === "object") {
-    console.log(
-      `WTP: Sorting data for ${dropdown.id} by ${sortAttribute}`,
-      data
-    );
     // sort data by sortAttribute (not case sensitive)
     data.sort((a, b) =>
       a[sortAttribute].localeCompare(b[sortAttribute], undefined, {

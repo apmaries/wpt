@@ -154,16 +154,15 @@ async function exportSentimentPhrases() {
 
       exportCsv(filteredData, fileName);
     }
-
-    // Add Execution end message to terminal
-    const endP = document.createElement("p");
-    endP.innerHTML = `---- Execution completed ----`;
-    endP.className = "error";
-    endP.style.margin = "1em 0"; // Add a top and bottom margin
-    terminalDiv.appendChild(endP);
   } else {
     terminal("ERROR", "Export failed! Please try again...");
   }
+  // Add Execution end message to terminal
+  const endP = document.createElement("p");
+  endP.innerHTML = `---- Execution completed ----`;
+  endP.className = "error";
+  endP.style.margin = "1em 0"; // Add a top and bottom margin
+  terminalDiv.appendChild(endP);
 }
 
 // Functions end here

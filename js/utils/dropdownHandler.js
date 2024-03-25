@@ -3,16 +3,18 @@
 // Will make option.text to be item.name and option.value to be item.id
 // All other attributes are added to option.dataset
 
-export async function populateDropdown(dropdown, data) {
+export async function populateDropdown(dropdown, data, sortAttribute = "name") {
   if (data.length === 0) {
     dropdown.innerHTML = '<gux-option value="">No data found</gux-option>';
     return;
   }
 
   if (typeof data[0] === "object") {
-    // sort data by name (not case sensitive)
+    // sort data by sortAttribute (not case sensitive)
     data.sort((a, b) =>
-      a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+      a[sortAttribute].localeCompare(b[sortAttribute], undefined, {
+        sensitivity: "base",
+      })
     );
     dropdown.innerHTML = "";
     data.forEach((item) => {
@@ -35,7 +37,11 @@ export async function populateDropdown(dropdown, data) {
   }
 }
 
-export async function populateMultiDropdown(dropdown, data) {
+export async function populateMultiDropdown(
+  dropdown,
+  data,
+  sortAttribute = "name"
+) {
   if (data.length === 0) {
     dropdown.innerHTML =
       '<gux-option-multi value="">No data found</gux-option-multi>';
@@ -43,9 +49,15 @@ export async function populateMultiDropdown(dropdown, data) {
   }
 
   if (typeof data[0] === "object") {
-    // sort data by name (not case sensitive)
+    console.log(
+      `WTP: Sorting data for ${dropdown.id} by ${sortAttribute}`,
+      data
+    );
+    // sort data by sortAttribute (not case sensitive)
     data.sort((a, b) =>
-      a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+      a[sortAttribute].localeCompare(b[sortAttribute], undefined, {
+        sensitivity: "base",
+      })
     );
     dropdown.innerHTML = "";
     data.forEach((item) => {

@@ -150,7 +150,7 @@ async function exportSentimentPhrases() {
       // Export results to csv file
       terminal("INFO", `Exporting data...`);
 
-      sessionStorage.setItem("expSentPhrs", JSON.stringify(filteredData));
+      sessionStorage.setItem(toolShortName, JSON.stringify(filteredData));
 
       exportCsv(filteredData, fileName);
     }
@@ -199,7 +199,7 @@ runButton.addEventListener("click", (event) => {
 // Event listener for download results button
 const resultsButton = document.getElementById("tool-results-button");
 resultsButton.addEventListener("click", (event) => {
-  const exportData = JSON.parse(sessionStorage.getItem("expSentPhrs"));
+  const exportData = JSON.parse(sessionStorage.getItem(toolShortName));
   if (!exportData) {
     terminal("ERROR", "No export data found! Please run the export first...");
     return;

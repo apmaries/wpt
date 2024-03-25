@@ -250,6 +250,45 @@
                     </div>
                   </fieldset>
                 </module>
+                <module id="object-context-module">
+                  <fieldset>
+                    <legend>
+                      Export object context
+                      <div style="margin-left: 5px">
+                        <gux-icon
+                          icon-name="help"
+                          screenreader-text="help-icon"
+                        ></gux-icon
+                        ><gux-tooltip
+                          >Select 'Role' to export a list of roles and their
+                          permissions<br />Select 'Permissions' to export a list
+                          of permissions and the roles they're assigned
+                          to</gux-tooltip
+                        >
+                      </div>
+                    </legend>
+                    <gux-form-field-radio>
+                      <input
+                        slot="input"
+                        type="radio"
+                        name="object-context"
+                        value="roles"
+                        checked="checked"
+                      />
+                      <label slot="label">Roles</label>
+                    </gux-form-field-radio>
+
+                    <gux-form-field-radio>
+                      <input
+                        slot="input"
+                        type="radio"
+                        name="object-context"
+                        value="permissions"
+                      />
+                      <label slot="label">Permissions</label>
+                    </gux-form-field-radio>
+                  </fieldset>
+                </module>
                 <module id="input-multidropdown-module-2wLoading"
                   ><fieldset>
                     <legend>

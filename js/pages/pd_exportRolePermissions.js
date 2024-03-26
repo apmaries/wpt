@@ -29,8 +29,7 @@ let runTime = new Date()
 
 let permissions = [];
 let roles = [];
-const rolesListbox = document.getElementById("roles-listbox");
-const domainsListbox = document.getElementById("domains-listbox");
+
 const filtersDropdown = document.getElementById("filters-dropdown");
 const filtersListbox = document.getElementById("filters-listbox");
 
@@ -68,6 +67,10 @@ async function getRoles() {
 
 // Function to update filters dropdown based on object context
 function updateFiltersDropdown(objectContext) {
+  // clear previous filters
+  filtersListbox.innerHTML = "";
+  filtersDropdown.value = ""; // Reset selected filters
+
   if (objectContext === "roles") {
     filtersDropdown.placeholder = "Filter by Roles";
     populateMultiDropdown(filtersListbox, roles);
@@ -87,19 +90,57 @@ function updateFiltersDropdown(objectContext) {
 }
 
 // Function to map out full role permissions
-async function expandRolePermissions(role) {
-  const newOptions = {
-    ...globalPageOpts,
-    role: role,
-  };
+function expandRolePermissions(selectedRoles) {
+  selectedRoles.forEach((role) => {
+    terminal("DEBUG", `Expanding '${role.name}' (${role.id})...`);
+    const expandedPermissions = [];
+    role.permissionPolicies.forEach((policy) => {
+      terminal("DEBUG", `Policy: ${JSON.stringify(policy)}`);
+      if (
+        policy.domain === "*" ||
+        policy.entityName === "*" ||
+        policy.actionSet.includes("*")
+      ) {
+        permissions.forEach((permission) => {
+          if (policy.domain === "*" || policy.domain === permission.domain) {
+            if (policy.entityName === "*") {
+              Object.keys(permission.permissionMap).forEach((entityType) => {
+                permission.permissionMap[entityType].forEach(
+                  (permissionItem) => {
+                    if (
+                      policy.actionSet.includes("*") ||
+                      policy.actionSet.includes(permissionItem.action)
+                    ) {
+                      expandedPermissions.push(permissionItem);
+                    }
+                  }
+                );
+              });
+            } else if (policy.entityName === permission.entityType) {
+              permission.permissionMap[policy.entityName].forEach(
+                (permissionItem) => {
+                  if (
+                    policy.actionSet.includes("*") ||
+                    policy.actionSet.includes(permissionItem.action)
+                  ) {
+                    expandedPermissions.push(permissionItem);
+                  }
+                }
+              );
+            }
+          }
+        });
+      } else {
+        expandedPermissions.push(policy);
+      }
+      expandedPermissions.forEach((permission) => {
+        terminal("DEBUG", `Expanded: ${JSON.stringify(permission)}`);
+      });
+    });
+    role.permissionPolicies = expandedPermissions; // Replace the original permissions with the expanded ones
+  });
 
-  const response = await handleApiCalls(
-    "AuthorizationApi.getAuthorizationPermissions",
-    newOptions
-  );
-  console.log("WPT: getRolePermissions() = ", response);
-
-  return response;
+  return selectedRoles; // Return the full roles
 }
 
 // Initialisation function
@@ -130,46 +171,50 @@ async function initiate() {
     roles = roles.entities; // Extract entities from response
     permissions = await permissionsResponse.json(); // Initiated at global scope for later use
   }
+
   updateFiltersDropdown("roles");
 
   enableButtons();
   console.log(`WPT: ${toolName} page initiated...`);
 }
 
-// Function to export sentiment phrases
+// Primary function to export roles or permissions
 async function exportRolePermissions() {
   // Function to export role objects
-  async function exportRoleObjects(selectedRoles, selectedDomains) {
+  async function exportRoleObjects() {
+    let exportData = [];
     let filteredRoles;
-    let filteredPermissions;
     console.log("WPT: exportRoleObjects() roles = ", roles);
-    console.log("WPT: exportRoleObjects() selectedRoles = ", selectedRoles);
+    console.log("WPT: exportRoleObjects() selectedFilters = ", selectedFilters);
 
     // Filter roles based on selected roles
-    if (selectedRoles === "") {
-      terminal("INFO", `No role filtering applied - exporting all roles`);
+    if (selectedFilters === "") {
+      terminal("INFO", `No filtering applied - exporting all roles`);
       filteredRoles = roles;
     } else {
       terminal(
         "INFO",
-        `Role filtering applied with ${selectedRoles.length} role(s)`
+        `Role filtering applied with ${selectedFilters.length} role(s)`
       );
       filteredRoles = roles.filter((entity) =>
-        selectedRoles.includes(entity.id)
+        selectedFilters.includes(entity.id)
       );
     }
     console.log("WPT: exportRoleObjects() filteredRoles = ", filteredRoles);
     filteredRoles.forEach((role) => {
       terminal("DEBUG", `Adding '${role.name}' (${role.id}) to list`);
     });
+    exportData = expandRolePermissions(filteredRoles);
+    console.log("WPT: exportRoleObjects() exportData = ", exportData);
+    return exportData;
   }
 
   // Function to export permission objects
-  async function exportPermissionObjects(selectedDomains) {
+  async function exportPermissionObjects() {
     let filteredPermissions;
 
     // Filter permissions based on selected domains
-    if (selectedDomains === "") {
+    if (selectedFilters === "") {
       terminal(
         "INFO",
         `No domain filtering applied - exporting all permissions`
@@ -178,10 +223,10 @@ async function exportRolePermissions() {
     } else {
       terminal(
         "INFO",
-        `Permission filtering for ${selectedDomains.length} domain(s)`
+        `Permission filtering for ${selectedFilters.length} domain(s)`
       );
       filteredPermissions = permissions.filter((entity) =>
-        selectedDomains.includes(entity.domain)
+        selectedFilters.includes(entity.domain)
       );
     }
 
@@ -224,25 +269,23 @@ async function exportRolePermissions() {
   terminal("INFO", `Exporting ${objectContext}...`);
 
   // Get tool page variables
-  const selectedRoles = rolesListbox.value ? rolesListbox.value.split(",") : "";
-  const selectedDomains = domainsListbox.value
-    ? domainsListbox.value.split(",")
+  const selectedFilters = filtersListbox.value
+    ? filtersListbox.value.split(",")
     : "";
   const outputTypeRadio = document.getElementsByName("output-type");
 
   // Get value of of output type radio buttons
   const outputType = getRadioValue(outputTypeRadio);
 
-  terminal("DEBUG", `selectedRoles = ${selectedRoles}`);
-  terminal("DEBUG", `selectedDomains = ${selectedDomains}`);
+  terminal("DEBUG", `selectedFilters = ${selectedFilters}`);
   terminal("DEBUG", `outputType = ${outputType}`);
 
   // Get data based on object context
   let exportData = [];
   if (objectContext === "roles") {
-    exportData = await exportRoleObjects(selectedRoles, selectedDomains);
+    exportData = await exportRoleObjects(selectedFilters);
   } else if (objectContext === "permissions") {
-    exportData = await exportPermissionObjects(selectedDomains);
+    exportData = await exportPermissionObjects(selectedFilters);
   }
 
   /*

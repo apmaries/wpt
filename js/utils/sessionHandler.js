@@ -81,44 +81,6 @@ if (!window.origin.includes("127.0.0.1")) {
       alert("An error occurred while fetching session data. Please try again.");
       disconnect();
     }
-
-    // Testing for pagination and error handling
-    /* forced 400 error seems to work fine
-  try {
-    const forcedError = await handleApiCalls(
-      "GamificationApi.postGamificationProfilesUsersMeQuery",
-      globalPageOpts
-    );
-  } catch (error) {
-    console.error(
-      "WPT: Error occurred while fetching gamification data! User will be disconnected."
-    );
-    // Handle the error here
-    //alert("An error occurred while fetching gamification data. Please try again.");
-    //disconnect();
-  }
-  */
-
-    /* Pagination seems to work fine :)
-  try {
-    const forcedPagination = await handleApiCalls(
-      "UtilitiesApi.getTimezones",
-      globalPageOpts
-    );
-    // Check handleApiCalls function pagination by logging number of timezones
-    console.log(
-      `WPT: ${forcedPagination.length} time zones: `,
-      forcedPagination
-    );
-  } catch (error) {
-    console.error(
-      "WPT: Error occurred while fetching timezones! User will be disconnected."
-    );
-    // Handle the error here
-    //alert("An error occurred while fetching timezones. Please try again.");
-    //disconnect();
-  }
-  */
   } else {
     console.debug("WPT: Page loading with active session");
 

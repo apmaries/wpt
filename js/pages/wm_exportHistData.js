@@ -196,14 +196,29 @@ async function exportHistoricalData() {
       };
 
       console.log("WPT: runQueryForDateBlocks() requestBody = ", requestBody);
-      const response = await handleApiCalls(
-        "ConversationsApi.postAnalyticsConversationsAggregatesQuery",
-        requestBody
-      );
-      console.log(
-        `WPT: runQueryForDateBlocks() [Run ${i} of ${nBlocks}] response = `,
-        response
-      );
+      try {
+        const response = await handleApiCalls(
+          "ConversationsApi.postAnalyticsConversationsAggregatesQuery",
+          requestBody
+        );
+        console.log(
+          `WPT: runQueryForDateBlocks() [Run ${i} of ${nBlocks}] response = `,
+          response
+        );
+      } catch (error) {
+        if (
+          error.message ===
+          "Result set is larger than result limit. Avoid grouping on high-cardinality fields, or use filter predicates to reduce the number of groups for that field."
+        ) {
+          terminal(
+            "WARNING",
+            "Result set is larger than result limit. Splitting interval and running query again..."
+          );
+          // await splitIntervalAndRunQuery(block, queryClause, timeZone, results);
+        } else {
+          throw error;
+        }
+      }
 
       // If response is not empty, process it
       if (response && Array.isArray(response)) {

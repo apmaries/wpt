@@ -50,6 +50,10 @@ async function initiate() {
   const rpRadio = document.getElementsByName("route-paths");
   rpRadio[0].checked = true;
 
+  // Reset output-type to rp
+  const outputRadio = document.getElementsByName("output-type");
+  outputRadio[0].checked = true;
+
   if (!testMode) {
     // Production mode - get WFM Business Units and populate bu-listbox on page load
     const businessUnits = await getWfmBusinessUnits();
@@ -431,9 +435,11 @@ async function exportHistoricalData() {
   const timeZoneRadio = document.getElementsByName("time-zone");
   const endDateRadio = document.getElementsByName("end-date");
   const rpRadio = document.getElementsByName("route-paths");
+  const outputRadio = document.getElementsByName("output-type");
 
   const timeZoneMethod = getRadioValue(timeZoneRadio);
   const rpMode = getRadioValue(rpRadio);
+  const outputType = getRadioValue(outputRadio);
 
   // Get RP_MODE value from rpMode
   const rpModeValue = RP_MODE[rpMode];
@@ -464,6 +470,7 @@ async function exportHistoricalData() {
   terminal("DEBUG", `End date mode = ${endDateMode}`);
   terminal("DEBUG", `End date = ${endDate}`);
   terminal("DEBUG", `Route paths matching method = ${rpModeValue}`);
+  terminal("DEBUG", `Outputting data as = ${outputType.replace(/-/g, " ")}`);
 
   let timeZone = "UTC"; // Default for testing
   if (timeZoneMethod === "business-unit") {

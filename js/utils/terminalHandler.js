@@ -6,8 +6,8 @@ window.onunhandledrejection = function (event) {
     "ERROR",
     "Uh oh... something went wrong! Please send this back to the WPT team via email link in footer..."
   );
-  terminal("ERROR", `Promise: ${event.promise}`);
-  terminal("ERROR", `Reason: ${event.reason}`);
+  terminal("ERROR", `Promise: ${JSON.stringify(event.promise)}`);
+  terminal("ERROR", `Reason: ${JSON.stringify(event.reason)}`);
   if (event.reason && event.reason.stack) {
     terminal("ERROR", `Stack trace: ${event.reason.stack}`);
   }

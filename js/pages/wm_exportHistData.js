@@ -206,6 +206,7 @@ async function exportHistoricalData() {
           response
         );
       } catch (error) {
+        console.error(error);
         if (
           error.message ===
           "Result set is larger than result limit. Avoid grouping on high-cardinality fields, or use filter predicates to reduce the number of groups for that field."

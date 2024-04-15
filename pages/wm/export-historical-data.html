@@ -305,6 +305,44 @@
                     </gux-form-field-radio>
                   </fieldset>
                 </module>
+
+                <module id="output-type-module">
+                  <fieldset>
+                    <legend>
+                      Output type
+                      <div style="margin-left: 5px">
+                        <gux-icon
+                          icon-name="help"
+                          screenreader-text="help-icon"
+                        ></gux-icon
+                        ><gux-tooltip
+                          >Determines if output should be in the form of route
+                          paths (queue, skill, language, media type) or planning
+                          groups (planning group name only).</gux-tooltip
+                        >
+                      </div>
+                    </legend>
+                    <gux-form-field-radio>
+                      <input
+                        slot="input"
+                        type="radio"
+                        name="output-type"
+                        value="rp"
+                        checked="checked"
+                      />
+                      <label slot="label">Route paths</label>
+                    </gux-form-field-radio>
+                    <gux-form-field-radio>
+                      <input
+                        slot="input"
+                        type="radio"
+                        name="output-type"
+                        value="pg"
+                      />
+                      <label slot="label">Planning groups</label>
+                    </gux-form-field-radio>
+                  </fieldset>
+                </module>
               </div>
             </fieldset>
             <fieldset id="buttons-group">

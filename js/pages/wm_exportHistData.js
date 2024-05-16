@@ -200,8 +200,9 @@ async function exportHistoricalData() {
       };
 
       console.log("WPT: runQueryForDateBlocks() requestBody = ", requestBody);
+      let response;
       try {
-        const response = await handleApiCalls(
+        response = await handleApiCalls(
           "ConversationsApi.postAnalyticsConversationsAggregatesQuery",
           requestBody
         );
